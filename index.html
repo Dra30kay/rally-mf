@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Rally MF — Día del Médico Familiar</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Nunito:wght@400;600;700;800&display=swap');
+:root {
+  --primary: #0D3B6E;
+  --accent: #E63946;
+  --gold: #F4A11D;
+  --teal: #1D9E75;
+  --bg: #F0F4F8;
+  --card: #ffffff;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --border: #e2e8f0;
+  --green: #16a34a;
+  --radius: 14px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* LOGIN */
+.login-wrap { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; background: var(--primary); }
+.login-logo { font-family: 'Rajdhani', sans-serif; font-size: 42px; font-weight: 700; color: #fff; letter-spacing: 2px; margin-bottom: 4px; }
+.login-logo span { color: var(--gold); }
+.login-subtitle { font-size: 13px; color: rgba(255,255,255,0.6); font-weight: 600; margin-bottom: 40px; text-align: center; }
+.login-card { background: #fff; border-radius: 20px; padding: 28px 24px; width: 100%; max-width: 360px; }
+.login-title { font-size: 15px; font-weight: 800; color: var(--primary); margin-bottom: 20px; text-align: center; text-transform: uppercase; letter-spacing: .5px; }
+.role-btn { display: block; width: 100%; padding: 16px; border-radius: 12px; border: 2px solid var(--border); background: #fafafa; margin-bottom: 12px; cursor: pointer; text-align: left; transition: all .2s; font-family: 'Nunito', sans-serif; }
+.role-btn:hover { border-color: var(--primary); background: #eff6ff; transform: translateX(4px); }
+.role-icon { font-size: 28px; display: block; margin-bottom: 4px; }
+.role-name { font-size: 15px; font-weight: 800; color: var(--text); }
+.role-desc { font-size: 12px; color: var(--muted); font-weight: 600; }
+.pin-wrap { margin-top: 16px; }
+.pin-label { font-size: 12px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; display: block; }
+.pin-input { width: 100%; padding: 14px; border: 2px solid var(--border); border-radius: 12px; font-size: 22px; font-family: 'Rajdhani', sans-serif; font-weight: 700; text-align: center; letter-spacing: 8px; color: var(--primary); background: #fafafa; }
+.pin-input:focus { outline: none; border-color: var(--primary); background: #fff; }
+.pin-error { color: var(--accent); font-size: 12px; font-weight: 700; text-align: center; margin-top: 8px; display: none; }
+.btn { display: block; width: 100%; padding: 14px; border-radius: 12px; border: none; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; cursor: pointer; transition: all .2s; text-transform: uppercase; letter-spacing: .5px; margin-top: 12px; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-accent { background: var(--accent); color: #fff; }
+.btn-gold { background: var(--gold); color: #fff; }
+.btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+.btn-sm { padding: 8px 14px; font-size: 12px; border-radius: 8px; display: inline-block; width: auto; }
+.btn:hover { opacity: .9; transform: translateY(-1px); }
+
+/* APP SHELL */
+.app-shell { display: none; flex-direction: column; min-height: 100vh; }
+.app-header { background: var(--primary); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+.app-logo { font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; color: #fff; letter-spacing: 1px; }
+.app-logo span { color: var(--gold); }
+.header-right { display: flex; align-items: center; gap: 8px; }
+.live-badge { background: var(--accent); color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.7} }
+.role-chip { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+.nav-tabs { display: flex; background: var(--primary); border-top: 1px solid rgba(255,255,255,0.1); }
+.nav-tab { flex: 1; padding: 10px 4px; text-align: center; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); cursor: pointer; transition: all .2s; text-transform: uppercase; letter-spacing: .5px; border-bottom: 3px solid transparent; }
+.nav-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.tab-icon { display: block; font-size: 18px; margin-bottom: 2px; }
+.app-content { flex: 1; padding: 16px; }
+
+/* SCREENS */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* CARDS */
+.card { background: var(--card); border-radius: var(--radius); padding: 16px; margin-bottom: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+.card-title { font-family: 'Rajdhani', sans-serif; font-size: 17px; font-weight: 700; color: var(--primary); margin-bottom: 12px; text-transform: uppercase; letter-spacing: .5px; }
+.form-row { margin-bottom: 12px; }
+.form-label { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 5px; display: block; }
+.form-input { width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 14px; font-family: 'Nunito', sans-serif; color: var(--text); background: #fafafa; }
+.form-input:focus { outline: none; border-color: var(--primary); background: #fff; }
+.styled-select { width: 100%; padding: 11px 12px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 14px; font-family: 'Nunito', sans-serif; color: var(--text); background: #fafafa url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center; appearance: none; padding-right: 32px; }
+.styled-select:focus { outline: none; border-color: var(--primary); }
+
+/* SCOREBOARD */
+.score-header { text-align: center; margin-bottom: 18px; }
+.score-title { font-family: 'Rajdhani', sans-serif; font-size: 28px; font-weight: 700; color: var(--primary); }
+.score-sub { font-size: 12px; color: var(--muted); font-weight: 600; }
+.team-card { background: var(--card); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); border: 2px solid transparent; transition: all .3s; cursor: pointer; }
+.team-card.first { border-color: var(--gold); background: linear-gradient(135deg,#fffbeb 0%,#fff 60%); }
+.team-card.second { border-color: #C0C0C0; }
+.team-card.third { border-color: #CD7F32; }
+.rank-badge { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; flex-shrink: 0; border: 2px solid; }
+.rank-1 { background: #fffbeb; color: var(--gold); border-color: var(--gold); }
+.rank-2 { background: #f8f8f8; color: #9ca3af; border-color: #C0C0C0; }
+.rank-3 { background: #fff8f5; color: #CD7F32; border-color: #CD7F32; }
+.rank-n { background: #f1f5f9; color: var(--muted); border-color: var(--border); font-size: 12px; }
+.team-info { flex: 1; min-width: 0; }
+.team-name-big { font-size: 15px; font-weight: 800; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.progress-bar-wrap { height: 6px; background: #f1f5f9; border-radius: 4px; margin-top: 6px; overflow: hidden; }
+.progress-bar { height: 100%; border-radius: 4px; background: linear-gradient(90deg,var(--teal),var(--primary)); transition: width .6s ease; }
+.team-score-num { font-family: 'Rajdhani', sans-serif; font-size: 30px; font-weight: 700; color: var(--primary); line-height: 1; text-align: right; }
+.pts-label { font-size: 10px; color: var(--muted); font-weight: 600; text-align: right; }
+.station-dots { display: flex; gap: 3px; flex-wrap: wrap; margin-top: 5px; }
+.dot { width: 16px; height: 16px; border-radius: 4px; font-size: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; }
+.dot-done { background: var(--teal); color: #fff; }
+.dot-pending { background: #e5e7eb; color: #9ca3af; }
+
+/* DETAIL PANEL */
+.detail-panel { background: #f8fafc; border-radius: 10px; padding: 12px; margin-top: 10px; border: 1px solid var(--border); display: none; }
+.detail-panel.open { display: block; }
+.detail-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+.detail-row:last-child { border-bottom: none; }
+.detail-station-name { color: var(--text); font-weight: 600; }
+.detail-pts { font-family: 'Rajdhani', sans-serif; font-size: 16px; font-weight: 700; }
+.pts-done { color: var(--teal); }
+.pts-pending { color: #9ca3af; }
+
+/* RUBRIC */
+.rubric-title { font-family: 'Rajdhani', sans-serif; font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 4px; text-transform: uppercase; }
+.rubric-meta { font-size: 12px; color: var(--muted); margin-bottom: 14px; font-weight: 600; }
+.criterion { border: 1.5px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 10px; transition: all .2s; cursor: pointer; }
+.criterion:hover { border-color: var(--teal); }
+.criterion.checked { border-color: var(--teal); background: #f0fdf8; }
+.crit-header { display: flex; align-items: flex-start; gap: 10px; }
+.crit-check { width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .2s; margin-top: 1px; }
+.criterion.checked .crit-check { background: var(--teal); border-color: var(--teal); }
+.check-mark { color: #fff; font-size: 13px; font-weight: 800; display: none; }
+.criterion.checked .check-mark { display: block; }
+.crit-text { flex: 1; font-size: 13px; color: var(--text); font-weight: 600; line-height: 1.4; }
+.crit-pts { font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; color: var(--primary); flex-shrink: 0; }
+.score-tally { background: var(--primary); border-radius: 12px; padding: 16px; text-align: center; margin: 16px 0; }
+.tally-label { font-size: 11px; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+.tally-num { font-family: 'Rajdhani', sans-serif; font-size: 52px; font-weight: 700; color: #fff; line-height: 1; }
+.tally-max { font-size: 18px; color: rgba(255,255,255,0.6); font-family: 'Rajdhani', sans-serif; }
+.tally-bar { height: 8px; background: rgba(255,255,255,0.2); border-radius: 4px; overflow: hidden; margin-top: 10px; }
+.tally-fill { height: 100%; background: var(--gold); border-radius: 4px; transition: width .4s; }
+
+/* JEOPARDY */
+.jeop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.jeop-card { background: var(--card); border-radius: 10px; padding: 12px; text-align: center; border: 2px solid var(--border); cursor: pointer; transition: all .2s; }
+.jeop-card:hover { border-color: var(--primary); transform: scale(1.02); }
+.jeop-card.correct { background: #f0fdf8; border-color: var(--teal); }
+.jeop-card.wrong { background: #fff1f0; border-color: var(--accent); }
+.jeop-cat { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+.jeop-pts-big { font-family: 'Rajdhani', sans-serif; font-size: 32px; font-weight: 700; color: var(--primary); line-height: 1; }
+.jeop-answered-by { font-size: 10px; color: var(--muted); font-weight: 700; margin-top: 3px; }
+
+/* MODAL */
+.modal-overlay { position: fixed; inset: 0; background: rgba(13,59,110,0.92); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 300; }
+.modal-box { background: #fff; border-radius: 18px; padding: 24px; max-width: 400px; width: 100%; max-height: 90vh; overflow-y: auto; }
+.modal-cat { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.modal-q { font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.5; margin-bottom: 12px; }
+.modal-pts { font-family: 'Rajdhani', sans-serif; font-size: 22px; color: var(--primary); font-weight: 700; margin-bottom: 16px; }
+.team-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.team-sel-btn { padding: 10px 8px; border-radius: 10px; border: 2px solid var(--border); background: #fafafa; font-size: 12px; font-weight: 700; cursor: pointer; transition: all .2s; text-align: center; font-family: 'Nunito', sans-serif; }
+.team-sel-btn.selected { border-color: var(--teal); background: #f0fdf8; color: var(--teal); }
+.modal-actions { display: flex; gap: 8px; }
+.btn-correct { flex: 1; padding: 12px; border-radius: 10px; border: none; background: var(--teal); color: #fff; font-size: 13px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif; }
+.btn-wrong { flex: 1; padding: 12px; border-radius: 10px; border: none; background: var(--accent); color: #fff; font-size: 13px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif; }
+.btn-close-modal { padding: 12px 16px; border-radius: 10px; border: 2px solid var(--border); background: #fff; font-size: 13px; font-weight: 700; cursor: pointer; color: var(--muted); font-family: 'Nunito', sans-serif; }
+
+/* AVATAR */
+.avatar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 14px; }
+.avatar-opt { aspect-ratio: 1; border-radius: 12px; border: 2.5px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all .2s; background: var(--card); padding: 4px; }
+.avatar-opt:hover { border-color: var(--primary); transform: scale(1.05); }
+.avatar-opt.selected { border-color: var(--gold); background: #fffbeb; }
+.avatar-emoji { font-size: 24px; line-height: 1; }
+.avatar-name { font-size: 8px; font-weight: 700; color: var(--muted); text-align: center; margin-top: 2px; text-transform: uppercase; }
+.team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.team-input-row { display: flex; align-items: center; gap: 8px; }
+.team-num { width: 24px; height: 24px; border-radius: 50%; background: var(--primary); color: #fff; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+/* MISC */
+.warning-box { background: #fffbeb; border: 1.5px solid var(--gold); border-radius: 10px; padding: 12px 14px; font-size: 13px; color: #92400e; font-weight: 600; margin-bottom: 14px; }
+.success-box { background: #f0fdf8; border: 1.5px solid var(--teal); border-radius: 10px; padding: 12px 14px; font-size: 13px; color: #065f46; font-weight: 700; text-align: center; margin-bottom: 12px; }
+.info-chip { display: inline-flex; align-items: center; gap: 5px; background: #eff6ff; color: var(--primary); font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; margin: 3px; }
+.toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px); background: #1e293b; color: #fff; padding: 10px 20px; border-radius: 30px; font-size: 13px; font-weight: 700; opacity: 0; transition: all .3s; pointer-events: none; z-index: 999; white-space: nowrap; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.loading { text-align: center; padding: 32px; color: var(--muted); font-weight: 600; }
+.spinner { display: inline-block; width: 24px; height: 24px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin .7s linear infinite; margin-bottom: 8px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.section-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; display: block; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div class="login-wrap" id="login-screen">
+  <div class="login-logo">RALLY <span>MF</span></div>
+  <div class="login-subtitle">Día del Médico Familiar · Sistema de Evaluación</div>
+  <div class="login-card">
+    <div class="login-title">¿Cómo ingresas?</div>
+    <div id="role-select">
+      <button class="role-btn" onclick="selectRole('publico')">
+        <span class="role-icon">🏆</span>
+        <span class="role-name">Ver Marcador</span>
+        <span class="role-desc">Residentes y público · Sin PIN</span>
+      </button>
+      <button class="role-btn" onclick="selectRole('profesor')">
+        <span class="role-icon">📋</span>
+        <span class="role-name">Soy Profesor Evaluador</span>
+        <span class="role-desc">Acceso a rúbricas · PIN requerido</span>
+      </button>
+      <button class="role-btn" onclick="selectRole('coordinador')">
+        <span class="role-icon">⚙️</span>
+        <span class="role-name">Soy Coordinador</span>
+        <span class="role-desc">Configuración y Jeopardy · PIN requerido</span>
+      </button>
+    </div>
+    <div id="pin-section" class="pin-wrap" style="display:none;">
+      <label class="pin-label" id="pin-label-text">PIN de acceso</label>
+      <input class="pin-input" type="password" inputmode="numeric" maxlength="4" id="pin-input" placeholder="••••" oninput="checkPinLength()">
+      <div class="pin-error" id="pin-error">PIN incorrecto. Inténtalo de nuevo.</div>
+      <button class="btn btn-primary" onclick="submitPin()">Entrar</button>
+      <button class="btn btn-outline" onclick="backToRoles()" style="margin-top:8px;">← Regresar</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP SHELL -->
+<div class="app-shell" id="app-shell">
+  <div class="app-header">
+    <div class="app-logo">RALLY <span>MF</span></div>
+    <div class="header-right">
+      <div class="live-badge">EN VIVO</div>
+      <div class="role-chip" id="role-chip">Público</div>
+    </div>
+  </div>
+  <div class="nav-tabs" id="nav-tabs">
+    <div class="nav-tab active" onclick="showScreen('scoreboard')" id="tab-scoreboard">
+      <span class="tab-icon">🏆</span>Marcador
+    </div>
+    <div class="nav-tab hidden" onclick="showScreen('eval')" id="tab-eval">
+      <span class="tab-icon">📋</span>Evaluar
+    </div>
+    <div class="nav-tab hidden" onclick="showScreen('jeopardy')" id="tab-jeopardy">
+      <span class="tab-icon">🎯</span>Jeopardy
+    </div>
+    <div class="nav-tab hidden" onclick="showScreen('setup')" id="tab-setup">
+      <span class="tab-icon">⚙️</span>Config
+    </div>
+  </div>
+  <div class="app-content">
+    <!-- SCOREBOARD -->
+    <div class="screen active" id="screen-scoreboard">
+      <div class="score-header">
+        <div class="score-title">🏆 MARCADOR</div>
+        <div class="score-sub" id="sb-rallyname">Cargando...</div>
+      </div>
+      <div id="scoreboard-list"><div class="loading"><div class="spinner"></div><br>Cargando equipos...</div></div>
+    </div>
+
+    <!-- EVAL -->
+    <div class="screen" id="screen-eval">
+      <div class="card">
+        <div class="form-row">
+          <label class="form-label">Mi estación</label>
+          <select class="styled-select" id="select-station" onchange="renderRubric()">
+            <option value="">— Selecciona tu estación —</option>
+            <option value="0">E1 · RCP Básico + DEA</option>
+            <option value="1">E2 · Urgencia en Consultorio</option>
+            <option value="2">E3 · Control Metabólico</option>
+            <option value="3">E4 · Auditoría de Nota</option>
+            <option value="4">E5 · Interpretación de Labs</option>
+            <option value="5">E6 · Resultados DM2 – Cohorte</option>
+            <option value="6">E7 · Prescripción Segura</option>
+          </select>
+        </div>
+        <div class="form-row" style="margin-bottom:0;">
+          <label class="form-label">Equipo que evalúas</label>
+          <select class="styled-select" id="select-team-eval" onchange="renderRubric()">
+            <option value="">— Selecciona el equipo —</option>
+          </select>
+        </div>
+      </div>
+      <div id="rubric-area"></div>
+    </div>
+
+    <!-- JEOPARDY -->
+    <div class="screen" id="screen-jeopardy">
+      <div class="card">
+        <div class="card-title">🎯 Jeopardy Familia</div>
+        <div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:10px;">Toca una pregunta para activarla. El robo de puntos está habilitado.</div>
+        <div id="jeop-scores" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+      </div>
+      <div class="jeop-grid" id="jeop-grid"><div class="loading"><div class="spinner"></div></div></div>
+    </div>
+
+    <!-- SETUP -->
+    <div class="screen" id="screen-setup">
+      <div id="setup-content"><div class="loading"><div class="spinner"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" style="display:none;">
+  <div class="modal-box" id="modal-box"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL = 'https://rloyjwyihflrgmbqdats.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsb3lqd3lpaGZscmdtYnFkYXRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MjYyOTQsImV4cCI6MjA5MzQwMjI5NH0.LuZoVMQvTZAu9PJQIp4_6M2TpA6HQZHaIt2oE9gDkXM';
+const PIN_PROFESOR = '2026';
+const PIN_COORD = '308512';
+
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const AVATARS = [
+  {e:'🩺',n:'El Clínico'},{e:'💊',n:'La Farmacóloga'},{e:'🫀',n:'El Cardiólogo'},
+  {e:'🧬',n:'La Genética'},{e:'🔬',n:'El Investigador'},{e:'🏥',n:'La Hospitalaria'},
+  {e:'🩻',n:'El Radiólogo'},{e:'🌡️',n:'La Preventivista'},{e:'🧠',n:'El Neuro'},
+  {e:'🍏',n:'La Nutrióloga'},{e:'⚡',n:'El Urgenciólogo'},{e:'🦴',n:'La Ortopedista'},
+];
+
+const STATIONS = [
+  { name:'RCP Básico + DEA', tiempo:'7 min', max:100, criteria:[
+    {pts:15,text:'Evalúa seguridad del escenario y respuesta de la víctima'},
+    {pts:10,text:'Solicita ayuda y activa servicios de emergencia correctamente'},
+    {pts:20,text:'Compresiones: 100-120/min, profundidad 5-6 cm, retroceso completo'},
+    {pts:20,text:'Ventilaciones 30:2, apertura de vía aérea con maniobra adecuada'},
+    {pts:20,text:'Manejo correcto del DEA: enciende, coloca parches, evalúa ritmo, descarga'},
+    {pts:15,text:'No interrumpe compresiones más de 10 seg; reanuda inmediatamente'},
+  ]},
+  { name:'Urgencia en Consultorio', tiempo:'10 min', max:100, criteria:[
+    {pts:15,text:'Identifica correctamente la urgencia en menos de 2 minutos'},
+    {pts:15,text:'Evalúa ABCDE de forma sistemática y ordenada'},
+    {pts:20,text:'Solicita apoyo / traslado en el momento adecuado'},
+    {pts:20,text:'Prescribe o ejecuta tratamiento inicial correcto (medicamento, dosis, vía)'},
+    {pts:15,text:'Comunica al paciente/familiar de forma clara y empática'},
+    {pts:15,text:'Documenta o verbaliza el plan de continuidad de la atención'},
+  ]},
+  { name:'Control Metabólico Integral', tiempo:'10 min', max:100, criteria:[
+    {pts:15,text:'Interrogatorio enfocado: último control, adherencia, síntomas de alarma'},
+    {pts:15,text:'Exploración dirigida: TA, peso, IMC, pie diabético, fondo de ojo referido'},
+    {pts:20,text:'Interpreta laboratorios e identifica metas no alcanzadas'},
+    {pts:20,text:'Ajuste terapéutico correcto según guías (SGLT2, iGLP-1, antihipertensivos)'},
+    {pts:15,text:'Educación para la salud: al menos 3 puntos clave al paciente'},
+    {pts:15,text:'Establece plan de seguimiento con fechas y referencia si aplica'},
+  ]},
+  { name:'Auditoría de Nota Clínica', tiempo:'8 min', max:100, criteria:[
+    {pts:10,text:'Identifica datos de identificación del paciente y fecha (obligatorios)'},
+    {pts:20,text:'Evalúa motivo de consulta, interrogatorio y exploración física documentados'},
+    {pts:20,text:'Verifica diagnóstico con CIE-10 y plan terapéutico sustentado'},
+    {pts:20,text:'Detecta y nombra correctamente al menos 3 elementos faltantes o incorrectos'},
+    {pts:15,text:'Propone correcciones viables sin enmendar (adenda, nota de corrección)'},
+    {pts:15,text:'Distingue entre omisión, error y violación a la NOM'},
+  ]},
+  { name:'Interpretación de Laboratorios', tiempo:'7 min', max:100, criteria:[
+    {pts:15,text:'Identifica valores alterados y los jerarquiza por gravedad'},
+    {pts:20,text:'Correlaciona hallazgos de laboratorio con la presentación clínica'},
+    {pts:20,text:'Genera al menos 2 diagnósticos diferenciales con sustento'},
+    {pts:20,text:'Solicita estudios complementarios pertinentes (sin sobre-indicación)'},
+    {pts:15,text:'Propone tratamiento inicial o ajuste terapéutico fundamentado'},
+    {pts:10,text:'Identifica valor crítico y sabe cuándo referir o actuar de urgencia'},
+  ]},
+  { name:'Resultados DM2 – Cohorte', tiempo:'8 min', max:100, criteria:[
+    {pts:20,text:'Calcula o verifica HbA1c promedio, cobertura y % en meta correctamente'},
+    {pts:20,text:'Identifica indicadores de proceso no cumplidos (pie, fondo de ojo, microalbúmina)'},
+    {pts:20,text:'Detecta subgrupos en riesgo y los prioriza correctamente'},
+    {pts:20,text:'Propone al menos 2 intervenciones basadas en evidencia factibles en 1er nivel'},
+    {pts:20,text:'Presenta hallazgos estructurados (situación → brecha → propuesta)'},
+  ]},
+  { name:'Prescripción Segura', tiempo:'7 min', max:100, criteria:[
+    {pts:20,text:'Detecta al menos 4 de 6 errores en la receta problema (dosis, vía, duplicidad)'},
+    {pts:20,text:'Redacta receta con todos los elementos obligatorios COFEPRIS'},
+    {pts:20,text:'Verifica interacciones farmacológicas y ajusta según comorbilidades'},
+    {pts:20,text:'Explica al paciente simulado el esquema de forma comprensible'},
+    {pts:20,text:'Aplica prescripción por DCI y justifica uso racional del medicamento'},
+  ]},
+];
+
+const JEOPARDY_QS = [
+  {cat:'Familia y Sociedad',pts:10,q:'¿Cuáles son las 4 funciones básicas de la familia según la clasificación IMSS-Bienestar?'},
+  {cat:'Familia y Sociedad',pts:20,q:'¿Qué tipo de crisis familiar ocurre cuando un hijo abandona el hogar para casarse?'},
+  {cat:'Familia y Sociedad',pts:30,q:'Describe el genograma familiar: ¿qué símbolos se usan para hombre, mujer y relación conflictiva?'},
+  {cat:'Prevención',pts:10,q:'¿A qué edad inicia el tamizaje de cáncer de mama con mastografía en mujer asintomática según PREVENIMSS?'},
+  {cat:'Prevención',pts:20,q:'¿Cuál es la periodicidad del Papanicolaou en mujer de 25 años con resultado previo normal?'},
+  {cat:'Prevención',pts:30,q:'¿Qué vacunas del esquema adulto IMSS se aplican a paciente de 60 años sin antecedentes de vacunación?'},
+  {cat:'Clínica MF',pts:15,q:'Paciente 52 años, TA 158/96 en 2 ocasiones. ¿Diagnóstico según JNC-8 y primer escalón terapéutico?'},
+  {cat:'Clínica MF',pts:25,q:'¿Cuáles son los 3 criterios diagnósticos de síndrome metabólico según IDF en paciente masculino hispano?'},
+  {cat:'Clínica MF',pts:35,q:'Paciente con HbA1c 8.2% en tratamiento con metformina 850mg c/8h. ¿Qué ajuste propones según GPC vigente?'},
+  {cat:'Comodín MF',pts:50,q:'¿Cuál es la diferencia entre la nota de referencia y contrarreferencia según NOM-004? Menciona 3 elementos de cada una.'},
+  {cat:'Comodín MF',pts:50,q:'Explica el modelo biopsicosocial de Engel aplicado a paciente con DM2 mal controlada y disfunción familiar moderada.'},
+];
+
+let currentRole = null;
+let selectedRoleBtn = null;
+let appState = { rallyName:'', teams:[], avatars:{} };
+let localChecks = {};
+let openDetailIdx = null;
+let currentJeopIdx = null;
+let selectedJeopTeam = null;
+let realtimeSub = null;
+
+function selectRole(role) {
+  selectedRoleBtn = role;
+  if (role === 'publico') { enterApp('publico'); return; }
+  document.getElementById('role-select').style.display = 'none';
+  document.getElementById('pin-section').style.display = 'block';
+  document.getElementById('pin-label-text').textContent = role === 'profesor' ? 'PIN de Profesor Evaluador' : 'PIN de Coordinador';
+  document.getElementById('pin-input').value = '';
+  document.getElementById('pin-error').style.display = 'none';
+  document.getElementById('pin-input').focus();
+}
+
+function backToRoles() {
+  document.getElementById('role-select').style.display = 'block';
+  document.getElementById('pin-section').style.display = 'none';
+}
+
+function checkPinLength() {
+  if (document.getElementById('pin-input').value.length === 4) submitPin();
+}
+
+function submitPin() {
+  const pin = document.getElementById('pin-input').value;
+  const errEl = document.getElementById('pin-error');
+  if (selectedRoleBtn === 'profesor' && pin === PIN_PROFESOR) { enterApp('profesor'); return; }
+  if (selectedRoleBtn === 'coordinador' && pin === PIN_COORD) { enterApp('coordinador'); return; }
+  errEl.style.display = 'block';
+  document.getElementById('pin-input').value = '';
+}
+
+function enterApp(role) {
+  currentRole = role;
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app-shell').style.display = 'flex';
+  const chips = { publico:'👥 Público', profesor:'📋 Profesor', coordinador:'⚙️ Coordinador' };
+  document.getElementById('role-chip').textContent = chips[role];
+  if (role === 'profesor') {
+    document.getElementById('tab-eval').classList.remove('hidden');
+  }
+  if (role === 'coordinador') {
+    document.getElementById('tab-eval').classList.remove('hidden');
+    document.getElementById('tab-jeopardy').classList.remove('hidden');
+    document.getElementById('tab-setup').classList.remove('hidden');
+  }
+  initApp();
+}
+
+async function initApp() {
+  await loadAppState();
+  renderScoreboard();
+  if (currentRole === 'profesor' || currentRole === 'coordinador') {
+    populateTeamSelect();
+  }
+  subscribeRealtime();
+}
+
+async function loadAppState() {
+  const { data } = await db.from('rally_state').select('*').order('created_at', {ascending:false}).limit(1).maybeSingle();
+  if (data) {
+    appState.rallyName = data.rally_name || 'Rally Médico Familiar';
+    appState.teams = data.teams || [];
+    appState.avatars = data.avatars || {};
+  }
+}
+
+function subscribeRealtime() {
+  if (realtimeSub) db.removeChannel(realtimeSub);
+  realtimeSub = db.channel('rally-changes')
+    .on('postgres_changes', { event:'*', schema:'public', table:'rally_scores' }, () => { renderScoreboard(); if (currentRole==='coordinador') renderJeopardy(); })
+    .on('postgres_changes', { event:'*', schema:'public', table:'rally_state' }, () => { loadAppState().then(() => { renderScoreboard(); populateTeamSelect(); }) })
+    .subscribe();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  const tabMap = {scoreboard:'tab-scoreboard',eval:'tab-eval',jeopardy:'tab-jeopardy',setup:'tab-setup'};
+  if (tabMap[id]) document.getElementById(tabMap[id])?.classList.add('active');
+  if (id === 'scoreboard') renderScoreboard();
+  if (id === 'eval') { populateTeamSelect(); renderRubric(); }
+  if (id === 'jeopardy') renderJeopardy();
+  if (id === 'setup') renderSetup();
+}
+
+async function renderScoreboard() {
+  const list = document.getElementById('scoreboard-list');
+  document.getElementById('sb-rallyname').textContent = appState.rallyName || 'Toca un equipo para ver el desglose';
+  if (!appState.teams.length) { list.innerHTML = '<div class="warning-box">El coordinador aún no ha configurado el rally.</div>'; return; }
+  const { data: scores } = await db.from('rally_scores').select('*');
+  const teamScores = {};
+  const stationBreakdown = {};
+  appState.teams.forEach(t => { teamScores[t] = 0; stationBreakdown[t] = {}; });
+  (scores || []).forEach(s => {
+    if (teamScores[s.team_name] !== undefined) {
+      teamScores[s.team_name] = (teamScores[s.team_name] || 0) + (s.score || 0);
+      stationBreakdown[s.team_name][s.station_key] = s.score;
+    }
+  });
+  const sorted = [...appState.teams].sort((a,b) => (teamScores[b]||0) - (teamScores[a]||0));
+  const rankClass = ['first','second','third'];
+  const rankBadge = ['🥇','🥈','🥉'];
+  list.innerHTML = sorted.map((t, idx) => {
+    const pts = teamScores[t] || 0;
+    const pct = Math.round((pts / 820) * 100);
+    const av = appState.avatars[t] || '🏅';
+    const rc = idx < 3 ? rankClass[idx] : '';
+    const rb = idx < 3 ? rankBadge[idx] : (idx+1);
+    const rbClass = ['rank-1','rank-2','rank-3'][idx] || 'rank-n';
+    const stDots = STATIONS.map((s, si) => {
+      const done = stationBreakdown[t][`station_${si}`] !== undefined;
+      return `<div class="dot ${done?'dot-done':'dot-pending'}" title="E${si+1}">${si+1}</div>`;
+    }).join('') + (stationBreakdown[t]['jeopardy'] !== undefined ? `<div class="dot dot-done" style="background:var(--gold);">J</div>` : `<div class="dot dot-pending">J</div>`);
+    const stDetails = STATIONS.map((s, si) => {
+      const sPts = stationBreakdown[t][`station_${si}`];
+      return `<div class="detail-row"><span class="detail-station-name">E${si+1} · ${s.name}</span><span class="detail-pts ${sPts!==undefined?'pts-done':'pts-pending'}">${sPts!==undefined?sPts+' pts':'—'}</span></div>`;
+    }).join('');
+    const jPts = stationBreakdown[t]['jeopardy'];
+    const jRow = `<div class="detail-row"><span class="detail-station-name" style="color:var(--primary);font-weight:800;">🎯 Jeopardy</span><span class="detail-pts pts-done">${jPts!==undefined?jPts+' pts':'—'}</span></div>`;
+    return `<div class="team-card ${rc}" onclick="toggleTeamDetail(${idx})">
+      <div class="rank-badge ${rbClass}">${rb}</div>
+      <div style="font-size:26px;line-height:1;flex-shrink:0;">${av}</div>
+      <div class="team-info">
+        <div class="team-name-big">${t}</div>
+        <div class="station-dots">${stDots}</div>
+        <div class="progress-bar-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
+      </div>
+      <div style="flex-shrink:0;">
+        <div class="team-score-num">${pts}</div>
+        <div class="pts-label">/ 820 pts</div>
+      </div>
+    </div>
+    <div class="detail-panel" id="detail-${idx}">${stDetails}${jRow}</div>`;
+  }).join('');
+}
+
+function toggleTeamDetail(idx) {
+  const panel = document.getElementById('detail-' + idx);
+  if (!panel) return;
+  const isOpen = panel.classList.contains('open');
+  document.querySelectorAll('.detail-panel').forEach(p => p.classList.remove('open'));
+  if (!isOpen) panel.classList.add('open');
+}
+
+function populateTeamSelect() {
+  const sel = document.getElementById('select-team-eval');
+  if (!sel) return;
+  const prev = sel.value;
+  sel.innerHTML = '<option value="">— Selecciona el equipo —</option>';
+  appState.teams.forEach(t => {
+    sel.innerHTML += `<option value="${t}" ${t===prev?'selected':''}>${appState.avatars[t]||''} ${t}</option>`;
+  });
+}
+
+async function renderRubric() {
+  const stIdx = document.getElementById('select-station')?.value;
+  const team = document.getElementById('select-team-eval')?.value;
+  const area = document.getElementById('rubric-area');
+  if (!area) return;
+  if (!stIdx || !team) { area.innerHTML = ''; return; }
+  const st = STATIONS[parseInt(stIdx)];
+  const key = `station_${stIdx}`;
+  const { data: existing } = await db.from('rally_scores').select('*').eq('team_name', team).eq('station_key', key).maybeSingle();
+  const prevScore = existing ? existing.score : null;
+  const prevChecksDb = existing ? (existing.checks || {}) : {};
+  if (!localChecks[team]) localChecks[team] = {};
+  if (!localChecks[team][stIdx]) localChecks[team][stIdx] = { ...prevChecksDb };
+  const checks = localChecks[team][stIdx];
+  area.innerHTML = `<div class="card">
+    <div class="rubric-title">E${parseInt(stIdx)+1} · ${st.name}</div>
+    <div class="rubric-meta">⏱ ${st.tiempo} · Máx. ${st.max} pts · ${appState.avatars[team]||''} ${team}</div>
+    ${prevScore !== null ? `<div class="success-box">✅ Ya evaluado: ${prevScore} pts. Puedes modificar y reenviar.</div>` : ''}
+    ${st.criteria.map((c,ci) => `
+      <div class="criterion ${checks[ci]?'checked':''}" id="crit-${stIdx}-${ci}" onclick="toggleCrit('${stIdx}','${team}',${ci})">
+        <div class="crit-header">
+          <div class="crit-check"><span class="check-mark">✓</span></div>
+          <div class="crit-text">${c.text}</div>
+          <div class="crit-pts">${c.pts}</div>
+        </div>
+      </div>`).join('')}
+    <div class="score-tally">
+      <div class="tally-label">Puntaje actual</div>
+      <div><span class="tally-num" id="tally-${stIdx}">0</span><span class="tally-max">/${st.max}</span></div>
+      <div class="tally-bar"><div class="tally-fill" id="tfill-${stIdx}" style="width:0%"></div></div>
+    </div>
+    <button class="btn btn-accent" onclick="submitEval('${stIdx}','${team}')">📤 Enviar Evaluación al Marcador</button>
+  </div>`;
+  updateTally(stIdx, team);
+}
+
+function toggleCrit(stIdx, team, ci) {
+  if (!localChecks[team]) localChecks[team] = {};
+  if (!localChecks[team][stIdx]) localChecks[team][stIdx] = {};
+  localChecks[team][stIdx][ci] = !localChecks[team][stIdx][ci];
+  document.getElementById(`crit-${stIdx}-${ci}`)?.classList.toggle('checked', localChecks[team][stIdx][ci]);
+  updateTally(stIdx, team);
+}
+
+function updateTally(stIdx, team) {
+  const st = STATIONS[parseInt(stIdx)];
+  let total = 0;
+  st.criteria.forEach((c,ci) => { if (localChecks[team]?.[stIdx]?.[ci]) total += c.pts; });
+  const numEl = document.getElementById('tally-' + stIdx);
+  const fillEl = document.getElementById('tfill-' + stIdx);
+  if (numEl) numEl.textContent = total;
+  if (fillEl) fillEl.style.width = Math.round((total/st.max)*100) + '%';
+}
+
+async function submitEval(stIdx, team) {
+  const st = STATIONS[parseInt(stIdx)];
+  let total = 0;
+  st.criteria.forEach((c,ci) => { if (localChecks[team]?.[stIdx]?.[ci]) total += c.pts; });
+  const key = `station_${stIdx}`;
+  const checks = localChecks[team]?.[stIdx] || {};
+  const { error } = await db.from('rally_scores').upsert({ team_name: team, station_key: key, score: total, checks }, { onConflict: 'team_name,station_key' });
+  if (error) { showToast('❌ Error al guardar. Verifica tu conexión.'); return; }
+  showToast(`✅ ${team}: ${total} pts guardados`);
+  renderRubric();
+  renderScoreboard();
+}
+
+async function renderJeopardy() {
+  const grid = document.getElementById('jeop-grid');
+  const scoresDiv = document.getElementById('jeop-scores');
+  if (!appState.teams.length) { grid.innerHTML = '<div class="warning-box" style="grid-column:1/-1">Configura el rally primero.</div>'; return; }
+  const { data: jScores } = await db.from('rally_scores').select('*').eq('station_key','jeopardy').maybeSingle();
+  const teamJPts = jScores ? (jScores.team_pts || {}) : {};
+  scoresDiv.innerHTML = appState.teams.map(t => `<div class="info-chip">${appState.avatars[t]||''} ${t}: <b style="color:var(--primary);margin-left:4px;">${teamJPts[t]||0} pts</b></div>`).join('');
+  const { data: answered } = await db.from('rally_jeopardy').select('*');
+  const answeredMap = {};
+  (answered||[]).forEach(a => { answeredMap[a.question_idx] = a; });
+  grid.innerHTML = JEOPARDY_QS.map((q,qi) => {
+    const ans = answeredMap[qi];
+    const cls = ans ? (ans.correct ? 'correct' : 'wrong') : '';
+    const icon = ans ? (ans.correct ? '✓' : '✗') : '';
+    const teamStr = ans ? ` ${appState.avatars[ans.team_name]||''}${ans.team_name}` : '';
+    return `<div class="jeop-card ${cls}" onclick="openJeop(${qi})">
+      <div class="jeop-cat">${q.cat}</div>
+      <div class="jeop-pts-big">${q.pts}</div>
+      <div class="jeop-answered-by">${icon}${teamStr}</div>
+    </div>`;
+  }).join('');
+}
+
+function openJeop(qi) {
+  currentJeopIdx = qi;
+  selectedJeopTeam = null;
+  const q = JEOPARDY_QS[qi];
+  const modal = document.getElementById('modal');
+  const box = document.getElementById('modal-box');
+  modal.style.display = 'flex';
+  const teamBtns = appState.teams.map(t => `<button class="team-sel-btn" id="jt-${t.replace(/\W/g,'_')}" onclick="selectJeopTeam('${t}')">${appState.avatars[t]||''} ${t}</button>`).join('');
+  box.innerHTML = `<div class="modal-cat">${q.cat}</div>
+    <div class="modal-q">"${q.q}"</div>
+    <div class="modal-pts">Vale: ${q.pts} puntos — Robo permitido</div>
+    <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">¿Qué equipo responde?</div>
+    <div class="team-selector">${teamBtns}</div>
+    <div class="modal-actions">
+      <button class="btn-correct" onclick="resolveJeop(true)">✓ Correcto</button>
+      <button class="btn-wrong" onclick="resolveJeop(false)">✗ Incorrecto</button>
+      <button class="btn-close-modal" onclick="closeModal()">Cerrar</button>
+    </div>`;
+}
+
+function selectJeopTeam(t) {
+  selectedJeopTeam = t;
+  document.querySelectorAll('.team-sel-btn').forEach(b => b.classList.remove('selected'));
+  const key = t.replace(/\W/g,'_');
+  document.getElementById('jt-' + key)?.classList.add('selected');
+}
+
+async function resolveJeop(correct) {
+  if (!selectedJeopTeam) { showToast('⚠️ Selecciona un equipo primero'); return; }
+  const q = JEOPARDY_QS[currentJeopIdx];
+  await db.from('rally_jeopardy').upsert({ question_idx: currentJeopIdx, team_name: selectedJeopTeam, correct, pts: correct ? q.pts : 0 }, { onConflict: 'question_idx' });
+  if (correct) {
+    const { data: existing } = await db.from('rally_scores').select('*').eq('team_name', selectedJeopTeam).eq('station_key','jeopardy').maybeSingle();
+    const prevPts = existing ? (existing.team_pts || {}) : {};
+    prevPts[selectedJeopTeam] = (prevPts[selectedJeopTeam] || 0) + q.pts;
+    const totalJeop = Object.values(prevPts).reduce((a,b)=>a+b,0);
+    await db.from('rally_scores').upsert({ team_name: selectedJeopTeam, station_key: 'jeopardy', score: prevPts[selectedJeopTeam], team_pts: prevPts }, { onConflict: 'team_name,station_key' });
+    showToast(`🎉 ${selectedJeopTeam}: +${q.pts} pts!`);
+  } else {
+    showToast('❌ Sin puntos esta vez');
+  }
+  closeModal();
+  renderJeopardy();
+  renderScoreboard();
+}
+
+function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
+async function renderSetup() {
+  const c = document.getElementById('setup-content');
+  const { data: state } = await db.from('rally_state').select('*').order('created_at',{ascending:false}).limit(1).maybeSingle();
+  const currentTeams = state?.teams || [];
+  const currentAvatars = state?.avatars || {};
+  const currentName = state?.rally_name || '';
+  c.innerHTML = `
+    <div class="card">
+      <div class="card-title">⚙️ Configurar Rally</div>
+      <div class="form-row">
+        <label class="form-label">Nombre del Rally / UMF</label>
+        <input class="form-input" id="rally-name-inp" type="text" placeholder="Ej: Día del Médico Familiar 2025 · UMF-12" value="${currentName}">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Número de equipos <span id="tc-display" style="color:var(--primary);font-weight:800;">${currentTeams.length||4}</span></label>
+        <input type="range" min="2" max="10" value="${currentTeams.length||4}" id="tc-slider" style="width:100%;margin-bottom:8px;" oninput="updateSetupTeams(this.value)">
+      </div>
+    </div>
+    <div class="card" id="team-names-card">
+      <div class="card-title">👥 Nombres de Equipos</div>
+      <div class="team-grid" id="team-names-container"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">🦸 Avatares por Equipo</div>
+      <div id="avatar-section"></div>
+    </div>
+    <button class="btn btn-primary" onclick="saveSetup()">🚀 Guardar y Activar Rally</button>
+    <button class="btn btn-outline" onclick="confirmReset()" style="margin-top:10px;">🔄 Reiniciar todo (nuevo evento)</button>
+  `;
+  setupSelectedAvatars = { ...currentAvatars };
+  buildTeamNameInputs(currentTeams.length||4, currentTeams);
+  buildAvatarSelectors(currentTeams.length||4, currentTeams, currentAvatars);
+}
+
+let setupSelectedAvatars = {};
+
+function updateSetupTeams(val) {
+  document.getElementById('tc-display').textContent = val;
+  const n = parseInt(val);
+  const names = [];
+  for (let i=0;i<n;i++) names.push(document.getElementById('tn-'+i)?.value || '');
+  buildTeamNameInputs(n, names);
+  buildAvatarSelectors(n, names, setupSelectedAvatars);
+}
+
+function buildTeamNameInputs(n, names=[]) {
+  const c = document.getElementById('team-names-container');
+  if (!c) return;
+  c.innerHTML = '';
+  for (let i=0;i<n;i++) {
+    c.innerHTML += `<div class="team-input-row"><div class="team-num">${i+1}</div><input class="form-input" id="tn-${i}" type="text" placeholder="Equipo ${i+1}" value="${names[i]||''}"></div>`;
+  }
+}
+
+function buildAvatarSelectors(n, names=[], avatars={}) {
+  const sec = document.getElementById('avatar-section');
+  if (!sec) return;
+  sec.innerHTML = '';
+  for (let i=0;i<n;i++) {
+    const tname = names[i] || `Equipo ${i+1}`;
+    const selectedAvEmoji = avatars[tname];
+    sec.innerHTML += `<div style="margin-bottom:14px;"><span class="section-label" style="color:var(--primary);">${tname}</span><div class="avatar-grid" id="avg-${i}"></div></div>`;
+    const grid = document.getElementById('avg-' + i);
+    AVATARS.forEach((av, ai) => {
+      const sel = selectedAvEmoji === av.e ? 'selected' : '';
+      grid.innerHTML += `<div class="avatar-opt ${sel}" onclick="pickAvatar(${i},${ai},'${av.e}')" id="avo-${i}-${ai}"><div class="avatar-emoji">${av.e}</div><div class="avatar-name">${av.n}</div></div>`;
+    });
+  }
+}
+
+function pickAvatar(ti, ai, emoji) {
+  const teamName = document.getElementById('tn-' + ti)?.value || `Equipo ${ti+1}`;
+  setupSelectedAvatars[teamName] = emoji;
+  document.querySelectorAll(`[id^="avo-${ti}-"]`).forEach(el => el.classList.remove('selected'));
+  document.getElementById(`avo-${ti}-${ai}`)?.classList.add('selected');
+}
+
+async function saveSetup() {
+  const name = document.getElementById('rally-name-inp').value.trim() || 'Rally Médico Familiar';
+  const n = parseInt(document.getElementById('tc-slider').value);
+  const teams = [];
+  const avatars = {};
+  for (let i=0;i<n;i++) {
+    const t = document.getElementById('tn-'+i)?.value.trim() || `Equipo ${i+1}`;
+    teams.push(t);
+    const sel = document.querySelector(`#avg-${i} .avatar-opt.selected .avatar-emoji`);
+    avatars[t] = sel ? sel.textContent : AVATARS[i % AVATARS.length].e;
+  }
+  const { error } = await db.from('rally_state').insert({ rally_name: name, teams, avatars });
+  if (error) { showToast('❌ Error al guardar. Revisa la conexión.'); return; }
+  appState = { rallyName: name, teams, avatars };
+  populateTeamSelect();
+  showToast('🚀 ¡Rally configurado y activo!');
+  showScreen('scoreboard');
+}
+
+async function confirmReset() {
+  if (!confirm('¿Seguro? Se borrarán TODOS los puntajes y la configuración actual.')) return;
+  await db.from('rally_scores').delete().neq('id', 0);
+  await db.from('rally_jeopardy').delete().neq('id', 0);
+  await db.from('rally_state').delete().neq('id', 0);
+  appState = { rallyName:'', teams:[], avatars:{} };
+  showToast('🔄 Rally reiniciado correctamente');
+  renderSetup();
+  renderScoreboard();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+document.addEventListener('keydown', e => { if (e.key==='Enter' && document.getElementById('pin-input') === document.activeElement) submitPin(); });
+</script>
+</body>
+</html>
