@@ -298,10 +298,10 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
 <div class="toast" id="toast"></div>
 
 <script>
-const SUPABASE_URL = '__SUPABASE_URL__';
-const SUPABASE_KEY = '__SUPABASE_KEY__';
-const PIN_PROFESOR = '__PIN_PROFESOR__';
-const PIN_COORD = '__PIN_COORD__';
+const SUPABASE_URL = 'https://rloyjwyihflrgmbqdats.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsb3lqd3lpaGZscmdtYnFkYXRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MjYyOTQsImV4cCI6MjA5MzQwMjI5NH0.LuZoVMQvTZAu9PJQIp4_6M2TpA6HQZHaIt2oE9gDkXM';
+const PIN_PROFESOR = '2026';
+const PIN_COORD = '3085';
 
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -806,4 +806,3 @@ document.addEventListener('keydown', e => { if (e.key==='Enter' && document.getE
 </script>
 </body>
 </html>
-
