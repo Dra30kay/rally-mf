@@ -60,6 +60,7 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
 .nav-tabs { display: flex; background: var(--primary); border-top: 1px solid rgba(255,255,255,0.1); }
 .nav-tab { flex: 1; padding: 10px 4px; text-align: center; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); cursor: pointer; transition: all .2s; text-transform: uppercase; letter-spacing: .5px; border-bottom: 3px solid transparent; }
 .nav-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.nav-tab.hidden { display: none !important; }
 .tab-icon { display: block; font-size: 18px; margin-bottom: 2px; }
 .app-content { flex: 1; padding: 16px; }
 
@@ -297,10 +298,10 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
 <div class="toast" id="toast"></div>
 
 <script>
-const SUPABASE_URL = 'https://rloyjwyihflrgmbqdats.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsb3lqd3lpaGZscmdtYnFkYXRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MjYyOTQsImV4cCI6MjA5MzQwMjI5NH0.LuZoVMQvTZAu9PJQIp4_6M2TpA6HQZHaIt2oE9gDkXM';
-const PIN_PROFESOR = '2026';
-const PIN_COORD = '3085';
+const SUPABASE_URL = '__SUPABASE_URL__';
+const SUPABASE_KEY = '__SUPABASE_KEY__';
+const PIN_PROFESOR = '__PIN_PROFESOR__';
+const PIN_COORD = '__PIN_COORD__';
 
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -465,6 +466,10 @@ function subscribeRealtime() {
 }
 
 function showScreen(id) {
+  // Enforce role-based access — block unauthorized screens
+  if (id === 'eval' && currentRole !== 'profesor' && currentRole !== 'coordinador') return;
+  if (id === 'jeopardy' && currentRole !== 'coordinador') return;
+  if (id === 'setup' && currentRole !== 'coordinador') return;
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('screen-' + id).classList.add('active');
