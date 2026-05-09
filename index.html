@@ -3,213 +3,260 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Rally MF — Día del Médico Familiar</title>
+<title>Operación UMF — Código Médico Familiar</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Nunito:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
 :root {
-  --primary: #0D3B6E;
-  --accent: #E63946;
-  --gold: #F4A11D;
-  --teal: #1D9E75;
-  --bg: #F0F4F8;
-  --card: #ffffff;
-  --text: #1a1a2e;
-  --muted: #6b7280;
-  --border: #e2e8f0;
-  --green: #16a34a;
-  --radius: 14px;
+  --primary:#0D3B6E; --accent:#E63946; --gold:#F4A11D; --teal:#1D9E75;
+  --bg:#0A0E1A; --card:#111827; --card2:#1E2A3A; --text:#E8F0FE;
+  --muted:#8899AA; --border:#1E3A5F; --green:#16a34a; --radius:14px;
+  --umf:#00C9A7; --umf2:#0056A0;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 
-/* LOGIN */
-.login-wrap { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; background: var(--primary); }
-.login-logo { font-family: 'Rajdhani', sans-serif; font-size: 42px; font-weight: 700; color: #fff; letter-spacing: 2px; margin-bottom: 4px; }
-.login-logo span { color: var(--gold); }
-.login-subtitle { font-size: 13px; color: rgba(255,255,255,0.6); font-weight: 600; margin-bottom: 40px; text-align: center; }
-.login-card { background: #fff; border-radius: 20px; padding: 28px 24px; width: 100%; max-width: 360px; }
-.login-title { font-size: 15px; font-weight: 800; color: var(--primary); margin-bottom: 20px; text-align: center; text-transform: uppercase; letter-spacing: .5px; }
-.role-btn { display: block; width: 100%; padding: 16px; border-radius: 12px; border: 2px solid var(--border); background: #fafafa; margin-bottom: 12px; cursor: pointer; text-align: left; transition: all .2s; font-family: 'Nunito', sans-serif; }
-.role-btn:hover { border-color: var(--primary); background: #eff6ff; transform: translateX(4px); }
-.role-icon { font-size: 28px; display: block; margin-bottom: 4px; }
-.role-name { font-size: 15px; font-weight: 800; color: var(--text); }
-.role-desc { font-size: 12px; color: var(--muted); font-weight: 600; }
-.pin-wrap { margin-top: 16px; }
-.pin-label { font-size: 12px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; display: block; }
-.pin-input { width: 100%; padding: 14px; border: 2px solid var(--border); border-radius: 12px; font-size: 22px; font-family: 'Rajdhani', sans-serif; font-weight: 700; text-align: center; letter-spacing: 8px; color: var(--primary); background: #fafafa; }
-.pin-input:focus { outline: none; border-color: var(--primary); background: #fff; }
-.pin-error { color: var(--accent); font-size: 12px; font-weight: 700; text-align: center; margin-top: 8px; display: none; }
-.btn { display: block; width: 100%; padding: 14px; border-radius: 12px; border: none; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; cursor: pointer; transition: all .2s; text-transform: uppercase; letter-spacing: .5px; margin-top: 12px; }
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-accent { background: var(--accent); color: #fff; }
-.btn-gold { background: var(--gold); color: #fff; }
-.btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
-.btn-sm { padding: 8px 14px; font-size: 12px; border-radius: 8px; display: inline-block; width: auto; }
-.btn:hover { opacity: .9; transform: translateY(-1px); }
+/* ── SCANLINES OVERLAY ── */
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);pointer-events:none;z-index:9999;}
 
-/* APP SHELL */
-.app-shell { display: none; flex-direction: column; min-height: 100vh; }
-.app-header { background: var(--primary); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-.app-logo { font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; color: #fff; letter-spacing: 1px; }
-.app-logo span { color: var(--gold); }
-.header-right { display: flex; align-items: center; gap: 8px; }
-.live-badge { background: var(--accent); color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.7} }
-.role-chip { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
-.nav-tabs { display: flex; background: var(--primary); border-top: 1px solid rgba(255,255,255,0.1); }
-.nav-tab { flex: 1; padding: 10px 4px; text-align: center; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); cursor: pointer; transition: all .2s; text-transform: uppercase; letter-spacing: .5px; border-bottom: 3px solid transparent; }
-.nav-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
-.nav-tab.hidden { display: none !important; }
-.tab-icon { display: block; font-size: 18px; margin-bottom: 2px; }
-.app-content { flex: 1; padding: 16px; }
+/* ── LOGIN ── */
+.login-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:radial-gradient(ellipse at 50% 0%,#0D3B6E 0%,#020610 70%);}
+.login-logo{font-family:'Rajdhani',sans-serif;font-size:38px;font-weight:700;color:#fff;letter-spacing:3px;margin-bottom:4px;text-align:center;}
+.login-logo span{color:var(--gold);text-shadow:0 0 20px rgba(244,161,29,0.5);}
+.login-sub{font-size:11px;color:rgba(255,255,255,0.5);font-weight:600;margin-bottom:6px;text-align:center;letter-spacing:2px;text-transform:uppercase;}
+.login-tagline{font-size:13px;color:var(--umf);font-weight:700;margin-bottom:32px;text-align:center;font-style:italic;}
+.login-card{background:rgba(17,24,39,0.95);border:1px solid var(--border);border-radius:20px;padding:28px 24px;width:100%;max-width:360px;backdrop-filter:blur(10px);}
+.login-title{font-size:14px;font-weight:800;color:var(--muted);margin-bottom:20px;text-align:center;text-transform:uppercase;letter-spacing:1px;}
+.role-btn{display:block;width:100%;padding:14px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,0.03);margin-bottom:10px;cursor:pointer;text-align:left;transition:all .2s;font-family:'Nunito',sans-serif;}
+.role-btn:hover{border-color:var(--gold);background:rgba(244,161,29,0.08);transform:translateX(4px);}
+.role-icon{font-size:26px;display:block;margin-bottom:3px;}
+.role-name{font-size:14px;font-weight:800;color:var(--text);}
+.role-desc{font-size:11px;color:var(--muted);font-weight:600;}
+.pin-label{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block;}
+.pin-input{width:100%;padding:14px;border:2px solid var(--border);border-radius:12px;font-size:24px;font-family:'Rajdhani',sans-serif;font-weight:700;text-align:center;letter-spacing:8px;color:var(--gold);background:rgba(0,0,0,0.3);}
+.pin-input:focus{outline:none;border-color:var(--gold);}
+.pin-error{color:var(--accent);font-size:12px;font-weight:700;text-align:center;margin-top:8px;display:none;}
+.btn{display:block;width:100%;padding:14px;border-radius:12px;border:none;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:.5px;margin-top:10px;}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#e68a00);color:#000;}
+.btn-outline{background:transparent;border:2px solid var(--border);color:var(--muted);}
+.btn:hover{opacity:.9;transform:translateY(-1px);}
 
-/* SCREENS */
-.screen { display: none; }
-.screen.active { display: block; }
+/* ── APP SHELL ── */
+.app-shell{display:none;flex-direction:column;min-height:100vh;}
+.app-header{background:linear-gradient(135deg,#020610,#0D3B6E);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border);}
+.app-logo{font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:2px;}
+.app-logo span{color:var(--gold);}
+.header-right{display:flex;align-items:center;gap:8px;}
+.live-badge{background:var(--accent);color:#fff;font-size:9px;font-weight:800;padding:3px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:1px;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.role-chip{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;}
 
-/* CARDS */
-.card { background: var(--card); border-radius: var(--radius); padding: 16px; margin-bottom: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
-.card-title { font-family: 'Rajdhani', sans-serif; font-size: 17px; font-weight: 700; color: var(--primary); margin-bottom: 12px; text-transform: uppercase; letter-spacing: .5px; }
-.form-row { margin-bottom: 12px; }
-.form-label { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 5px; display: block; }
-.form-input { width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 14px; font-family: 'Nunito', sans-serif; color: var(--text); background: #fafafa; }
-.form-input:focus { outline: none; border-color: var(--primary); background: #fff; }
-.styled-select { width: 100%; padding: 11px 12px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 14px; font-family: 'Nunito', sans-serif; color: var(--text); background: #fafafa url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center; appearance: none; padding-right: 32px; }
-.styled-select:focus { outline: none; border-color: var(--primary); }
+/* ── UMF STABILITY BAR ── */
+.umf-bar-wrap{background:rgba(0,0,0,0.4);padding:8px 14px;border-bottom:1px solid var(--border);}
+.umf-bar-label{font-size:10px;font-weight:800;color:var(--umf);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;display:flex;justify-content:space-between;}
+.umf-bar-track{height:8px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden;}
+.umf-bar-fill{height:100%;background:linear-gradient(90deg,var(--umf2),var(--umf));border-radius:4px;transition:width .8s ease;box-shadow:0 0 8px rgba(0,201,167,0.5);}
 
-/* SCOREBOARD */
-.score-header { text-align: center; margin-bottom: 18px; }
-.score-title { font-family: 'Rajdhani', sans-serif; font-size: 28px; font-weight: 700; color: var(--primary); }
-.score-sub { font-size: 12px; color: var(--muted); font-weight: 600; }
-.team-card { background: var(--card); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); border: 2px solid transparent; transition: all .3s; cursor: pointer; }
-.team-card.first { border-color: var(--gold); background: linear-gradient(135deg,#fffbeb 0%,#fff 60%); }
-.team-card.second { border-color: #C0C0C0; }
-.team-card.third { border-color: #CD7F32; }
-.rank-badge { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; flex-shrink: 0; border: 2px solid; }
-.rank-1 { background: #fffbeb; color: var(--gold); border-color: var(--gold); }
-.rank-2 { background: #f8f8f8; color: #9ca3af; border-color: #C0C0C0; }
-.rank-3 { background: #fff8f5; color: #CD7F32; border-color: #CD7F32; }
-.rank-n { background: #f1f5f9; color: var(--muted); border-color: var(--border); font-size: 12px; }
-.team-info { flex: 1; min-width: 0; }
-.team-name-big { font-size: 15px; font-weight: 800; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.progress-bar-wrap { height: 6px; background: #f1f5f9; border-radius: 4px; margin-top: 6px; overflow: hidden; }
-.progress-bar { height: 100%; border-radius: 4px; background: linear-gradient(90deg,var(--teal),var(--primary)); transition: width .6s ease; }
-.team-score-num { font-family: 'Rajdhani', sans-serif; font-size: 30px; font-weight: 700; color: var(--primary); line-height: 1; text-align: right; }
-.pts-label { font-size: 10px; color: var(--muted); font-weight: 600; text-align: right; }
-.station-dots { display: flex; gap: 3px; flex-wrap: wrap; margin-top: 5px; }
-.dot { width: 16px; height: 16px; border-radius: 4px; font-size: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; }
-.dot-done { background: var(--teal); color: #fff; }
-.dot-pending { background: #e5e7eb; color: #9ca3af; }
+/* ── NAV TABS ── */
+.nav-tabs{display:flex;background:rgba(0,0,0,0.5);border-bottom:1px solid var(--border);}
+.nav-tab{flex:1;padding:10px 4px;text-align:center;font-size:9px;font-weight:800;color:rgba(255,255,255,0.35);cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid transparent;}
+.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.nav-tab.hidden{display:none!important;}
+.tab-icon{display:block;font-size:17px;margin-bottom:2px;}
+.app-content{flex:1;padding:14px;}
 
-/* DETAIL PANEL */
-.detail-panel { background: #f8fafc; border-radius: 10px; padding: 12px; margin-top: 10px; border: 1px solid var(--border); display: none; }
-.detail-panel.open { display: block; }
-.detail-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
-.detail-row:last-child { border-bottom: none; }
-.detail-station-name { color: var(--text); font-weight: 600; }
-.detail-pts { font-family: 'Rajdhani', sans-serif; font-size: 16px; font-weight: 700; }
-.pts-done { color: var(--teal); }
-.pts-pending { color: #9ca3af; }
+/* ── SCREENS ── */
+.screen{display:none;}
+.screen.active{display:block;}
 
-/* RUBRIC */
-.rubric-title { font-family: 'Rajdhani', sans-serif; font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 4px; text-transform: uppercase; }
-.rubric-meta { font-size: 12px; color: var(--muted); margin-bottom: 14px; font-weight: 600; }
-.criterion { border: 1.5px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 10px; transition: all .2s; cursor: pointer; }
-.criterion:hover { border-color: var(--teal); }
-.criterion.checked { border-color: var(--teal); background: #f0fdf8; }
-.crit-header { display: flex; align-items: flex-start; gap: 10px; }
-.crit-check { width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .2s; margin-top: 1px; }
-.criterion.checked .crit-check { background: var(--teal); border-color: var(--teal); }
-.check-mark { color: #fff; font-size: 13px; font-weight: 800; display: none; }
-.criterion.checked .check-mark { display: block; }
-.crit-text { flex: 1; font-size: 13px; color: var(--text); font-weight: 600; line-height: 1.4; }
-.crit-pts { font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; color: var(--primary); flex-shrink: 0; }
-.score-tally { background: var(--primary); border-radius: 12px; padding: 16px; text-align: center; margin: 16px 0; }
-.tally-label { font-size: 11px; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-.tally-num { font-family: 'Rajdhani', sans-serif; font-size: 52px; font-weight: 700; color: #fff; line-height: 1; }
-.tally-max { font-size: 18px; color: rgba(255,255,255,0.6); font-family: 'Rajdhani', sans-serif; }
-.tally-bar { height: 8px; background: rgba(255,255,255,0.2); border-radius: 4px; overflow: hidden; margin-top: 10px; }
-.tally-fill { height: 100%; background: var(--gold); border-radius: 4px; transition: width .4s; }
+/* ── SCOREBOARD ── */
+.score-header{text-align:center;margin-bottom:16px;}
+.score-title{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:#fff;letter-spacing:2px;}
+.score-sub{font-size:11px;color:var(--muted);font-weight:600;margin-top:2px;}
+.team-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;}
+.team-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s;}
+.team-card.first{border-color:var(--gold);background:linear-gradient(135deg,rgba(244,161,29,0.08),var(--card));}
+.team-card.first::before{opacity:1;}
+.team-card.second{border-color:#C0C0C0;}
+.team-card.third{border-color:#CD7F32;}
+.team-top{display:flex;align-items:center;gap:10px;}
+.rank-badge{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0;border:2px solid;}
+.rank-1{background:rgba(244,161,29,0.15);color:var(--gold);border-color:var(--gold);}
+.rank-2{background:rgba(192,192,192,0.15);color:#C0C0C0;border-color:#C0C0C0;}
+.rank-3{background:rgba(205,127,50,0.15);color:#CD7F32;border-color:#CD7F32;}
+.rank-n{background:rgba(255,255,255,0.05);color:var(--muted);border-color:var(--border);font-size:11px;}
+.team-avatar-img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--border);flex-shrink:0;}
+.team-avatar-emoji{font-size:32px;line-height:1;flex-shrink:0;}
+.team-info{flex:1;min-width:0;}
+.team-name{font-size:14px;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mission-dots{display:flex;gap:3px;flex-wrap:wrap;margin-top:4px;}
+.mdot{width:18px;height:18px;border-radius:4px;font-size:8px;display:flex;align-items:center;justify-content:center;font-weight:800;}
+.mdot-done{background:var(--teal);color:#fff;}
+.mdot-pending{background:rgba(255,255,255,0.08);color:var(--muted);}
+.team-scores{text-align:right;flex-shrink:0;}
+.umf-pct{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:var(--umf);line-height:1;}
+.umf-pct-label{font-size:9px;color:var(--muted);font-weight:700;}
+.rally-pts{font-size:11px;color:var(--gold);font-weight:800;margin-top:2px;}
+.progress-wrap{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin-top:6px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--umf2),var(--umf));transition:width .6s;}
 
-/* JEOPARDY */
-.jeop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
-.jeop-card { background: var(--card); border-radius: 10px; padding: 12px; text-align: center; border: 2px solid var(--border); cursor: pointer; transition: all .2s; }
-.jeop-card:hover { border-color: var(--primary); transform: scale(1.02); }
-.jeop-card.correct { background: #f0fdf8; border-color: var(--teal); }
-.jeop-card.wrong { background: #fff1f0; border-color: var(--accent); }
-.jeop-cat { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
-.jeop-pts-big { font-family: 'Rajdhani', sans-serif; font-size: 32px; font-weight: 700; color: var(--primary); line-height: 1; }
-.jeop-answered-by { font-size: 10px; color: var(--muted); font-weight: 700; margin-top: 3px; }
+/* BADGE UNLOCK PANEL */
+.badges-panel{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+.badges-panel.open{display:block;}
+.badges-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px;}
+.badge-item{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.badge-img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--border);filter:grayscale(1) opacity(.4);transition:all .3s;}
+.badge-img.unlocked{filter:none;border-color:var(--gold);box-shadow:0 0 12px rgba(244,161,29,0.4);}
+.badge-name{font-size:9px;font-weight:700;color:var(--muted);text-align:center;}
+.badge-name.unlocked{color:var(--gold);}
+.detail-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:12px;}
+.detail-row:last-child{border-bottom:none;}
+.detail-pts{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;}
+.pts-done{color:var(--teal);}
+.pts-pend{color:var(--muted);}
 
-/* MODAL */
-.modal-overlay { position: fixed; inset: 0; background: rgba(13,59,110,0.92); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 300; }
-.modal-box { background: #fff; border-radius: 18px; padding: 24px; max-width: 400px; width: 100%; max-height: 90vh; overflow-y: auto; }
-.modal-cat { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-.modal-q { font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.5; margin-bottom: 12px; }
-.modal-pts { font-family: 'Rajdhani', sans-serif; font-size: 22px; color: var(--primary); font-weight: 700; margin-bottom: 16px; }
-.team-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
-.team-sel-btn { padding: 10px 8px; border-radius: 10px; border: 2px solid var(--border); background: #fafafa; font-size: 12px; font-weight: 700; cursor: pointer; transition: all .2s; text-align: center; font-family: 'Nunito', sans-serif; }
-.team-sel-btn.selected { border-color: var(--teal); background: #f0fdf8; color: var(--teal); }
-.modal-actions { display: flex; gap: 8px; }
-.btn-correct { flex: 1; padding: 12px; border-radius: 10px; border: none; background: var(--teal); color: #fff; font-size: 13px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif; }
-.btn-wrong { flex: 1; padding: 12px; border-radius: 10px; border: none; background: var(--accent); color: #fff; font-size: 13px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif; }
-.btn-close-modal { padding: 12px 16px; border-radius: 10px; border: 2px solid var(--border); background: #fff; font-size: 13px; font-weight: 700; cursor: pointer; color: var(--muted); font-family: 'Nunito', sans-serif; }
+/* ── EVAL ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:12px;}
+.card-title{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;color:var(--gold);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px;}
+.styled-select{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Nunito',sans-serif;color:var(--text);background:rgba(0,0,0,0.3) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center;appearance:none;padding-right:32px;margin-bottom:10px;}
+.styled-select:focus{outline:none;border-color:var(--gold);}
 
-/* AVATAR */
-.avatar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 14px; }
-.avatar-opt { aspect-ratio: 1; border-radius: 12px; border: 2.5px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all .2s; background: var(--card); padding: 4px; }
-.avatar-opt:hover { border-color: var(--primary); transform: scale(1.05); }
-.avatar-opt.selected { border-color: var(--gold); background: #fffbeb; }
-.avatar-emoji { font-size: 24px; line-height: 1; }
-.avatar-name { font-size: 8px; font-weight: 700; color: var(--muted); text-align: center; margin-top: 2px; text-transform: uppercase; }
-.team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.team-input-row { display: flex; align-items: center; gap: 8px; }
-.team-num { width: 24px; height: 24px; border-radius: 50%; background: var(--primary); color: #fff; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+/* MISSION CARD IN EVAL */
+.mission-card{border-radius:12px;padding:14px;margin-bottom:14px;border:1px solid rgba(244,161,29,0.3);background:linear-gradient(135deg,rgba(244,161,29,0.06),rgba(0,0,0,0));}
+.mission-alerta{font-size:10px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.mission-name{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:var(--gold);margin-bottom:6px;}
+.mission-narr{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:10px;font-style:italic;}
+.mission-impact{font-size:11px;color:var(--umf);font-weight:700;}
+.mission-reward{display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.08);}
+.mission-badge-img{width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);}
+.mission-badge-label{font-size:11px;color:var(--gold);font-weight:700;}
 
-/* MISC */
-.warning-box { background: #fffbeb; border: 1.5px solid var(--gold); border-radius: 10px; padding: 12px 14px; font-size: 13px; color: #92400e; font-weight: 600; margin-bottom: 14px; }
-.success-box { background: #f0fdf8; border: 1.5px solid var(--teal); border-radius: 10px; padding: 12px 14px; font-size: 13px; color: #065f46; font-weight: 700; text-align: center; margin-bottom: 12px; }
-.info-chip { display: inline-flex; align-items: center; gap: 5px; background: #eff6ff; color: var(--primary); font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; margin: 3px; }
-.toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px); background: #1e293b; color: #fff; padding: 10px 20px; border-radius: 30px; font-size: 13px; font-weight: 700; opacity: 0; transition: all .3s; pointer-events: none; z-index: 999; white-space: nowrap; }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.loading { text-align: center; padding: 32px; color: var(--muted); font-weight: 600; }
-.spinner { display: inline-block; width: 24px; height: 24px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin .7s linear infinite; margin-bottom: 8px; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.section-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; display: block; }
+/* RUBRICA */
+.rubric-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:12px;}
+.rubric-title{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--gold);margin-bottom:2px;text-transform:uppercase;}
+.rubric-meta{font-size:11px;color:var(--muted);margin-bottom:12px;font-weight:600;}
+.criterion{border:1px solid var(--border);border-radius:10px;padding:11px;margin-bottom:8px;cursor:pointer;transition:all .2s;background:rgba(255,255,255,0.02);}
+.criterion:hover{border-color:var(--teal);}
+.criterion.checked{border-color:var(--teal);background:rgba(29,158,117,0.08);}
+.crit-header{display:flex;align-items:flex-start;gap:10px;}
+.crit-check{width:20px;height:20px;border-radius:5px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px;}
+.criterion.checked .crit-check{background:var(--teal);border-color:var(--teal);}
+.check-mark{color:#fff;font-size:12px;font-weight:800;display:none;}
+.criterion.checked .check-mark{display:block;}
+.crit-text{flex:1;font-size:12px;color:var(--text);font-weight:600;line-height:1.4;}
+.crit-pts{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;color:var(--gold);flex-shrink:0;}
+.score-tally{background:linear-gradient(135deg,#020610,#0D3B6E);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;margin:14px 0;}
+.tally-label{font-size:10px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;font-weight:700;}
+.tally-num{font-family:'Rajdhani',sans-serif;font-size:48px;font-weight:700;color:#fff;line-height:1;}
+.tally-max{font-size:16px;color:rgba(255,255,255,0.4);font-family:'Rajdhani',sans-serif;}
+.tally-bar{height:6px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;margin-top:8px;}
+.tally-fill{height:100%;background:linear-gradient(90deg,var(--umf2),var(--umf));border-radius:3px;transition:width .4s;}
+.btn-submit{display:block;width:100%;padding:14px;border-radius:12px;border:none;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;background:linear-gradient(135deg,var(--accent),#c0392b);color:#fff;text-transform:uppercase;letter-spacing:.5px;transition:all .2s;}
+.btn-submit:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(230,57,70,0.4);}
+
+/* MISSION COMPLETE OVERLAY */
+.mission-complete-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;z-index:500;padding:20px;}
+.mission-complete-box{background:linear-gradient(135deg,#020610,#0D3B6E);border:2px solid var(--gold);border-radius:20px;padding:30px 24px;max-width:360px;width:100%;text-align:center;}
+.mc-icon{font-size:60px;margin-bottom:12px;animation:popIn .5s ease;}
+@keyframes popIn{0%{transform:scale(0)}80%{transform:scale(1.1)}100%{transform:scale(1)}}
+.mc-title{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:var(--gold);margin-bottom:4px;letter-spacing:2px;}
+.mc-sub{font-size:13px;color:var(--umf);font-weight:700;margin-bottom:16px;}
+.mc-badge-img{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid var(--gold);margin:0 auto 12px;display:block;box-shadow:0 0 30px rgba(244,161,29,0.5);animation:glow 2s infinite;}
+@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(244,161,29,0.4)}50%{box-shadow:0 0 40px rgba(244,161,29,0.8)}}
+.mc-badge-name{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;}
+.mc-badge-desc{font-size:11px;color:var(--muted);margin-bottom:16px;font-style:italic;}
+.mc-stats{background:rgba(0,0,0,0.3);border-radius:10px;padding:12px;margin-bottom:16px;}
+.mc-stat{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:12px;}
+.mc-stat-label{color:var(--muted);}
+.mc-stat-val{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;}
+.mc-umf{color:var(--umf);}
+.mc-pts{color:var(--gold);}
+.mc-close{display:block;width:100%;padding:12px;border-radius:10px;border:none;background:var(--gold);color:#000;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;text-transform:uppercase;letter-spacing:.5px;}
+
+/* ── JEOPARDY ── */
+.jeop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.jeop-card{background:var(--card);border-radius:10px;padding:12px;text-align:center;border:1px solid var(--border);cursor:pointer;transition:all .2s;}
+.jeop-card:hover{border-color:var(--gold);transform:scale(1.02);}
+.jeop-card.correct{background:rgba(29,158,117,0.15);border-color:var(--teal);}
+.jeop-card.wrong{background:rgba(230,57,70,0.1);border-color:var(--accent);}
+.jeop-cat{font-size:9px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+.jeop-pts-big{font-family:'Rajdhani',sans-serif;font-size:30px;font-weight:700;color:var(--gold);line-height:1;}
+.jeop-by{font-size:9px;color:var(--muted);font-weight:700;margin-top:3px;}
+.jeop-score-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.jeop-chip{background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:20px;padding:4px 10px;font-size:11px;color:var(--text);font-weight:700;display:flex;align-items:center;gap:6px;}
+.jeop-chip img{width:20px;height:20px;border-radius:50%;object-fit:cover;}
+
+/* ── SETUP ── */
+.avatar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.avatar-opt{aspect-ratio:1;border-radius:12px;border:2px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;background:rgba(255,255,255,0.02);overflow:hidden;padding:4px;}
+.avatar-opt:hover{border-color:var(--gold);transform:scale(1.05);}
+.avatar-opt.selected{border-color:var(--gold);background:rgba(244,161,29,0.1);box-shadow:0 0 12px rgba(244,161,29,0.3);}
+.avatar-opt img{width:100%;height:100%;object-fit:cover;border-radius:8px;}
+.avatar-name{font-size:8px;font-weight:700;color:var(--muted);text-align:center;margin-top:3px;text-transform:uppercase;line-height:1.2;}
+.team-input-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.team-num{width:24px;height:24px;border-radius:50%;background:var(--primary);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.form-input{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Nunito',sans-serif;color:var(--text);background:rgba(0,0,0,0.3);}
+.form-input:focus{outline:none;border-color:var(--gold);}
+.form-label{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;display:block;}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;padding:20px;z-index:400;}
+.modal-box{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:22px;max-width:400px;width:100%;max-height:90vh;overflow-y:auto;}
+.modal-cat{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.modal-q{font-size:15px;font-weight:700;color:var(--text);line-height:1.5;margin-bottom:10px;}
+.modal-pts{font-family:'Rajdhani',sans-serif;font-size:20px;color:var(--gold);font-weight:700;margin-bottom:14px;}
+.team-selector{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.team-sel-btn{padding:10px 8px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,0.03);font-size:11px;font-weight:700;cursor:pointer;text-align:center;font-family:'Nunito',sans-serif;color:var(--text);transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.team-sel-btn img{width:32px;height:32px;border-radius:50%;object-fit:cover;}
+.team-sel-btn.selected{border-color:var(--teal);background:rgba(29,158,117,0.1);color:var(--teal);}
+.modal-actions{display:flex;gap:8px;}
+.btn-correct{flex:1;padding:12px;border-radius:10px;border:none;background:var(--teal);color:#fff;font-size:13px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;}
+.btn-wrong{flex:1;padding:12px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-size:13px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;}
+.btn-close-modal{padding:12px 16px;border-radius:10px;border:1px solid var(--border);background:transparent;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted);font-family:'Nunito',sans-serif;}
+
+/* ── MISC ── */
+.warning-box{background:rgba(244,161,29,0.08);border:1px solid rgba(244,161,29,0.3);border-radius:10px;padding:12px 14px;font-size:12px;color:#d4a017;font-weight:600;margin-bottom:12px;}
+.success-box{background:rgba(29,158,117,0.1);border:1px solid var(--teal);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--teal);font-weight:700;text-align:center;margin-bottom:10px;}
+.info-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(13,59,110,0.5);color:var(--text);font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;margin:3px;border:1px solid var(--border);}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:#0D3B6E;border:1px solid var(--gold);color:#fff;padding:10px 20px;border-radius:30px;font-size:13px;font-weight:700;opacity:0;transition:all .3s;pointer-events:none;z-index:999;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.loading{text-align:center;padding:32px;color:var(--muted);font-weight:600;}
+.spinner{display:inline-block;width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:8px;}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
+<!-- LOGIN -->
 <div class="login-wrap" id="login-screen">
-  <div class="login-logo">RALLY <span>MF</span></div>
-  <div class="login-subtitle">Día del Médico Familiar · Sistema de Evaluación</div>
+  <div class="login-logo">OPERACIÓN <span>UMF</span></div>
+  <div class="login-sub">Código Médico Familiar</div>
+  <div class="login-tagline">"No compites solo por ganar. Compites por mantener funcionando la UMF."</div>
   <div class="login-card">
-    <div class="login-title">¿Cómo ingresas?</div>
+    <div class="login-title">Selecciona tu acceso</div>
     <div id="role-select">
       <button class="role-btn" onclick="selectRole('publico')">
         <span class="role-icon">🏆</span>
         <span class="role-name">Ver Marcador</span>
-        <span class="role-desc">Residentes y público · Sin PIN</span>
+        <span class="role-desc">Escuadrones · Estabilidad UMF · Sin PIN</span>
       </button>
       <button class="role-btn" onclick="selectRole('profesor')">
-        <span class="role-icon">📋</span>
-        <span class="role-name">Soy Profesor Evaluador</span>
+        <span class="role-icon">⚕️</span>
+        <span class="role-name">Evaluador de Misión</span>
         <span class="role-desc">Acceso a rúbricas · PIN requerido</span>
       </button>
       <button class="role-btn" onclick="selectRole('coordinador')">
-        <span class="role-icon">⚙️</span>
-        <span class="role-name">Soy Coordinador</span>
-        <span class="role-desc">Configuración y Jeopardy · PIN requerido</span>
+        <span class="role-icon">🎖️</span>
+        <span class="role-name">Coordinador</span>
+        <span class="role-desc">Control total · Jeopardy · PIN requerido</span>
       </button>
     </div>
-    <div id="pin-section" class="pin-wrap" style="display:none;">
+    <div id="pin-section" style="display:none;">
       <label class="pin-label" id="pin-label-text">PIN de acceso</label>
-      <input class="pin-input" type="password" inputmode="numeric" maxlength="4" id="pin-input" placeholder="••••" oninput="checkPinLength()">
-      <div class="pin-error" id="pin-error">PIN incorrecto. Inténtalo de nuevo.</div>
-      <button class="btn btn-primary" onclick="submitPin()">Entrar</button>
-      <button class="btn btn-outline" onclick="backToRoles()" style="margin-top:8px;">← Regresar</button>
+      <input class="pin-input" type="password" inputmode="numeric" maxlength="4" id="pin-input" placeholder="••••" oninput="checkPinLen()">
+      <div class="pin-error" id="pin-error">PIN incorrecto.</div>
+      <button class="btn btn-gold" onclick="submitPin()">Entrar a la misión</button>
+      <button class="btn btn-outline" onclick="backToRoles()" style="margin-top:6px;">← Regresar</button>
     </div>
   </div>
 </div>
@@ -217,56 +264,57 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
 <!-- APP SHELL -->
 <div class="app-shell" id="app-shell">
   <div class="app-header">
-    <div class="app-logo">RALLY <span>MF</span></div>
+    <div class="app-logo">OP. <span>UMF</span></div>
     <div class="header-right">
       <div class="live-badge">EN VIVO</div>
       <div class="role-chip" id="role-chip">Público</div>
     </div>
   </div>
+  <!-- UMF Stability Bar -->
+  <div class="umf-bar-wrap">
+    <div class="umf-bar-label">
+      <span>⚡ ESTABILIDAD UMF</span>
+      <span id="umf-pct-header">0%</span>
+    </div>
+    <div class="umf-bar-track"><div class="umf-bar-fill" id="umf-bar-fill" style="width:0%"></div></div>
+  </div>
   <div class="nav-tabs" id="nav-tabs">
-    <div class="nav-tab active" onclick="showScreen('scoreboard')" id="tab-scoreboard">
-      <span class="tab-icon">🏆</span>Marcador
-    </div>
-    <div class="nav-tab hidden" onclick="showScreen('eval')" id="tab-eval">
-      <span class="tab-icon">📋</span>Evaluar
-    </div>
-    <div class="nav-tab hidden" onclick="showScreen('jeopardy')" id="tab-jeopardy">
-      <span class="tab-icon">🎯</span>Jeopardy
-    </div>
-    <div class="nav-tab hidden" onclick="showScreen('setup')" id="tab-setup">
-      <span class="tab-icon">⚙️</span>Config
-    </div>
+    <div class="nav-tab active" onclick="showScreen('scoreboard')" id="tab-scoreboard"><span class="tab-icon">🏆</span>Misiones</div>
+    <div class="nav-tab hidden" onclick="showScreen('eval')" id="tab-eval"><span class="tab-icon">⚕️</span>Evaluar</div>
+    <div class="nav-tab hidden" onclick="showScreen('jeopardy')" id="tab-jeopardy"><span class="tab-icon">🎯</span>Jeopardy</div>
+    <div class="nav-tab hidden" onclick="showScreen('setup')" id="tab-setup"><span class="tab-icon">⚙️</span>Config</div>
   </div>
   <div class="app-content">
+
     <!-- SCOREBOARD -->
     <div class="screen active" id="screen-scoreboard">
       <div class="score-header">
-        <div class="score-title">🏆 MARCADOR</div>
-        <div class="score-sub" id="sb-rallyname">Cargando...</div>
+        <div class="score-title">🏥 CENTRO DE COMANDO</div>
+        <div class="score-sub" id="sb-rallyname">Toca un escuadrón para ver su progreso</div>
       </div>
-      <div id="scoreboard-list"><div class="loading"><div class="spinner"></div><br>Cargando equipos...</div></div>
+      <div id="scoreboard-list"><div class="loading"><div class="spinner"></div><br>Cargando misiones...</div></div>
     </div>
 
     <!-- EVAL -->
     <div class="screen" id="screen-eval">
       <div class="card">
-        <div class="form-row">
-          <label class="form-label">Mi estación</label>
+        <div class="form-row" style="margin-bottom:10px;">
+          <label class="form-label">Mi estación de misión</label>
           <select class="styled-select" id="select-station" onchange="renderRubric()">
-            <option value="">— Selecciona tu estación —</option>
-            <option value="0">E1 · RCP Básico + DEA</option>
-            <option value="1">E2 · Urgencia en Consultorio</option>
-            <option value="2">E3 · Control Metabólico</option>
-            <option value="3">E4 · Auditoría de Nota</option>
-            <option value="4">E5 · Interpretación de Labs</option>
-            <option value="5">E6 · Resultados DM2 – Cohorte</option>
-            <option value="6">E7 · Prescripción Segura</option>
+            <option value="">— Selecciona tu misión —</option>
+            <option value="0">E1 · Código Azul en Sala de Espera</option>
+            <option value="1">E2 · Tormenta Hipertensiva</option>
+            <option value="2">E3 · Operación DIABETIMSS</option>
+            <option value="3">E4 · Expediente Bajo Sospecha</option>
+            <option value="4">E5 · Alerta Diagnóstica</option>
+            <option value="5">E6 · Crisis Institucional DIABETIMSS</option>
+            <option value="6">E7 · Receta Letal</option>
           </select>
         </div>
-        <div class="form-row" style="margin-bottom:0;">
-          <label class="form-label">Equipo que evalúas</label>
+        <div>
+          <label class="form-label">Escuadrón que evalúas</label>
           <select class="styled-select" id="select-team-eval" onchange="renderRubric()">
-            <option value="">— Selecciona el equipo —</option>
+            <option value="">— Selecciona el escuadrón —</option>
           </select>
         </div>
       </div>
@@ -277,8 +325,8 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
     <div class="screen" id="screen-jeopardy">
       <div class="card">
         <div class="card-title">🎯 Jeopardy Familia</div>
-        <div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:10px;">Toca una pregunta para activarla. El robo de puntos está habilitado.</div>
-        <div id="jeop-scores" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+        <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:10px;">Toca una pregunta para activarla. Robo de puntos habilitado.</div>
+        <div class="jeop-score-chips" id="jeop-scores"></div>
       </div>
       <div class="jeop-grid" id="jeop-grid"><div class="loading"><div class="spinner"></div></div></div>
     </div>
@@ -290,7 +338,25 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
   </div>
 </div>
 
-<!-- MODAL -->
+<!-- MISSION COMPLETE OVERLAY -->
+<div class="mission-complete-overlay" id="mc-overlay" style="display:none;">
+  <div class="mission-complete-box">
+    <div class="mc-icon">✅</div>
+    <div class="mc-title">MISIÓN COMPLETADA</div>
+    <div class="mc-sub" id="mc-sub">La UMF recuperó estabilidad parcial.</div>
+    <img class="mc-badge-img" id="mc-badge-img" src="" alt="">
+    <div class="mc-badge-name" id="mc-badge-name"></div>
+    <div class="mc-badge-desc" id="mc-badge-desc">🔓 Insignia desbloqueada</div>
+    <div class="mc-stats">
+      <div class="mc-stat"><span class="mc-stat-label">Puntaje obtenido</span><span class="mc-stat-val mc-pts" id="mc-pts-val">0 pts</span></div>
+      <div class="mc-stat"><span class="mc-stat-label">Estabilidad UMF</span><span class="mc-stat-val mc-umf" id="mc-umf-val">+0%</span></div>
+      <div class="mc-stat"><span class="mc-stat-label">Escuadrón</span><span class="mc-stat-val" id="mc-team-val">—</span></div>
+    </div>
+    <button class="mc-close" onclick="closeMissionComplete()">Continuar misión →</button>
+  </div>
+</div>
+
+<!-- JEOPARDY MODAL -->
 <div class="modal-overlay" id="modal" style="display:none;">
   <div class="modal-box" id="modal-box"></div>
 </div>
@@ -301,75 +367,138 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
 const SUPABASE_URL = 'https://rloyjwyihflrgmbqdats.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsb3lqd3lpaGZscmdtYnFkYXRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MjYyOTQsImV4cCI6MjA5MzQwMjI5NH0.LuZoVMQvTZAu9PJQIp4_6M2TpA6HQZHaIt2oE9gDkXM';
 const PIN_PROFESOR = '2026';
-const PIN_COORD = '3085';
+const PIN_COORD    = '3085';
 
-const { createClient } = supabase;
-const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+const BASE = 'https://raw.githubusercontent.com/Dra30kay/rally-mf/main/';
 
-const AVATARS = [
-  {e:'🩺',n:'El Clínico'},{e:'💊',n:'La Farmacóloga'},{e:'🫀',n:'El Cardiólogo'},
-  {e:'🧬',n:'La Genética'},{e:'🔬',n:'El Investigador'},{e:'🏥',n:'La Hospitalaria'},
-  {e:'🩻',n:'El Radiólogo'},{e:'🌡️',n:'La Preventivista'},{e:'🧠',n:'El Neuro'},
-  {e:'🍏',n:'La Nutrióloga'},{e:'⚡',n:'El Urgenciólogo'},{e:'🦴',n:'La Ortopedista'},
+// ── INSIGNIAS ──────────────────────────────────────────────────────────────────
+const BADGES = [
+  { key:'station_0', name:'Código DEA',           img:BASE+'Insignias/Codigo DEA.png',             desc:'Reanimación Avanzada',        alerta:'⚡ Función vital restaurada.' },
+  { key:'station_1', name:'Centinela de Urgencias',img:BASE+'Insignias/Centinela de urgencias.png', desc:'Decisión · Rapidez · Vida',    alerta:'🛡️ Crisis hipertensiva contenida.' },
+  { key:'station_2', name:'Centinela DM2',         img:BASE+'Insignias/Centinela DM2.png',          desc:'Vigilar · Estrategar · Prevenir',alerta:'🧬 Control metabólico recuperado.' },
+  { key:'station_3', name:'Maestro NOM',            img:BASE+'Insignias/Maestro NOM.png',            desc:'Auditoría · Ética · Calidad',  alerta:'⚖️ Expediente asegurado.' },
+  { key:'station_4', name:'Ojo Clínico',            img:BASE+'Insignias/Ojo clinico.png',            desc:'Ver · Analizar · Diagnosticar',alerta:'🔬 Diagnóstico complejo resuelto.' },
+  { key:'station_5', name:'Líder Diabetimss',       img:BASE+'Insignias/Lider Diabetimss.png',       desc:'Liderazgo · Estrategia · Resultados',alerta:'📊 Indicadores institucionales mejorados.' },
+  { key:'station_6', name:'Escudo Renal',           img:BASE+'Insignias/Escudo renal.png',           desc:'Protección · Seguridad · Vida',alerta:'🛡️ Error farmacológico evitado.' },
 ];
 
+// ── AVATARES ───────────────────────────────────────────────────────────────────
+const AVATARS = [
+  { name:'La Reanimadora Vital',      img:BASE+'Avatars/La reanimadora vital.png' },
+  { name:'El Centinela de Urgencias', img:BASE+'Avatars/Centinela de urgencias.png' },
+  { name:'El Vanguardista Metabólico',img:BASE+'Avatars/El vanguardista metabolico.png' },
+  { name:'La Veedora de la Norma',    img:BASE+'Avatars/La veedora de la norma.png' },
+  { name:'La Detective Diagnóstico',  img:BASE+'Avatars/La detective diagnostico.png' },
+  { name:'El Estratega Poblacional',  img:BASE+'Avatars/El estratega poblacional.png' },
+  { name:'El Guardián de la Receta',  img:BASE+'Avatars/El guardian de la receta.png' },
+  { name:'El Escudo Antihipertensivo',img:BASE+'Avatars/El escudo antihipertensivo.png' },
+];
+
+// ── MISIONES ───────────────────────────────────────────────────────────────────
+const MISSIONS = [
+  { num:'E1', name:'Código Azul en Sala de Espera',
+    alerta:'Una paciente colapsó en la sala de espera. El sistema de respuesta presenta retrasos críticos.',
+    mision:'Tu escuadrón debe iniciar soporte vital y recuperar estabilidad cardiaca antes del colapso del sistema.',
+    impacto:'Cada acción correcta restaura estabilidad institucional.',
+    color:'#E63946' },
+  { num:'E2', name:'Tormenta Hipertensiva',
+    alerta:'Crisis hipertensiva activa. Urgencias hospitalarias a 20 minutos.',
+    mision:'Identificar, estabilizar, decidir el traslado y comunicarlo antes de que la situación escale.',
+    impacto:'La contención evita el colapso del módulo de crónicos.',
+    color:'#BF360C' },
+  { num:'E3', name:'Operación DIABETIMSS',
+    alerta:'Módulo DIABETIMSS en alerta roja. Paciente fuera de todas las metas metabólicas.',
+    mision:'Evaluar, ajustar y educar antes de que el paciente salga sin un plan real.',
+    impacto:'Cada meta alcanzada recupera un punto de estabilidad institucional.',
+    color:'#1B5E20' },
+  { num:'E4', name:'Expediente Bajo Sospecha',
+    alerta:'Una nota deficiente está a punto de usarse como evidencia en un proceso CONAMED.',
+    mision:'Auditar, clasificar errores y proponer la corrección normativa antes de que salga de la unidad.',
+    impacto:'La documentación correcta protege a la institución y al paciente.',
+    color:'#4A148C' },
+  { num:'E5', name:'Alerta Diagnóstica',
+    alerta:'Panel de laboratorio con valores críticos sin interpretar. El médico anterior no supo leerlo.',
+    mision:'Descifrar el panel, establecer el diagnóstico y proponer el plan antes de que el paciente se vaya.',
+    impacto:'El diagnóstico correcto activa el protocolo de atención especializada.',
+    color:'#0D47A1' },
+  { num:'E6', name:'Crisis Institucional DIABETIMSS',
+    alerta:'Solo el 31% de la cohorte DM2 está en meta. 18 pacientes de alto riesgo sin revisión en 2 años.',
+    mision:'Analizar indicadores, identificar el subgrupo crítico y proponer intervenciones factibles.',
+    impacto:'El plan de recuperación evita el colapso del módulo de crónicos.',
+    color:'#1B5E20' },
+  { num:'E7', name:'Receta Letal',
+    alerta:'Receta con múltiples errores. Paciente con ERC estadio 3 y alergia a penicilina.',
+    mision:'Detectar errores, corregir la prescripción y educar antes de que la paciente abandone la unidad.',
+    impacto:'Cada error evitado protege al paciente y a la institución.',
+    color:'#7B1A1A' },
+];
+
+// ── ESTACIONES / RÚBRICAS ─────────────────────────────────────────────────────
 const STATIONS = [
   { name:'RCP Básico + DEA', tiempo:'7 min', max:100, criteria:[
-    {pts:15,text:'Evalúa seguridad del escenario y respuesta de la víctima'},
-    {pts:10,text:'Solicita ayuda y activa servicios de emergencia correctamente'},
-    {pts:20,text:'Compresiones: 100-120/min, profundidad 5-6 cm, retroceso completo'},
-    {pts:20,text:'Ventilaciones 30:2, apertura de vía aérea con maniobra adecuada'},
-    {pts:20,text:'Manejo correcto del DEA: enciende, coloca parches, evalúa ritmo, descarga'},
-    {pts:15,text:'No interrumpe compresiones más de 10 seg; reanuda inmediatamente'},
+    {pts:15,text:'Verbaliza seguridad del escenario, llama a la víctima por voz Y sacude ambos hombros antes de cualquier otra acción.'},
+    {pts:10,text:'Grita pidiendo ayuda Y nombra/señala a una persona específica delegando la llamada al 911 en los primeros 30 segundos.'},
+    {pts:20,text:'Compresiones con los 5 criterios: 100-120/min, 5-6 cm, retroceso completo, manos entrelazadas en centro del tórax, codos extendidos.'},
+    {pts:20,text:'Relación 30:2 respetada. Apertura de vía aérea correcta. Sello completo. Elevación visible del tórax en ambas ventilaciones.'},
+    {pts:20,text:'DEA: enciende → parches correctos → "todos atrás" → evalúa ritmo → descarga → reanuda RCP inmediatamente.'},
+    {pts:10,text:'Ninguna interrupción supera 10 segundos. Reanuda compresiones en menos de 5 seg tras la descarga.'},
+    {pts:5,text:'Prioriza correctamente: seguridad → activar emergencias → compresiones → DEA. Justifica verbalmente si se le pregunta.'},
   ]},
   { name:'Urgencia en Consultorio', tiempo:'10 min', max:100, criteria:[
-    {pts:15,text:'Identifica correctamente la urgencia en menos de 2 minutos'},
-    {pts:15,text:'Evalúa ABCDE de forma sistemática y ordenada'},
-    {pts:20,text:'Solicita apoyo / traslado en el momento adecuado'},
-    {pts:20,text:'Prescribe o ejecuta tratamiento inicial correcto (medicamento, dosis, vía)'},
-    {pts:15,text:'Comunica al paciente/familiar de forma clara y empática'},
-    {pts:15,text:'Documenta o verbaliza el plan de continuidad de la atención'},
+    {pts:15,text:'Nombra crisis hipertensiva (urgencia o emergencia) en los primeros 2 min, señalando los datos que lo sustentan.'},
+    {pts:15,text:'Evalúa los 5 componentes ABCDE en orden verbalizando hallazgos: Airway, Breathing, Circulation, Disability, Exposure.'},
+    {pts:20,text:'Solicita apoyo ANTES de administrar medicamento de rescate Y decide traslado especificando el servicio receptor.'},
+    {pts:20,text:'Prescribe captopril 25 mg VO como primera línea. Evita nifedipino SL. Indica monitoreo de TA a los 30 min.'},
+    {pts:15,text:'Explica diagnóstico en lenguaje accesible, informa plan de traslado con empatía, verifica comprensión al final.'},
+    {pts:10,text:'Verbaliza plan completo: servicio receptor, menciona nota de referencia, indica al familiar qué hacer durante el traslado.'},
+    {pts:5,text:'Prioriza correctamente: diagnóstico → activar apoyo → tratar → comunicar. Justifica el orden si se le pregunta.'},
   ]},
   { name:'Control Metabólico Integral', tiempo:'10 min', max:100, criteria:[
-    {pts:15,text:'Interrogatorio enfocado: último control, adherencia, síntomas de alarma'},
-    {pts:15,text:'Exploración dirigida: TA, peso, IMC, pie diabético, fondo de ojo referido'},
-    {pts:20,text:'Interpreta laboratorios e identifica metas no alcanzadas'},
-    {pts:20,text:'Ajuste terapéutico correcto según guías (SGLT2, iGLP-1, antihipertensivos)'},
-    {pts:15,text:'Educación para la salud: al menos 3 puntos clave al paciente'},
-    {pts:15,text:'Establece plan de seguimiento con fechas y referencia si aplica'},
+    {pts:15,text:'Pregunta adherencia, síntomas de hiper/hipoglucemia, pies en casa, visión, alimentación Y actividad física de forma organizada.'},
+    {pts:15,text:'Toma TA, pesa, calcula IMC en voz alta, realiza exploración y evaluación neurológica básica del pie, refiere fondo de ojo.'},
+    {pts:20,text:'Identifica ≥4 metas no alcanzadas con valor y meta: HbA1c, LDL, TG, microalbuminuria, TA. Las jerarquiza por riesgo CV-renal.'},
+    {pts:20,text:'Propone iSGLT2 o arGLP-1, optimiza bloqueo SRAA a dosis nefroprotectora, agrega estatina de alta intensidad. Justifica cada cambio.'},
+    {pts:15,text:'Menciona ≥4 puntos en lenguaje accesible adaptado al obrero: adherencia, dieta, actividad, pies, señales de alarma.'},
+    {pts:10,text:'Establece fecha de seguimiento, laboratorios de control, refiere a oftalmología Y nefrología con justificación.'},
+    {pts:5,text:'Jerarquiza correctamente: prioriza riesgo renal y CV antes que el control glucémico. Justifica el orden.'},
   ]},
   { name:'Auditoría de Nota Clínica', tiempo:'8 min', max:100, criteria:[
-    {pts:10,text:'Identifica datos de identificación del paciente y fecha (obligatorios)'},
-    {pts:20,text:'Evalúa motivo de consulta, interrogatorio y exploración física documentados'},
-    {pts:20,text:'Verifica diagnóstico con CIE-10 y plan terapéutico sustentado'},
-    {pts:20,text:'Detecta y nombra correctamente al menos 3 elementos faltantes o incorrectos'},
-    {pts:15,text:'Propone correcciones viables sin enmendar (adenda, nota de corrección)'},
-    {pts:15,text:'Distingue entre omisión, error y violación a la NOM'},
+    {pts:10,text:'Detecta y nombra los 5 elementos de identificación faltantes: año en la fecha, apellido materno, expediente, edad y sexo.'},
+    {pts:20,text:'Detecta ausencia de peso, talla, IMC y exploración de pie diabético. Nombra ≥3 omisiones con artículo de NOM-004.'},
+    {pts:20,text:'Señala ausencia de CIE-10, plan sin medicamentos ni dosis, y falta de laboratorios de control. Propone contenido correcto.'},
+    {pts:20,text:'Detecta y nombra 6-7 de los 7 errores intencionales presentes en la nota clínica.'},
+    {pts:15,text:'Propone adenda o nota de corrección según NOM-004 Art. 10. Distingue cuándo aplica cada mecanismo.'},
+    {pts:10,text:'Clasifica hallazgos en omisión, error de contenido clínico y violación formal NOM. Señala impacto médico-legal.'},
+    {pts:5,text:'Jerarquiza errores por gravedad: riesgo legal inmediato (firma/cédula) y seguridad del paciente (plan sin dosis) primero.'},
   ]},
   { name:'Interpretación de Laboratorios', tiempo:'7 min', max:100, criteria:[
-    {pts:15,text:'Identifica valores alterados y los jerarquiza por gravedad'},
-    {pts:20,text:'Correlaciona hallazgos de laboratorio con la presentación clínica'},
-    {pts:20,text:'Genera al menos 2 diagnósticos diferenciales con sustento'},
-    {pts:20,text:'Solicita estudios complementarios pertinentes (sin sobre-indicación)'},
-    {pts:15,text:'Propone tratamiento inicial o ajuste terapéutico fundamentado'},
-    {pts:10,text:'Identifica valor crítico y sabe cuándo referir o actuar de urgencia'},
+    {pts:15,text:'Identifica los 5 valores alterados y jerarquiza priorizando TSH elevada como el hallazgo más relevante con justificación.'},
+    {pts:20,text:'Correlaciona síntomas: fatiga/piel reseca → hipotiroidismo; palpitaciones + anemia macrocítica → déficit de B12.'},
+    {pts:20,text:'Establece hipotiroidismo primario autoinmune + anemia megaloblástica por B12 como síndrome poliglandular autoinmune.'},
+    {pts:20,text:'Solicita anti-TPO, anti-células parietales, B12 IM (por posible malabsorción) y seguimiento de TSH en 6-8 semanas.'},
+    {pts:15,text:'Prescribe levotiroxina ajustada al peso + B12 IM 1000 mcg por 7 días, luego semanal 1 mes, luego mensual.'},
+    {pts:5,text:'Concluye que NO hay urgencia inmediata (Hb 10.2 = anemia leve), establece criterios de urgencia y refiere a endocrinología.'},
+    {pts:5,text:'Integra todos los hallazgos en un diagnóstico unificador. Prioriza hipotiroidismo antes que la anemia con justificación.'},
   ]},
-  { name:'Resultados DM2 – Cohorte', tiempo:'8 min', max:100, criteria:[
-    {pts:20,text:'Calcula o verifica HbA1c promedio, cobertura y % en meta correctamente'},
-    {pts:20,text:'Identifica indicadores de proceso no cumplidos (pie, fondo de ojo, microalbúmina)'},
-    {pts:20,text:'Detecta subgrupos en riesgo y los prioriza correctamente'},
-    {pts:20,text:'Propone al menos 2 intervenciones basadas en evidencia factibles en 1er nivel'},
-    {pts:20,text:'Presenta hallazgos estructurados (situación → brecha → propuesta)'},
+  { name:'Crisis Institucional DIABETIMSS', tiempo:'8 min', max:100, criteria:[
+    {pts:20,text:'Calcula la brecha cuantitativa de cada indicador (p.ej. microalbuminuria: 28% vs. meta ≥70% = brecha 42 pp).'},
+    {pts:20,text:'Jerarquiza microalbuminuria (brecha 42 pp, riesgo de nefropatía) y pie (brecha 38 pp, riesgo de amputación) como prioritarios.'},
+    {pts:20,text:'Identifica los 18 pacientes de alto riesgo y justifica los 3 criterios: DM2 >10 años, HbA1c >9%, sin revisión de pie 2 años.'},
+    {pts:20,text:'Propone ≥2 intervenciones con evidencia y factibles en UMF: grupo educativo, protocolo de pie en cada consulta, llamadas.'},
+    {pts:15,text:'Presenta en formato: Situación → Brecha → Propuesta → Indicador de éxito con tiempo definido.'},
+    {pts:5,text:'Integra visión poblacional con clínica individual. Prioriza subgrupo de alto riesgo para intervención inmediata.'},
   ]},
   { name:'Prescripción Segura', tiempo:'7 min', max:100, criteria:[
-    {pts:20,text:'Detecta al menos 4 de 6 errores en la receta problema (dosis, vía, duplicidad)'},
-    {pts:20,text:'Redacta receta con todos los elementos obligatorios COFEPRIS'},
-    {pts:20,text:'Verifica interacciones farmacológicas y ajusta según comorbilidades'},
-    {pts:20,text:'Explica al paciente simulado el esquema de forma comprensible'},
-    {pts:20,text:'Aplica prescripción por DCI y justifica uso racional del medicamento'},
+    {pts:20,text:'Detecta los 6 errores: amoxicilina en alérgica, metformina con TFG 38 (reevaluar), ibuprofeno en ERC, captopril sin ajuste, sin fecha, sin cédula/DCI.'},
+    {pts:20,text:'Receta con 7 elementos COFEPRIS: fecha, nombre y cédula del médico, paciente, nombre genérico, dosis, vía, frecuencia y duración.'},
+    {pts:20,text:'Verifica: alergia → nitrofurantoína; ibuprofeno → paracetamol; metformina con TFG 38 → ajuste y vigilancia; captopril → 12.5 mg c/12h.'},
+    {pts:20,text:'Explica en lenguaje accesible: por qué cambia el antibiótico, cómo tomar nitrofurantoína, metformina con vigilancia renal, señales de alarma.'},
+    {pts:15,text:'Prescribe por nombre genérico (DCI), justifica nitrofurantoína para IVU no complicada, menciona fosfomicina como alternativa.'},
+    {pts:5,text:'Prioriza correctamente: seguridad (alergia y nefrotoxicidad) antes que eficacia y luego elementos formales.'},
   ]},
 ];
 
+// ── JEOPARDY ───────────────────────────────────────────────────────────────────
 const JEOPARDY_QS = [
   {cat:'Familia y Sociedad',pts:10,q:'¿Cuáles son las 4 funciones básicas de la familia según la clasificación IMSS-Bienestar?'},
   {cat:'Familia y Sociedad',pts:20,q:'¿Qué tipo de crisis familiar ocurre cuando un hijo abandona el hogar para casarse?'},
@@ -379,59 +508,54 @@ const JEOPARDY_QS = [
   {cat:'Prevención',pts:30,q:'¿Qué vacunas del esquema adulto IMSS se aplican a paciente de 60 años sin antecedentes de vacunación?'},
   {cat:'Clínica MF',pts:15,q:'Paciente 52 años, TA 158/96 en 2 ocasiones. ¿Diagnóstico según JNC-8 y primer escalón terapéutico?'},
   {cat:'Clínica MF',pts:25,q:'¿Cuáles son los 3 criterios diagnósticos de síndrome metabólico según IDF en paciente masculino hispano?'},
-  {cat:'Clínica MF',pts:35,q:'Paciente con HbA1c 8.2% en tratamiento con metformina 850mg c/8h. ¿Qué ajuste propones según GPC vigente?'},
-  {cat:'Comodín MF',pts:50,q:'¿Cuál es la diferencia entre la nota de referencia y contrarreferencia según NOM-004? Menciona 3 elementos de cada una.'},
+  {cat:'Clínica MF',pts:35,q:'Paciente con HbA1c 8.2% en metformina 850mg c/8h. ¿Qué ajuste propones según GPC vigente?'},
+  {cat:'Comodín MF',pts:50,q:'¿Cuál es la diferencia entre nota de referencia y contrarreferencia según NOM-004? Menciona 3 elementos de cada una.'},
   {cat:'Comodín MF',pts:50,q:'Explica el modelo biopsicosocial de Engel aplicado a paciente con DM2 mal controlada y disfunción familiar moderada.'},
 ];
 
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 let currentRole = null;
 let selectedRoleBtn = null;
 let appState = { rallyName:'', teams:[], avatars:{} };
 let localChecks = {};
-let openDetailIdx = null;
+let realtimeSub = null;
 let currentJeopIdx = null;
 let selectedJeopTeam = null;
-let realtimeSub = null;
 
-function selectRole(role) {
+// ── LOGIN ──────────────────────────────────────────────────────────────────────
+function selectRole(role){
   selectedRoleBtn = role;
-  if (role === 'publico') { enterApp('publico'); return; }
-  document.getElementById('role-select').style.display = 'none';
-  document.getElementById('pin-section').style.display = 'block';
-  document.getElementById('pin-label-text').textContent = role === 'profesor' ? 'PIN de Profesor Evaluador' : 'PIN de Coordinador';
-  document.getElementById('pin-input').value = '';
-  document.getElementById('pin-error').style.display = 'none';
+  if(role==='publico'){ enterApp('publico'); return; }
+  document.getElementById('role-select').style.display='none';
+  document.getElementById('pin-section').style.display='block';
+  document.getElementById('pin-label-text').textContent = role==='profesor'?'PIN del Evaluador de Misión':'PIN del Coordinador';
+  document.getElementById('pin-input').value='';
+  document.getElementById('pin-error').style.display='none';
   document.getElementById('pin-input').focus();
 }
-
-function backToRoles() {
-  document.getElementById('role-select').style.display = 'block';
-  document.getElementById('pin-section').style.display = 'none';
+function backToRoles(){
+  document.getElementById('role-select').style.display='block';
+  document.getElementById('pin-section').style.display='none';
 }
-
-function checkPinLength() {
-  if (document.getElementById('pin-input').value.length === 4) submitPin();
+function checkPinLen(){ if(document.getElementById('pin-input').value.length===4) submitPin(); }
+function submitPin(){
+  const pin=document.getElementById('pin-input').value;
+  const errEl=document.getElementById('pin-error');
+  if(selectedRoleBtn==='profesor'&&pin===PIN_PROFESOR){enterApp('profesor');return;}
+  if(selectedRoleBtn==='coordinador'&&pin===PIN_COORD){enterApp('coordinador');return;}
+  errEl.style.display='block';
+  document.getElementById('pin-input').value='';
 }
-
-function submitPin() {
-  const pin = document.getElementById('pin-input').value;
-  const errEl = document.getElementById('pin-error');
-  if (selectedRoleBtn === 'profesor' && pin === PIN_PROFESOR) { enterApp('profesor'); return; }
-  if (selectedRoleBtn === 'coordinador' && pin === PIN_COORD) { enterApp('coordinador'); return; }
-  errEl.style.display = 'block';
-  document.getElementById('pin-input').value = '';
-}
-
-function enterApp(role) {
-  currentRole = role;
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('app-shell').style.display = 'flex';
-  const chips = { publico:'👥 Público', profesor:'📋 Profesor', coordinador:'⚙️ Coordinador' };
-  document.getElementById('role-chip').textContent = chips[role];
-  if (role === 'profesor') {
-    document.getElementById('tab-eval').classList.remove('hidden');
-  }
-  if (role === 'coordinador') {
+function enterApp(role){
+  currentRole=role;
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app-shell').style.display='flex';
+  const chips={publico:'👥 Escuadrón',profesor:'⚕️ Evaluador',coordinador:'🎖️ Coordinador'};
+  document.getElementById('role-chip').textContent=chips[role];
+  if(role==='profesor') document.getElementById('tab-eval').classList.remove('hidden');
+  if(role==='coordinador'){
     document.getElementById('tab-eval').classList.remove('hidden');
     document.getElementById('tab-jeopardy').classList.remove('hidden');
     document.getElementById('tab-setup').classList.remove('hidden');
@@ -439,219 +563,292 @@ function enterApp(role) {
   initApp();
 }
 
-async function initApp() {
+// ── APP INIT ───────────────────────────────────────────────────────────────────
+async function initApp(){
   await loadAppState();
   renderScoreboard();
-  if (currentRole === 'profesor' || currentRole === 'coordinador') {
-    populateTeamSelect();
-  }
+  if(currentRole==='profesor'||currentRole==='coordinador') populateTeamSelect();
   subscribeRealtime();
 }
-
-async function loadAppState() {
-  const { data } = await db.from('rally_state').select('*').order('created_at', {ascending:false}).limit(1).maybeSingle();
-  if (data) {
-    appState.rallyName = data.rally_name || 'Rally Médico Familiar';
-    appState.teams = data.teams || [];
-    appState.avatars = data.avatars || {};
-  }
+async function loadAppState(){
+  const{data}=await db.from('rally_state').select('*').order('created_at',{ascending:false}).limit(1).maybeSingle();
+  if(data){ appState.rallyName=data.rally_name||'Operación UMF'; appState.teams=data.teams||[]; appState.avatars=data.avatars||{}; }
 }
-
-function subscribeRealtime() {
-  if (realtimeSub) db.removeChannel(realtimeSub);
-  realtimeSub = db.channel('rally-changes')
-    .on('postgres_changes', { event:'*', schema:'public', table:'rally_scores' }, () => { renderScoreboard(); if (currentRole==='coordinador') renderJeopardy(); })
-    .on('postgres_changes', { event:'*', schema:'public', table:'rally_state' }, () => { loadAppState().then(() => { renderScoreboard(); populateTeamSelect(); }) })
+function subscribeRealtime(){
+  if(realtimeSub) db.removeChannel(realtimeSub);
+  realtimeSub=db.channel('rally-changes')
+    .on('postgres_changes',{event:'*',schema:'public',table:'rally_scores'},()=>{renderScoreboard();if(currentRole==='coordinador')renderJeopardy();})
+    .on('postgres_changes',{event:'*',schema:'public',table:'rally_state'},()=>{loadAppState().then(()=>{renderScoreboard();populateTeamSelect();})})
     .subscribe();
 }
 
-function showScreen(id) {
-  // Enforce role-based access — block unauthorized screens
-  if (id === 'eval' && currentRole !== 'profesor' && currentRole !== 'coordinador') return;
-  if (id === 'jeopardy' && currentRole !== 'coordinador') return;
-  if (id === 'setup' && currentRole !== 'coordinador') return;
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('screen-' + id).classList.add('active');
-  const tabMap = {scoreboard:'tab-scoreboard',eval:'tab-eval',jeopardy:'tab-jeopardy',setup:'tab-setup'};
-  if (tabMap[id]) document.getElementById(tabMap[id])?.classList.add('active');
-  if (id === 'scoreboard') renderScoreboard();
-  if (id === 'eval') { populateTeamSelect(); renderRubric(); }
-  if (id === 'jeopardy') renderJeopardy();
-  if (id === 'setup') renderSetup();
+// ── NAVIGATION ─────────────────────────────────────────────────────────────────
+function showScreen(id){
+  if(id==='eval'&&currentRole!=='profesor'&&currentRole!=='coordinador') return;
+  if(id==='jeopardy'&&currentRole!=='coordinador') return;
+  if(id==='setup'&&currentRole!=='coordinador') return;
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  const tabMap={scoreboard:'tab-scoreboard',eval:'tab-eval',jeopardy:'tab-jeopardy',setup:'tab-setup'};
+  if(tabMap[id]) document.getElementById(tabMap[id])?.classList.add('active');
+  if(id==='scoreboard') renderScoreboard();
+  if(id==='eval'){populateTeamSelect();renderRubric();}
+  if(id==='jeopardy') renderJeopardy();
+  if(id==='setup') renderSetup();
 }
 
-async function renderScoreboard() {
-  const list = document.getElementById('scoreboard-list');
-  document.getElementById('sb-rallyname').textContent = appState.rallyName || 'Toca un equipo para ver el desglose';
-  if (!appState.teams.length) { list.innerHTML = '<div class="warning-box">El coordinador aún no ha configurado el rally.</div>'; return; }
-  const { data: scores } = await db.from('rally_scores').select('*');
-  const teamScores = {};
-  const stationBreakdown = {};
-  appState.teams.forEach(t => { teamScores[t] = 0; stationBreakdown[t] = {}; });
-  (scores || []).forEach(s => {
-    if (teamScores[s.team_name] !== undefined) {
-      teamScores[s.team_name] = (teamScores[s.team_name] || 0) + (s.score || 0);
-      stationBreakdown[s.team_name][s.station_key] = s.score;
+// ── SCOREBOARD ─────────────────────────────────────────────────────────────────
+function calcUMFpct(stationScores){
+  const done=Object.keys(stationScores).filter(k=>k.startsWith('station_')).length;
+  return Math.round((done/7)*100);
+}
+
+async function renderScoreboard(){
+  const list=document.getElementById('scoreboard-list');
+  document.getElementById('sb-rallyname').textContent=appState.rallyName||'Operación UMF: Código Médico Familiar';
+  if(!appState.teams.length){ list.innerHTML='<div class="warning-box">El coordinador aún no ha configurado la misión.</div>'; return; }
+  const{data:scores}=await db.from('rally_scores').select('*');
+  const teamScores={};
+  const stationBreakdown={};
+  appState.teams.forEach(t=>{teamScores[t]=0;stationBreakdown[t]={};});
+  (scores||[]).forEach(s=>{
+    if(teamScores[s.team_name]!==undefined){
+      teamScores[s.team_name]=(teamScores[s.team_name]||0)+(s.score||0);
+      stationBreakdown[s.team_name][s.station_key]=s.score;
     }
   });
-  const sorted = [...appState.teams].sort((a,b) => (teamScores[b]||0) - (teamScores[a]||0));
-  const rankClass = ['first','second','third'];
-  const rankBadge = ['🥇','🥈','🥉'];
-  list.innerHTML = sorted.map((t, idx) => {
-    const pts = teamScores[t] || 0;
-    const pct = Math.round((pts / 820) * 100);
-    const av = appState.avatars[t] || '🏅';
-    const rc = idx < 3 ? rankClass[idx] : '';
-    const rb = idx < 3 ? rankBadge[idx] : (idx+1);
-    const rbClass = ['rank-1','rank-2','rank-3'][idx] || 'rank-n';
-    const stDots = STATIONS.map((s, si) => {
-      const done = stationBreakdown[t][`station_${si}`] !== undefined;
-      return `<div class="dot ${done?'dot-done':'dot-pending'}" title="E${si+1}">${si+1}</div>`;
-    }).join('') + (stationBreakdown[t]['jeopardy'] !== undefined ? `<div class="dot dot-done" style="background:var(--gold);">J</div>` : `<div class="dot dot-pending">J</div>`);
-    const stDetails = STATIONS.map((s, si) => {
-      const sPts = stationBreakdown[t][`station_${si}`];
-      return `<div class="detail-row"><span class="detail-station-name">E${si+1} · ${s.name}</span><span class="detail-pts ${sPts!==undefined?'pts-done':'pts-pending'}">${sPts!==undefined?sPts+' pts':'—'}</span></div>`;
+
+  // Calc global UMF stability
+  let totalDone=0, totalPossible=appState.teams.length*7;
+  appState.teams.forEach(t=>{ totalDone+=Object.keys(stationBreakdown[t]).filter(k=>k.startsWith('station_')).length; });
+  const globalUMF=totalPossible>0?Math.round((totalDone/totalPossible)*100):0;
+  document.getElementById('umf-pct-header').textContent=globalUMF+'%';
+  document.getElementById('umf-bar-fill').style.width=globalUMF+'%';
+
+  const sorted=[...appState.teams].sort((a,b)=>(teamScores[b]||0)-(teamScores[a]||0));
+  const rankClass=['first','second','third'];
+  const rankBadge=['🥇','🥈','🥉'];
+
+  list.innerHTML=sorted.map((t,idx)=>{
+    const pts=teamScores[t]||0;
+    const sb=stationBreakdown[t];
+    const umfPct=calcUMFpct(sb);
+    const av=appState.avatars[t];
+    const avImg=av?.img||'';
+    const avName=av?.name||'Escuadrón';
+    const rc=idx<3?rankClass[idx]:'';
+    const rb=idx<3?rankBadge[idx]:(idx+1);
+    const rbClass=idx===0?'rank-1':idx===1?'rank-2':idx===2?'rank-3':'rank-n';
+
+    const mDots=STATIONS.map((s,si)=>{
+      const done=sb[`station_${si}`]!==undefined;
+      return `<div class="mdot ${done?'mdot-done':'mdot-pending'}" title="E${si+1}">${si+1}</div>`;
+    }).join('')+(sb['jeopardy']!==undefined?`<div class="mdot mdot-done" style="background:var(--gold);">J</div>`:`<div class="mdot mdot-pending">J</div>`);
+
+    const stDetails=STATIONS.map((s,si)=>{
+      const sPts=sb[`station_${si}`];
+      const badge=BADGES[si];
+      return `<div class="detail-row">
+        <span style="font-size:12px;color:var(--muted);">E${si+1} · ${s.name}</span>
+        <span class="detail-pts ${sPts!==undefined?'pts-done':'pts-pend'}">${sPts!==undefined?sPts+' pts':'—'}</span>
+      </div>`;
     }).join('');
-    const jPts = stationBreakdown[t]['jeopardy'];
-    const jRow = `<div class="detail-row"><span class="detail-station-name" style="color:var(--primary);font-weight:800;">🎯 Jeopardy</span><span class="detail-pts pts-done">${jPts!==undefined?jPts+' pts':'—'}</span></div>`;
+    const jPts=sb['jeopardy'];
+    const jRow=`<div class="detail-row"><span style="font-size:12px;color:var(--gold);font-weight:800;">🎯 Jeopardy Final</span><span class="detail-pts pts-done">${jPts!==undefined?jPts+' pts':'—'}</span></div>`;
+
+    // Badges grid
+    const badgesGrid=BADGES.map(badge=>{
+      const unlocked=sb[badge.key]!==undefined;
+      return `<div class="badge-item">
+        <img class="badge-img ${unlocked?'unlocked':''}" src="${badge.img}" alt="${badge.name}" onerror="this.style.display='none'">
+        <span class="badge-name ${unlocked?'unlocked':''}">${badge.name}</span>
+      </div>`;
+    }).join('');
+
     return `<div class="team-card ${rc}" onclick="toggleTeamDetail(${idx})">
-      <div class="rank-badge ${rbClass}">${rb}</div>
-      <div style="font-size:26px;line-height:1;flex-shrink:0;">${av}</div>
-      <div class="team-info">
-        <div class="team-name-big">${t}</div>
-        <div class="station-dots">${stDots}</div>
-        <div class="progress-bar-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
-      </div>
-      <div style="flex-shrink:0;">
-        <div class="team-score-num">${pts}</div>
-        <div class="pts-label">/ 820 pts</div>
-      </div>
-    </div>
-    <div class="detail-panel" id="detail-${idx}">${stDetails}${jRow}</div>`;
-  }).join('');
-}
-
-function toggleTeamDetail(idx) {
-  const panel = document.getElementById('detail-' + idx);
-  if (!panel) return;
-  const isOpen = panel.classList.contains('open');
-  document.querySelectorAll('.detail-panel').forEach(p => p.classList.remove('open'));
-  if (!isOpen) panel.classList.add('open');
-}
-
-function populateTeamSelect() {
-  const sel = document.getElementById('select-team-eval');
-  if (!sel) return;
-  const prev = sel.value;
-  sel.innerHTML = '<option value="">— Selecciona el equipo —</option>';
-  appState.teams.forEach(t => {
-    sel.innerHTML += `<option value="${t}" ${t===prev?'selected':''}>${appState.avatars[t]||''} ${t}</option>`;
-  });
-}
-
-async function renderRubric() {
-  const stIdx = document.getElementById('select-station')?.value;
-  const team = document.getElementById('select-team-eval')?.value;
-  const area = document.getElementById('rubric-area');
-  if (!area) return;
-  if (!stIdx || !team) { area.innerHTML = ''; return; }
-  const st = STATIONS[parseInt(stIdx)];
-  const key = `station_${stIdx}`;
-  const { data: existing } = await db.from('rally_scores').select('*').eq('team_name', team).eq('station_key', key).maybeSingle();
-  const prevScore = existing ? existing.score : null;
-  const prevChecksDb = existing ? (existing.checks || {}) : {};
-  if (!localChecks[team]) localChecks[team] = {};
-  if (!localChecks[team][stIdx]) localChecks[team][stIdx] = { ...prevChecksDb };
-  const checks = localChecks[team][stIdx];
-  area.innerHTML = `<div class="card">
-    <div class="rubric-title">E${parseInt(stIdx)+1} · ${st.name}</div>
-    <div class="rubric-meta">⏱ ${st.tiempo} · Máx. ${st.max} pts · ${appState.avatars[team]||''} ${team}</div>
-    ${prevScore !== null ? `<div class="success-box">✅ Ya evaluado: ${prevScore} pts. Puedes modificar y reenviar.</div>` : ''}
-    ${st.criteria.map((c,ci) => `
-      <div class="criterion ${checks[ci]?'checked':''}" id="crit-${stIdx}-${ci}" onclick="toggleCrit('${stIdx}','${team}',${ci})">
-        <div class="crit-header">
-          <div class="crit-check"><span class="check-mark">✓</span></div>
-          <div class="crit-text">${c.text}</div>
-          <div class="crit-pts">${c.pts}</div>
+      <div class="team-top">
+        <div class="rank-badge ${rbClass}">${rb}</div>
+        ${avImg?`<img class="team-avatar-img" src="${avImg}" alt="${avName}" onerror="this.style.display='none'">`:``}
+        <div class="team-info">
+          <div class="team-name">${t}</div>
+          <div class="mission-dots">${mDots}</div>
+          <div class="progress-wrap"><div class="progress-fill" style="width:${umfPct}%"></div></div>
         </div>
-      </div>`).join('')}
-    <div class="score-tally">
-      <div class="tally-label">Puntaje actual</div>
-      <div><span class="tally-num" id="tally-${stIdx}">0</span><span class="tally-max">/${st.max}</span></div>
-      <div class="tally-bar"><div class="tally-fill" id="tfill-${stIdx}" style="width:0%"></div></div>
-    </div>
-    <button class="btn btn-accent" onclick="submitEval('${stIdx}','${team}')">📤 Enviar Evaluación al Marcador</button>
-  </div>`;
-  updateTally(stIdx, team);
-}
-
-function toggleCrit(stIdx, team, ci) {
-  if (!localChecks[team]) localChecks[team] = {};
-  if (!localChecks[team][stIdx]) localChecks[team][stIdx] = {};
-  localChecks[team][stIdx][ci] = !localChecks[team][stIdx][ci];
-  document.getElementById(`crit-${stIdx}-${ci}`)?.classList.toggle('checked', localChecks[team][stIdx][ci]);
-  updateTally(stIdx, team);
-}
-
-function updateTally(stIdx, team) {
-  const st = STATIONS[parseInt(stIdx)];
-  let total = 0;
-  st.criteria.forEach((c,ci) => { if (localChecks[team]?.[stIdx]?.[ci]) total += c.pts; });
-  const numEl = document.getElementById('tally-' + stIdx);
-  const fillEl = document.getElementById('tfill-' + stIdx);
-  if (numEl) numEl.textContent = total;
-  if (fillEl) fillEl.style.width = Math.round((total/st.max)*100) + '%';
-}
-
-async function submitEval(stIdx, team) {
-  const st = STATIONS[parseInt(stIdx)];
-  let total = 0;
-  st.criteria.forEach((c,ci) => { if (localChecks[team]?.[stIdx]?.[ci]) total += c.pts; });
-  const key = `station_${stIdx}`;
-  const checks = localChecks[team]?.[stIdx] || {};
-  const { error } = await db.from('rally_scores').upsert({ team_name: team, station_key: key, score: total, checks }, { onConflict: 'team_name,station_key' });
-  if (error) { showToast('❌ Error al guardar. Verifica tu conexión.'); return; }
-  showToast(`✅ ${team}: ${total} pts guardados`);
-  renderRubric();
-  renderScoreboard();
-}
-
-async function renderJeopardy() {
-  const grid = document.getElementById('jeop-grid');
-  const scoresDiv = document.getElementById('jeop-scores');
-  if (!appState.teams.length) { grid.innerHTML = '<div class="warning-box" style="grid-column:1/-1">Configura el rally primero.</div>'; return; }
-  const { data: jScores } = await db.from('rally_scores').select('*').eq('station_key','jeopardy').maybeSingle();
-  const teamJPts = jScores ? (jScores.team_pts || {}) : {};
-  scoresDiv.innerHTML = appState.teams.map(t => `<div class="info-chip">${appState.avatars[t]||''} ${t}: <b style="color:var(--primary);margin-left:4px;">${teamJPts[t]||0} pts</b></div>`).join('');
-  const { data: answered } = await db.from('rally_jeopardy').select('*');
-  const answeredMap = {};
-  (answered||[]).forEach(a => { answeredMap[a.question_idx] = a; });
-  grid.innerHTML = JEOPARDY_QS.map((q,qi) => {
-    const ans = answeredMap[qi];
-    const cls = ans ? (ans.correct ? 'correct' : 'wrong') : '';
-    const icon = ans ? (ans.correct ? '✓' : '✗') : '';
-    const teamStr = ans ? ` ${appState.avatars[ans.team_name]||''}${ans.team_name}` : '';
-    return `<div class="jeop-card ${cls}" onclick="openJeop(${qi})">
-      <div class="jeop-cat">${q.cat}</div>
-      <div class="jeop-pts-big">${q.pts}</div>
-      <div class="jeop-answered-by">${icon}${teamStr}</div>
+        <div class="team-scores">
+          <div class="umf-pct">${umfPct}%</div>
+          <div class="umf-pct-label">Estabilidad UMF</div>
+          <div class="rally-pts">⭐ ${pts} pts rally</div>
+        </div>
+      </div>
+      <div class="badges-panel" id="detail-${idx}">
+        <div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Insignias desbloqueadas</div>
+        <div class="badges-grid">${badgesGrid}</div>
+        ${stDetails}${jRow}
+      </div>
     </div>`;
   }).join('');
 }
 
-function openJeop(qi) {
-  currentJeopIdx = qi;
-  selectedJeopTeam = null;
-  const q = JEOPARDY_QS[qi];
-  const modal = document.getElementById('modal');
-  const box = document.getElementById('modal-box');
-  modal.style.display = 'flex';
-  const teamBtns = appState.teams.map(t => `<button class="team-sel-btn" id="jt-${t.replace(/\W/g,'_')}" onclick="selectJeopTeam('${t}')">${appState.avatars[t]||''} ${t}</button>`).join('');
-  box.innerHTML = `<div class="modal-cat">${q.cat}</div>
+function toggleTeamDetail(idx){
+  const panel=document.getElementById('detail-'+idx);
+  if(!panel) return;
+  const isOpen=panel.classList.contains('open');
+  document.querySelectorAll('.badges-panel').forEach(p=>p.classList.remove('open'));
+  if(!isOpen) panel.classList.add('open');
+}
+
+// ── EVAL ───────────────────────────────────────────────────────────────────────
+function populateTeamSelect(){
+  const sel=document.getElementById('select-team-eval');
+  if(!sel) return;
+  const prev=sel.value;
+  sel.innerHTML='<option value="">— Selecciona el escuadrón —</option>';
+  appState.teams.forEach(t=>{ sel.innerHTML+=`<option value="${t}" ${t===prev?'selected':''}>${t}</option>`; });
+}
+
+async function renderRubric(){
+  const stIdx=document.getElementById('select-station')?.value;
+  const team=document.getElementById('select-team-eval')?.value;
+  const area=document.getElementById('rubric-area');
+  if(!area) return;
+  if(!stIdx||!team){ area.innerHTML=''; return; }
+  const st=STATIONS[parseInt(stIdx)];
+  const mission=MISSIONS[parseInt(stIdx)];
+  const badge=BADGES[parseInt(stIdx)];
+  const key=`station_${stIdx}`;
+  const{data:existing}=await db.from('rally_scores').select('*').eq('team_name',team).eq('station_key',key).maybeSingle();
+  const prevScore=existing?existing.score:null;
+  const prevChecksDb=existing?(existing.checks||{}):{}; 
+  if(!localChecks[team]) localChecks[team]={};
+  if(!localChecks[team][stIdx]) localChecks[team][stIdx]={...prevChecksDb};
+  const checks=localChecks[team][stIdx];
+
+  area.innerHTML=`
+    <div class="mission-card">
+      <div class="mission-alerta">⚠️ ALERTA CLÍNICA</div>
+      <div class="mission-name">${mission.name}</div>
+      <div class="mission-narr">${mission.alerta}</div>
+      <div class="mission-narr">${mission.mision}</div>
+      <div class="mission-impact">⚡ Impacto UMF: ${mission.impacto}</div>
+      <div class="mission-reward">
+        <img class="mission-badge-img" src="${badge.img}" alt="${badge.name}" onerror="this.style.display='none'">
+        <div>
+          <div class="mission-badge-label">🔓 Insignia: ${badge.name}</div>
+          <div style="font-size:10px;color:var(--muted);">${badge.desc}</div>
+        </div>
+      </div>
+    </div>
+    ${prevScore!==null?`<div class="success-box">✅ Misión ya evaluada: ${prevScore} pts. Puedes modificar y reenviar.</div>`:''}
+    <div class="rubric-card">
+      <div class="rubric-title">${st.name}</div>
+      <div class="rubric-meta">⏱ ${st.tiempo} · Máx. ${st.max} pts · Escuadrón: ${team}</div>
+      ${st.criteria.map((c,ci)=>`
+        <div class="criterion ${checks[ci]?'checked':''}" id="crit-${stIdx}-${ci}" onclick="toggleCrit('${stIdx}','${team}',${ci})">
+          <div class="crit-header">
+            <div class="crit-check"><span class="check-mark">✓</span></div>
+            <div class="crit-text">${c.text}</div>
+            <div class="crit-pts">${c.pts}</div>
+          </div>
+        </div>`).join('')}
+      <div class="score-tally">
+        <div class="tally-label">Estabilidad recuperada</div>
+        <div><span class="tally-num" id="tally-${stIdx}">0</span><span class="tally-max">/${st.max}</span></div>
+        <div class="tally-bar"><div class="tally-fill" id="tfill-${stIdx}" style="width:0%"></div></div>
+      </div>
+      <button class="btn-submit" onclick="submitEval('${stIdx}','${team}')">⚡ Enviar — Restaurar Estabilidad UMF</button>
+    </div>`;
+  updateTally(stIdx,team);
+}
+
+function toggleCrit(stIdx,team,ci){
+  if(!localChecks[team]) localChecks[team]={};
+  if(!localChecks[team][stIdx]) localChecks[team][stIdx]={};
+  localChecks[team][stIdx][ci]=!localChecks[team][stIdx][ci];
+  document.getElementById(`crit-${stIdx}-${ci}`)?.classList.toggle('checked',localChecks[team][stIdx][ci]);
+  updateTally(stIdx,team);
+}
+function updateTally(stIdx,team){
+  const st=STATIONS[parseInt(stIdx)];
+  let total=0;
+  st.criteria.forEach((c,ci)=>{ if(localChecks[team]?.[stIdx]?.[ci]) total+=c.pts; });
+  const numEl=document.getElementById('tally-'+stIdx);
+  const fillEl=document.getElementById('tfill-'+stIdx);
+  if(numEl) numEl.textContent=total;
+  if(fillEl) fillEl.style.width=Math.round((total/st.max)*100)+'%';
+}
+async function submitEval(stIdx,team){
+  const st=STATIONS[parseInt(stIdx)];
+  const badge=BADGES[parseInt(stIdx)];
+  let total=0;
+  st.criteria.forEach((c,ci)=>{ if(localChecks[team]?.[stIdx]?.[ci]) total+=c.pts; });
+  const key=`station_${stIdx}`;
+  const checks=localChecks[team]?.[stIdx]||{};
+  const{error}=await db.from('rally_scores').upsert({team_name:team,station_key:key,score:total,checks},{onConflict:'team_name,station_key'});
+  if(error){ showToast('❌ Error al guardar. Verifica tu conexión.'); return; }
+  // Show mission complete overlay
+  showMissionComplete(badge,total,team);
+  renderScoreboard();
+}
+
+function showMissionComplete(badge,pts,team){
+  const{data:scores}=db.from('rally_scores').select('*'); // fire and forget
+  document.getElementById('mc-badge-img').src=badge.img;
+  document.getElementById('mc-badge-name').textContent=badge.name;
+  document.getElementById('mc-pts-val').textContent=pts+' pts';
+  document.getElementById('mc-umf-val').textContent='+'+Math.round((1/7)*100)+'%';
+  document.getElementById('mc-team-val').textContent=team;
+  document.getElementById('mc-sub').textContent=badge.alerta+' La UMF recuperó estabilidad parcial.';
+  document.getElementById('mc-overlay').style.display='flex';
+}
+function closeMissionComplete(){
+  document.getElementById('mc-overlay').style.display='none';
+  showToast('🔓 Insignia desbloqueada: '+document.getElementById('mc-badge-name').textContent);
+}
+
+// ── JEOPARDY ───────────────────────────────────────────────────────────────────
+async function renderJeopardy(){
+  const grid=document.getElementById('jeop-grid');
+  const scoresDiv=document.getElementById('jeop-scores');
+  if(!appState.teams.length){ grid.innerHTML='<div class="warning-box" style="grid-column:1/-1">Configura la misión primero.</div>'; return; }
+  const{data:jScores}=await db.from('rally_scores').select('*').eq('station_key','jeopardy');
+  const teamJPts={};
+  (jScores||[]).forEach(s=>{ teamJPts[s.team_name]=(teamJPts[s.team_name]||0)+(s.score||0); });
+  scoresDiv.innerHTML=appState.teams.map(t=>{
+    const av=appState.avatars[t];
+    return `<div class="jeop-chip">${av?.img?`<img src="${av.img}" alt="">`:''}<span>${t}: <b>${teamJPts[t]||0} pts</b></span></div>`;
+  }).join('');
+  const{data:answered}=await db.from('rally_jeopardy').select('*');
+  const answeredMap={};
+  (answered||[]).forEach(a=>{ answeredMap[a.question_idx]=a; });
+  grid.innerHTML=JEOPARDY_QS.map((q,qi)=>{
+    const ans=answeredMap[qi];
+    const cls=ans?(ans.correct?'correct':'wrong'):'';
+    const icon=ans?(ans.correct?'✓':'✗'):'';
+    const tName=ans?` ${ans.team_name}`:'';
+    return `<div class="jeop-card ${cls}" onclick="openJeop(${qi})">
+      <div class="jeop-cat">${q.cat}</div>
+      <div class="jeop-pts-big">${q.pts}</div>
+      <div class="jeop-by">${icon}${tName}</div>
+    </div>`;
+  }).join('');
+}
+function openJeop(qi){
+  currentJeopIdx=qi;selectedJeopTeam=null;
+  const q=JEOPARDY_QS[qi];
+  const modal=document.getElementById('modal');
+  const box=document.getElementById('modal-box');
+  modal.style.display='flex';
+  const teamBtns=appState.teams.map(t=>{
+    const av=appState.avatars[t];
+    return `<button class="team-sel-btn" id="jt-${t.replace(/\W/g,'_')}" onclick="selectJeopTeam('${t}')">
+      ${av?.img?`<img src="${av.img}" alt="">`:''}<span>${t}</span>
+    </button>`;
+  }).join('');
+  box.innerHTML=`<div class="modal-cat">${q.cat}</div>
     <div class="modal-q">"${q.q}"</div>
     <div class="modal-pts">Vale: ${q.pts} puntos — Robo permitido</div>
-    <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">¿Qué equipo responde?</div>
+    <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">¿Qué escuadrón responde?</div>
     <div class="team-selector">${teamBtns}</div>
     <div class="modal-actions">
       <button class="btn-correct" onclick="resolveJeop(true)">✓ Correcto</button>
@@ -659,150 +856,135 @@ function openJeop(qi) {
       <button class="btn-close-modal" onclick="closeModal()">Cerrar</button>
     </div>`;
 }
-
-function selectJeopTeam(t) {
-  selectedJeopTeam = t;
-  document.querySelectorAll('.team-sel-btn').forEach(b => b.classList.remove('selected'));
-  const key = t.replace(/\W/g,'_');
-  document.getElementById('jt-' + key)?.classList.add('selected');
+function selectJeopTeam(t){
+  selectedJeopTeam=t;
+  document.querySelectorAll('.team-sel-btn').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('jt-'+t.replace(/\W/g,'_'))?.classList.add('selected');
 }
-
-async function resolveJeop(correct) {
-  if (!selectedJeopTeam) { showToast('⚠️ Selecciona un equipo primero'); return; }
-  const q = JEOPARDY_QS[currentJeopIdx];
-  await db.from('rally_jeopardy').upsert({ question_idx: currentJeopIdx, team_name: selectedJeopTeam, correct, pts: correct ? q.pts : 0 }, { onConflict: 'question_idx' });
-  if (correct) {
-    const { data: existing } = await db.from('rally_scores').select('*').eq('team_name', selectedJeopTeam).eq('station_key','jeopardy').maybeSingle();
-    const prevPts = existing ? (existing.team_pts || {}) : {};
-    prevPts[selectedJeopTeam] = (prevPts[selectedJeopTeam] || 0) + q.pts;
-    const totalJeop = Object.values(prevPts).reduce((a,b)=>a+b,0);
-    await db.from('rally_scores').upsert({ team_name: selectedJeopTeam, station_key: 'jeopardy', score: prevPts[selectedJeopTeam], team_pts: prevPts }, { onConflict: 'team_name,station_key' });
+async function resolveJeop(correct){
+  if(!selectedJeopTeam){showToast('⚠️ Selecciona un escuadrón primero');return;}
+  const q=JEOPARDY_QS[currentJeopIdx];
+  await db.from('rally_jeopardy').upsert({question_idx:currentJeopIdx,team_name:selectedJeopTeam,correct,pts:correct?q.pts:0},{onConflict:'question_idx'});
+  if(correct){
+    const{data:existing}=await db.from('rally_scores').select('*').eq('team_name',selectedJeopTeam).eq('station_key','jeopardy').maybeSingle();
+    const prevScore=existing?existing.score:0;
+    await db.from('rally_scores').upsert({team_name:selectedJeopTeam,station_key:'jeopardy',score:(prevScore||0)+q.pts},{onConflict:'team_name,station_key'});
     showToast(`🎉 ${selectedJeopTeam}: +${q.pts} pts!`);
-  } else {
-    showToast('❌ Sin puntos esta vez');
-  }
-  closeModal();
-  renderJeopardy();
-  renderScoreboard();
+  } else { showToast('❌ Sin puntos esta vez'); }
+  closeModal();renderJeopardy();renderScoreboard();
 }
+function closeModal(){ document.getElementById('modal').style.display='none'; }
 
-function closeModal() { document.getElementById('modal').style.display = 'none'; }
-
-async function renderSetup() {
-  const c = document.getElementById('setup-content');
-  const { data: state } = await db.from('rally_state').select('*').order('created_at',{ascending:false}).limit(1).maybeSingle();
-  const currentTeams = state?.teams || [];
-  const currentAvatars = state?.avatars || {};
-  const currentName = state?.rally_name || '';
-  c.innerHTML = `
+// ── SETUP ──────────────────────────────────────────────────────────────────────
+let setupSelectedAvatars={};
+async function renderSetup(){
+  const c=document.getElementById('setup-content');
+  const{data:state}=await db.from('rally_state').select('*').order('created_at',{ascending:false}).limit(1).maybeSingle();
+  const currentTeams=state?.teams||[];
+  const currentAvatars=state?.avatars||{};
+  const currentName=state?.rally_name||'';
+  setupSelectedAvatars={...currentAvatars};
+  c.innerHTML=`
     <div class="card">
-      <div class="card-title">⚙️ Configurar Rally</div>
-      <div class="form-row">
+      <div class="card-title">⚙️ Configurar Misión</div>
+      <div style="margin-bottom:12px;">
         <label class="form-label">Nombre del Rally / UMF</label>
-        <input class="form-input" id="rally-name-inp" type="text" placeholder="Ej: Día del Médico Familiar 2025 · UMF-12" value="${currentName}">
+        <input class="form-input" id="rally-name-inp" type="text" placeholder="Ej: Operación UMF · UMF-12" value="${currentName}">
       </div>
-      <div class="form-row">
-        <label class="form-label">Número de equipos <span id="tc-display" style="color:var(--primary);font-weight:800;">${currentTeams.length||4}</span></label>
-        <input type="range" min="2" max="10" value="${currentTeams.length||4}" id="tc-slider" style="width:100%;margin-bottom:8px;" oninput="updateSetupTeams(this.value)">
+      <div>
+        <label class="form-label">Número de escuadrones <span id="tc-display" style="color:var(--gold);font-weight:800;">${currentTeams.length||4}</span></label>
+        <input type="range" min="2" max="8" value="${currentTeams.length||4}" id="tc-slider" style="width:100%;margin-bottom:8px;accent-color:var(--gold);" oninput="updateSetupTeams(this.value)">
       </div>
     </div>
     <div class="card" id="team-names-card">
-      <div class="card-title">👥 Nombres de Equipos</div>
-      <div class="team-grid" id="team-names-container"></div>
+      <div class="card-title">👥 Nombres de Escuadrones</div>
+      <div id="team-names-container"></div>
     </div>
     <div class="card">
-      <div class="card-title">🦸 Avatares por Equipo</div>
+      <div class="card-title">🦸 Avatar por Escuadrón</div>
       <div id="avatar-section"></div>
     </div>
-    <button class="btn btn-primary" onclick="saveSetup()">🚀 Guardar y Activar Rally</button>
-    <button class="btn btn-outline" onclick="confirmReset()" style="margin-top:10px;">🔄 Reiniciar todo (nuevo evento)</button>
+    <button class="btn btn-gold" onclick="saveSetup()" style="margin-top:4px;">🚀 Activar Misión</button>
+    <button class="btn btn-outline" onclick="confirmReset()" style="margin-top:8px;">🔄 Reiniciar (nuevo evento)</button>
   `;
-  setupSelectedAvatars = { ...currentAvatars };
-  buildTeamNameInputs(currentTeams.length||4, currentTeams);
-  buildAvatarSelectors(currentTeams.length||4, currentTeams, currentAvatars);
+  buildTeamNameInputs(currentTeams.length||4,currentTeams);
+  buildAvatarSelectors(currentTeams.length||4,currentTeams,currentAvatars);
 }
-
-let setupSelectedAvatars = {};
-
-function updateSetupTeams(val) {
-  document.getElementById('tc-display').textContent = val;
-  const n = parseInt(val);
-  const names = [];
-  for (let i=0;i<n;i++) names.push(document.getElementById('tn-'+i)?.value || '');
-  buildTeamNameInputs(n, names);
-  buildAvatarSelectors(n, names, setupSelectedAvatars);
+function updateSetupTeams(val){
+  document.getElementById('tc-display').textContent=val;
+  const n=parseInt(val);
+  const names=[];
+  for(let i=0;i<n;i++) names.push(document.getElementById('tn-'+i)?.value||'');
+  buildTeamNameInputs(n,names);
+  buildAvatarSelectors(n,names,setupSelectedAvatars);
 }
-
-function buildTeamNameInputs(n, names=[]) {
-  const c = document.getElementById('team-names-container');
-  if (!c) return;
-  c.innerHTML = '';
-  for (let i=0;i<n;i++) {
-    c.innerHTML += `<div class="team-input-row"><div class="team-num">${i+1}</div><input class="form-input" id="tn-${i}" type="text" placeholder="Equipo ${i+1}" value="${names[i]||''}"></div>`;
+function buildTeamNameInputs(n,names=[]){
+  const c=document.getElementById('team-names-container');
+  if(!c) return;
+  c.innerHTML='';
+  for(let i=0;i<n;i++){
+    c.innerHTML+=`<div class="team-input-row"><div class="team-num">${i+1}</div><input class="form-input" id="tn-${i}" type="text" placeholder="Escuadrón ${i+1}" value="${names[i]||''}"></div>`;
   }
 }
-
-function buildAvatarSelectors(n, names=[], avatars={}) {
-  const sec = document.getElementById('avatar-section');
-  if (!sec) return;
-  sec.innerHTML = '';
-  for (let i=0;i<n;i++) {
-    const tname = names[i] || `Equipo ${i+1}`;
-    const selectedAvEmoji = avatars[tname];
-    sec.innerHTML += `<div style="margin-bottom:14px;"><span class="section-label" style="color:var(--primary);">${tname}</span><div class="avatar-grid" id="avg-${i}"></div></div>`;
-    const grid = document.getElementById('avg-' + i);
-    AVATARS.forEach((av, ai) => {
-      const sel = selectedAvEmoji === av.e ? 'selected' : '';
-      grid.innerHTML += `<div class="avatar-opt ${sel}" onclick="pickAvatar(${i},${ai},'${av.e}')" id="avo-${i}-${ai}"><div class="avatar-emoji">${av.e}</div><div class="avatar-name">${av.n}</div></div>`;
+function buildAvatarSelectors(n,names=[],avatars={}){
+  const sec=document.getElementById('avatar-section');
+  if(!sec) return;
+  sec.innerHTML='';
+  for(let i=0;i<n;i++){
+    const tname=names[i]||`Escuadrón ${i+1}`;
+    const selAv=avatars[tname];
+    sec.innerHTML+=`<div style="margin-bottom:16px;"><span class="form-label">${tname}</span><div class="avatar-grid" id="avg-${i}"></div></div>`;
+    const grid=document.getElementById('avg-'+i);
+    AVATARS.forEach((av,ai)=>{
+      const isSel=selAv?.name===av.name;
+      grid.innerHTML+=`<div class="avatar-opt ${isSel?'selected':''}" onclick="pickAvatar(${i},${ai},'${tname}')" id="avo-${i}-${ai}">
+        <img src="${av.img}" alt="${av.name}" onerror="this.style.fontSize='28px';this.outerHTML='<span style=font-size:28px>🩺</span>'">
+        <span class="avatar-name">${av.name}</span>
+      </div>`;
     });
   }
 }
-
-function pickAvatar(ti, ai, emoji) {
-  const teamName = document.getElementById('tn-' + ti)?.value || `Equipo ${ti+1}`;
-  setupSelectedAvatars[teamName] = emoji;
-  document.querySelectorAll(`[id^="avo-${ti}-"]`).forEach(el => el.classList.remove('selected'));
+function pickAvatar(ti,ai,teamName){
+  setupSelectedAvatars[teamName]=AVATARS[ai];
+  document.querySelectorAll(`[id^="avo-${ti}-"]`).forEach(el=>el.classList.remove('selected'));
   document.getElementById(`avo-${ti}-${ai}`)?.classList.add('selected');
 }
-
-async function saveSetup() {
-  const name = document.getElementById('rally-name-inp').value.trim() || 'Rally Médico Familiar';
-  const n = parseInt(document.getElementById('tc-slider').value);
-  const teams = [];
-  const avatars = {};
-  for (let i=0;i<n;i++) {
-    const t = document.getElementById('tn-'+i)?.value.trim() || `Equipo ${i+1}`;
+async function saveSetup(){
+  const name=document.getElementById('rally-name-inp').value.trim()||'Operación UMF';
+  const n=parseInt(document.getElementById('tc-slider').value);
+  const teams=[];
+  const avatars={};
+  for(let i=0;i<n;i++){
+    const t=document.getElementById('tn-'+i)?.value.trim()||`Escuadrón ${i+1}`;
     teams.push(t);
-    const sel = document.querySelector(`#avg-${i} .avatar-opt.selected .avatar-emoji`);
-    avatars[t] = sel ? sel.textContent : AVATARS[i % AVATARS.length].e;
+    avatars[t]=setupSelectedAvatars[t]||AVATARS[i%AVATARS.length];
   }
-  const { error } = await db.from('rally_state').insert({ rally_name: name, teams, avatars });
-  if (error) { showToast('❌ Error al guardar. Revisa la conexión.'); return; }
-  appState = { rallyName: name, teams, avatars };
+  const{error}=await db.from('rally_state').insert({rally_name:name,teams,avatars});
+  if(error){showToast('❌ Error al guardar.');return;}
+  appState={rallyName:name,teams,avatars};
   populateTeamSelect();
-  showToast('🚀 ¡Rally configurado y activo!');
+  showToast('🚀 ¡Misión activada!');
   showScreen('scoreboard');
 }
-
-async function confirmReset() {
-  if (!confirm('¿Seguro? Se borrarán TODOS los puntajes y la configuración actual.')) return;
-  await db.from('rally_scores').delete().neq('id', 0);
-  await db.from('rally_jeopardy').delete().neq('id', 0);
-  await db.from('rally_state').delete().neq('id', 0);
-  appState = { rallyName:'', teams:[], avatars:{} };
-  showToast('🔄 Rally reiniciado correctamente');
-  renderSetup();
-  renderScoreboard();
+async function confirmReset(){
+  if(!confirm('¿Seguro? Se borrarán TODOS los puntajes y la configuración actual.')) return;
+  await db.from('rally_scores').delete().neq('id',0);
+  await db.from('rally_jeopardy').delete().neq('id',0);
+  await db.from('rally_state').delete().neq('id',0);
+  appState={rallyName:'',teams:[],avatars:{}};
+  showToast('🔄 Misión reiniciada');
+  renderSetup();renderScoreboard();
 }
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+// ── UTILS ──────────────────────────────────────────────────────────────────────
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
 }
-
-document.addEventListener('keydown', e => { if (e.key==='Enter' && document.getElementById('pin-input') === document.activeElement) submitPin(); });
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&document.getElementById('pin-input')===document.activeElement) submitPin();
+});
 </script>
 </body>
 </html>
