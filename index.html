@@ -15,17 +15,15 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
-
-/* ── SCANLINES OVERLAY ── */
 body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);pointer-events:none;z-index:9999;}
 
-/* ── LOGIN ── */
+/* LOGIN */
 .login-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:radial-gradient(ellipse at 50% 0%,#0D3B6E 0%,#020610 70%);}
 .login-logo{font-family:'Rajdhani',sans-serif;font-size:38px;font-weight:700;color:#fff;letter-spacing:3px;margin-bottom:4px;text-align:center;}
 .login-logo span{color:var(--gold);text-shadow:0 0 20px rgba(244,161,29,0.5);}
 .login-sub{font-size:11px;color:rgba(255,255,255,0.5);font-weight:600;margin-bottom:6px;text-align:center;letter-spacing:2px;text-transform:uppercase;}
 .login-tagline{font-size:13px;color:var(--umf);font-weight:700;margin-bottom:32px;text-align:center;font-style:italic;}
-.login-card{background:rgba(17,24,39,0.95);border:1px solid var(--border);border-radius:20px;padding:28px 24px;width:100%;max-width:360px;backdrop-filter:blur(10px);}
+.login-card{background:rgba(17,24,39,0.95);border:1px solid var(--border);border-radius:20px;padding:28px 24px;width:100%;max-width:360px;}
 .login-title{font-size:14px;font-weight:800;color:var(--muted);margin-bottom:20px;text-align:center;text-transform:uppercase;letter-spacing:1px;}
 .role-btn{display:block;width:100%;padding:14px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,0.03);margin-bottom:10px;cursor:pointer;text-align:left;transition:all .2s;font-family:'Nunito',sans-serif;}
 .role-btn:hover{border-color:var(--gold);background:rgba(244,161,29,0.08);transform:translateX(4px);}
@@ -41,7 +39,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .btn-outline{background:transparent;border:2px solid var(--border);color:var(--muted);}
 .btn:hover{opacity:.9;transform:translateY(-1px);}
 
-/* ── APP SHELL ── */
+/* APP */
 .app-shell{display:none;flex-direction:column;min-height:100vh;}
 .app-header{background:linear-gradient(135deg,#020610,#0D3B6E);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border);}
 .app-logo{font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:2px;}
@@ -51,25 +49,23 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
 .role-chip{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;}
 
-/* ── UMF STABILITY BAR ── */
+/* UMF BAR */
 .umf-bar-wrap{background:rgba(0,0,0,0.4);padding:8px 14px;border-bottom:1px solid var(--border);}
 .umf-bar-label{font-size:10px;font-weight:800;color:var(--umf);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;display:flex;justify-content:space-between;}
 .umf-bar-track{height:8px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden;}
 .umf-bar-fill{height:100%;background:linear-gradient(90deg,var(--umf2),var(--umf));border-radius:4px;transition:width .8s ease;box-shadow:0 0 8px rgba(0,201,167,0.5);}
 
-/* ── NAV TABS ── */
+/* NAV */
 .nav-tabs{display:flex;background:rgba(0,0,0,0.5);border-bottom:1px solid var(--border);}
 .nav-tab{flex:1;padding:10px 4px;text-align:center;font-size:9px;font-weight:800;color:rgba(255,255,255,0.35);cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid transparent;}
 .nav-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
 .nav-tab.hidden{display:none!important;}
 .tab-icon{display:block;font-size:17px;margin-bottom:2px;}
 .app-content{flex:1;padding:14px;}
-
-/* ── SCREENS ── */
 .screen{display:none;}
 .screen.active{display:block;}
 
-/* ── SCOREBOARD ── */
+/* SCOREBOARD */
 .score-header{text-align:center;margin-bottom:16px;}
 .score-title{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:#fff;letter-spacing:2px;}
 .score-sub{font-size:11px;color:var(--muted);font-weight:600;margin-top:2px;}
@@ -86,7 +82,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .rank-3{background:rgba(205,127,50,0.15);color:#CD7F32;border-color:#CD7F32;}
 .rank-n{background:rgba(255,255,255,0.05);color:var(--muted);border-color:var(--border);font-size:11px;}
 .team-avatar-img{width:72px;height:90px;border-radius:12px;object-fit:cover;object-position:top center;border:2px solid var(--border);flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,0.5);}
-.team-avatar-emoji{font-size:32px;line-height:1;flex-shrink:0;}
 .team-info{flex:1;min-width:0;}
 .team-name{font-size:14px;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .mission-dots{display:flex;gap:3px;flex-wrap:wrap;margin-top:4px;}
@@ -99,8 +94,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .rally-pts{font-size:11px;color:var(--gold);font-weight:800;margin-top:2px;}
 .progress-wrap{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin-top:6px;overflow:hidden;}
 .progress-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--umf2),var(--umf));transition:width .6s;}
-
-/* BADGE UNLOCK PANEL */
 .badges-panel{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
 .badges-panel.open{display:block;}
 .badges-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px;}
@@ -115,46 +108,67 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .pts-done{color:var(--teal);}
 .pts-pend{color:var(--muted);}
 
-/* ── EVAL ── */
+/* EVAL */
 .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:12px;}
 .card-title{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;color:var(--gold);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px;}
-.styled-select{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Nunito',sans-serif;color:var(--text);background:rgba(0,0,0,0.3) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center;appearance:none;padding-right:32px;margin-bottom:10px;}
+.styled-select{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Nunito',sans-serif;color:var(--text);background:rgba(0,0,0,0.3);appearance:none;margin-bottom:10px;}
 .styled-select:focus{outline:none;border-color:var(--gold);}
-
-/* MISSION CARD IN EVAL */
 .mission-card{border-radius:12px;padding:14px;margin-bottom:14px;border:1px solid rgba(244,161,29,0.3);background:linear-gradient(135deg,rgba(244,161,29,0.06),rgba(0,0,0,0));}
 .mission-alerta{font-size:10px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
 .mission-name{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:var(--gold);margin-bottom:6px;}
-.mission-narr{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:10px;font-style:italic;}
+.mission-narr{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:6px;font-style:italic;}
 .mission-impact{font-size:11px;color:var(--umf);font-weight:700;}
 .mission-reward{display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.08);}
 .mission-badge-img{width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);}
 .mission-badge-label{font-size:11px;color:var(--gold);font-weight:700;}
 
-/* RUBRICA */
+/* KILLER BOX */
+.killer-box{background:rgba(74,20,140,0.2);border:1px solid rgba(74,20,140,0.6);border-radius:10px;padding:12px;margin-bottom:14px;}
+.killer-title{font-size:11px;font-weight:800;color:#CE93D8;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.killer-item{font-size:12px;color:#F3E5F5;font-weight:700;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.06);line-height:1.4;}
+.killer-item:last-child{border-bottom:none;}
+
+/* RUBRICA 4 NIVELES */
 .rubric-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:12px;}
 .rubric-title{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--gold);margin-bottom:2px;text-transform:uppercase;}
-.rubric-meta{font-size:11px;color:var(--muted);margin-bottom:12px;font-weight:600;}
-.criterion{border:1px solid var(--border);border-radius:10px;padding:11px;margin-bottom:8px;cursor:pointer;transition:all .2s;background:rgba(255,255,255,0.02);}
-.criterion:hover{border-color:var(--teal);}
-.criterion.checked{border-color:var(--teal);background:rgba(29,158,117,0.08);}
-.crit-header{display:flex;align-items:flex-start;gap:10px;}
-.crit-check{width:20px;height:20px;border-radius:5px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px;}
-.criterion.checked .crit-check{background:var(--teal);border-color:var(--teal);}
-.check-mark{color:#fff;font-size:12px;font-weight:800;display:none;}
-.criterion.checked .check-mark{display:block;}
-.crit-text{flex:1;font-size:12px;color:var(--text);font-weight:600;line-height:1.4;}
-.crit-pts{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;color:var(--gold);flex-shrink:0;}
+.rubric-meta{font-size:11px;color:var(--muted);margin-bottom:14px;font-weight:600;}
+.dim-block{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:10px;}
+.dim-header{background:rgba(30,58,92,0.5);padding:9px 12px;font-size:13px;font-weight:800;color:var(--text);}
+.level-options{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);}
+.level-opt{padding:10px 10px;cursor:pointer;transition:all .2s;background:var(--card);}
+.level-opt:hover{background:rgba(244,161,29,0.05);}
+.level-opt.selected-D{background:rgba(27,94,32,0.25);border-left:3px solid #4CAF50;}
+.level-opt.selected-C{background:rgba(13,71,161,0.25);border-left:3px solid #2196F3;}
+.level-opt.selected-B{background:rgba(191,54,12,0.25);border-left:3px solid #FF5722;}
+.level-opt.selected-A{background:rgba(123,26,26,0.25);border-left:3px solid #F44336;}
+.level-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+.lD{color:#4CAF50;} .lC{color:#2196F3;} .lB{color:#FF5722;} .lA{color:#F44336;}
+.level-text{font-size:11px;color:rgba(255,255,255,0.7);line-height:1.4;margin-bottom:4px;}
+.level-pts{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;}
+.pD{color:#4CAF50;} .pC{color:#2196F3;} .pB{color:#FF5722;} .pA{color:#F44336;}
+
+/* MODIFIERS */
+.modifiers-card{background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;}
+.mod-title{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
+.mod-toggle{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+.mod-toggle:last-child{border-bottom:none;padding-bottom:0;}
+.mod-label{font-size:13px;font-weight:700;color:var(--text);}
+.mod-sub{font-size:11px;color:var(--muted);font-weight:600;}
+.toggle-btn{padding:6px 14px;border-radius:20px;border:2px solid var(--border);font-size:12px;font-weight:800;cursor:pointer;transition:all .2s;font-family:'Nunito',sans-serif;background:transparent;color:var(--muted);}
+.toggle-btn.active-killer{border-color:var(--accent);color:var(--accent);background:rgba(230,57,70,0.1);}
+.toggle-btn.active-late{border-color:var(--gold);color:var(--gold);background:rgba(244,161,29,0.1);}
+
 .score-tally{background:linear-gradient(135deg,#020610,#0D3B6E);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;margin:14px 0;}
 .tally-label{font-size:10px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;font-weight:700;}
 .tally-num{font-family:'Rajdhani',sans-serif;font-size:48px;font-weight:700;color:#fff;line-height:1;}
 .tally-max{font-size:16px;color:rgba(255,255,255,0.4);font-family:'Rajdhani',sans-serif;}
+.tally-mods{font-size:12px;color:var(--accent);font-weight:700;margin-top:4px;min-height:18px;}
 .tally-bar{height:6px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;margin-top:8px;}
 .tally-fill{height:100%;background:linear-gradient(90deg,var(--umf2),var(--umf));border-radius:3px;transition:width .4s;}
 .btn-submit{display:block;width:100%;padding:14px;border-radius:12px;border:none;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;background:linear-gradient(135deg,var(--accent),#c0392b);color:#fff;text-transform:uppercase;letter-spacing:.5px;transition:all .2s;}
 .btn-submit:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(230,57,70,0.4);}
 
-/* MISSION COMPLETE OVERLAY */
+/* MISSION COMPLETE */
 .mission-complete-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;z-index:500;padding:20px;}
 .mission-complete-box{background:linear-gradient(135deg,#020610,#0D3B6E);border:2px solid var(--gold);border-radius:20px;padding:30px 24px;max-width:360px;width:100%;text-align:center;}
 .mc-icon{font-size:60px;margin-bottom:12px;animation:popIn .5s ease;}
@@ -169,11 +183,10 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .mc-stat{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:12px;}
 .mc-stat-label{color:var(--muted);}
 .mc-stat-val{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;}
-.mc-umf{color:var(--umf);}
-.mc-pts{color:var(--gold);}
+.mc-umf{color:var(--umf);} .mc-pts{color:var(--gold);}
 .mc-close{display:block;width:100%;padding:12px;border-radius:10px;border:none;background:var(--gold);color:#000;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;text-transform:uppercase;letter-spacing:.5px;}
 
-/* ── JEOPARDY ── */
+/* JEOPARDY */
 .jeop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
 .jeop-card{background:var(--card);border-radius:10px;padding:12px;text-align:center;border:1px solid var(--border);cursor:pointer;transition:all .2s;}
 .jeop-card:hover{border-color:var(--gold);transform:scale(1.02);}
@@ -186,12 +199,12 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .jeop-chip{background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:20px;padding:4px 10px;font-size:11px;color:var(--text);font-weight:700;display:flex;align-items:center;gap:6px;}
 .jeop-chip img{width:32px;height:40px;border-radius:8px;object-fit:cover;object-position:top center;}
 
-/* ── SETUP ── */
+/* SETUP */
 .avatar-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px;}
 .avatar-opt{border-radius:14px;border:2px solid var(--border);display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:all .2s;background:rgba(255,255,255,0.02);overflow:hidden;padding:0;}
 .avatar-opt:hover{border-color:var(--gold);transform:scale(1.03);}
 .avatar-opt.selected{border-color:var(--gold);background:rgba(244,161,29,0.1);box-shadow:0 0 16px rgba(244,161,29,0.4);}
-.avatar-opt img{width:100%;height:180px;object-fit:cover;object-position:top center;border-radius:12px 12px 0 0;}
+.avatar-opt img{width:100%;height:200px;object-fit:cover;object-position:top 10% center;border-radius:12px 12px 0 0;}
 .avatar-name{font-size:9px;font-weight:800;color:var(--muted);text-align:center;padding:6px 4px;text-transform:uppercase;line-height:1.3;}
 .team-input-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
 .team-num{width:24px;height:24px;border-radius:50%;background:var(--primary);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
@@ -199,7 +212,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .form-input:focus{outline:none;border-color:var(--gold);}
 .form-label{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;display:block;}
 
-/* ── MODAL ── */
+/* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;padding:20px;z-index:400;}
 .modal-box{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:22px;max-width:400px;width:100%;max-height:90vh;overflow-y:auto;}
 .modal-cat{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
@@ -207,17 +220,16 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .modal-pts{font-family:'Rajdhani',sans-serif;font-size:20px;color:var(--gold);font-weight:700;margin-bottom:14px;}
 .team-selector{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
 .team-sel-btn{padding:10px 8px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,0.03);font-size:11px;font-weight:700;cursor:pointer;text-align:center;font-family:'Nunito',sans-serif;color:var(--text);transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:4px;}
-.team-sel-btn img{width:32px;height:32px;border-radius:50%;object-fit:cover;}
+.team-sel-btn img{width:32px;height:40px;border-radius:8px;object-fit:cover;object-position:top center;}
 .team-sel-btn.selected{border-color:var(--teal);background:rgba(29,158,117,0.1);color:var(--teal);}
 .modal-actions{display:flex;gap:8px;}
 .btn-correct{flex:1;padding:12px;border-radius:10px;border:none;background:var(--teal);color:#fff;font-size:13px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;}
 .btn-wrong{flex:1;padding:12px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-size:13px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;}
 .btn-close-modal{padding:12px 16px;border-radius:10px;border:1px solid var(--border);background:transparent;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted);font-family:'Nunito',sans-serif;}
 
-/* ── MISC ── */
+/* MISC */
 .warning-box{background:rgba(244,161,29,0.08);border:1px solid rgba(244,161,29,0.3);border-radius:10px;padding:12px 14px;font-size:12px;color:#d4a017;font-weight:600;margin-bottom:12px;}
 .success-box{background:rgba(29,158,117,0.1);border:1px solid var(--teal);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--teal);font-weight:700;text-align:center;margin-bottom:10px;}
-.info-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(13,59,110,0.5);color:var(--text);font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;margin:3px;border:1px solid var(--border);}
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:#0D3B6E;border:1px solid var(--gold);color:#fff;padding:10px 20px;border-radius:30px;font-size:13px;font-weight:700;opacity:0;transition:all .3s;pointer-events:none;z-index:999;white-space:nowrap;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .loading{text-align:center;padding:32px;color:var(--muted);font-weight:600;}
@@ -261,7 +273,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   </div>
 </div>
 
-<!-- APP SHELL -->
+<!-- APP -->
 <div class="app-shell" id="app-shell">
   <div class="app-header">
     <div class="app-logo">OP. <span>UMF</span></div>
@@ -270,7 +282,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
       <div class="role-chip" id="role-chip">Público</div>
     </div>
   </div>
-  <!-- UMF Stability Bar -->
   <div class="umf-bar-wrap">
     <div class="umf-bar-label">
       <span>⚡ ESTABILIDAD UMF</span>
@@ -298,25 +309,21 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <!-- EVAL -->
     <div class="screen" id="screen-eval">
       <div class="card">
-        <div class="form-row" style="margin-bottom:10px;">
-          <label class="form-label">Mi estación de misión</label>
-          <select class="styled-select" id="select-station" onchange="renderRubric()">
-            <option value="">— Selecciona tu misión —</option>
-            <option value="0">E1 · Código Azul en Sala de Espera</option>
-            <option value="1">E2 · Tormenta Hipertensiva</option>
-            <option value="2">E3 · Operación DIABETIMSS</option>
-            <option value="3">E4 · Expediente Bajo Sospecha</option>
-            <option value="4">E5 · Alerta Diagnóstica</option>
-            <option value="5">E6 · Crisis Institucional DIABETIMSS</option>
-            <option value="6">E7 · Receta Letal</option>
-          </select>
-        </div>
-        <div>
-          <label class="form-label">Escuadrón que evalúas</label>
-          <select class="styled-select" id="select-team-eval" onchange="renderRubric()">
-            <option value="">— Selecciona el escuadrón —</option>
-          </select>
-        </div>
+        <label class="form-label">Mi estación de misión</label>
+        <select class="styled-select" id="select-station" onchange="renderRubric()">
+          <option value="">— Selecciona tu misión —</option>
+          <option value="0">E1 · Código Azul en Sala de Espera</option>
+          <option value="1">E2 · Tormenta Hipertensiva</option>
+          <option value="2">E3 · Operación DIABETIMSS</option>
+          <option value="3">E4 · Expediente Bajo Sospecha</option>
+          <option value="4">E5 · Alerta Diagnóstica</option>
+          <option value="5">E6 · Crisis Institucional DIABETIMSS</option>
+          <option value="6">E7 · Receta Letal</option>
+        </select>
+        <label class="form-label">Escuadrón que evalúas</label>
+        <select class="styled-select" id="select-team-eval" onchange="renderRubric()">
+          <option value="">— Selecciona el escuadrón —</option>
+        </select>
       </div>
       <div id="rubric-area"></div>
     </div>
@@ -338,7 +345,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   </div>
 </div>
 
-<!-- MISSION COMPLETE OVERLAY -->
+<!-- MISSION COMPLETE -->
 <div class="mission-complete-overlay" id="mc-overlay" style="display:none;">
   <div class="mission-complete-box">
     <div class="mc-icon">✅</div>
@@ -346,7 +353,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <div class="mc-sub" id="mc-sub">La UMF recuperó estabilidad parcial.</div>
     <img class="mc-badge-img" id="mc-badge-img" src="" alt="">
     <div class="mc-badge-name" id="mc-badge-name"></div>
-    <div class="mc-badge-desc" id="mc-badge-desc">🔓 Insignia desbloqueada</div>
+    <div class="mc-badge-desc">🔓 Insignia desbloqueada</div>
     <div class="mc-stats">
       <div class="mc-stat"><span class="mc-stat-label">Puntaje obtenido</span><span class="mc-stat-val mc-pts" id="mc-pts-val">0 pts</span></div>
       <div class="mc-stat"><span class="mc-stat-label">Estabilidad UMF</span><span class="mc-stat-val mc-umf" id="mc-umf-val">+0%</span></div>
@@ -364,142 +371,387 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 <div class="toast" id="toast"></div>
 
 <script>
-const SUPABASE_URL = 'https://rloyjwyihflrgmbqdats.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsb3lqd3lpaGZscmdtYnFkYXRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MjYyOTQsImV4cCI6MjA5MzQwMjI5NH0.LuZoVMQvTZAu9PJQIp4_6M2TpA6HQZHaIt2oE9gDkXM';
-const PIN_PROFESOR = '2026';
-const PIN_COORD    = '3085';
+const SUPABASE_URL='https://rloyjwyihflrgmbqdats.supabase.co';
+const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsb3lqd3lpaGZscmdtYnFkYXRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MjYyOTQsImV4cCI6MjA5MzQwMjI5NH0.LuZoVMQvTZAu9PJQIp4_6M2TpA6HQZHaIt2oE9gDkXM';
+const PIN_PROFESOR='2026';
+const PIN_COORD='3085';
+const BASE='https://raw.githubusercontent.com/Dra30kay/rally-mf/main/';
 
-const BASE = 'https://raw.githubusercontent.com/Dra30kay/rally-mf/main/';
-
-// ── INSIGNIAS ──────────────────────────────────────────────────────────────────
-const BADGES = [
-  { key:'station_0', name:'Código DEA',           img:BASE+'Insignias/Codigo DEA.png',             desc:'Reanimación Avanzada',        alerta:'⚡ Función vital restaurada.' },
-  { key:'station_1', name:'Centinela de Urgencias',img:BASE+'Insignias/Centinela de urgencias.png', desc:'Decisión · Rapidez · Vida',    alerta:'🛡️ Crisis hipertensiva contenida.' },
-  { key:'station_2', name:'Centinela DM2',         img:BASE+'Insignias/Centinela DM2.png',          desc:'Vigilar · Estrategar · Prevenir',alerta:'🧬 Control metabólico recuperado.' },
-  { key:'station_3', name:'Maestro NOM',            img:BASE+'Insignias/Maestro NOM.png',            desc:'Auditoría · Ética · Calidad',  alerta:'⚖️ Expediente asegurado.' },
-  { key:'station_4', name:'Ojo Clínico',            img:BASE+'Insignias/Ojo Clinico.png',            desc:'Ver · Analizar · Diagnosticar',alerta:'🔬 Diagnóstico complejo resuelto.' },
-  { key:'station_5', name:'Líder Diabetimss',       img:BASE+'Insignias/Lider Diabetimss.png',       desc:'Liderazgo · Estrategia · Resultados',alerta:'📊 Indicadores institucionales mejorados.' },
-  { key:'station_6', name:'Escudo Renal',           img:BASE+'Insignias/Escudo renal.png',           desc:'Protección · Seguridad · Vida',alerta:'🛡️ Error farmacológico evitado.' },
+const BADGES=[
+  {key:'station_0',name:'Código DEA',          img:BASE+'Insignias/Codigo DEA.png',             desc:'Reanimación Avanzada',         alerta:'⚡ Función vital restaurada.'},
+  {key:'station_1',name:'Centinela de Urgencias',img:BASE+'Insignias/Centinela de urgencias.png',desc:'Decisión · Rapidez · Vida',     alerta:'🛡️ Crisis hipertensiva contenida.'},
+  {key:'station_2',name:'Centinela DM2',        img:BASE+'Insignias/Centinela DM2.png',          desc:'Vigilar · Estrategar · Prevenir',alerta:'🧬 Control metabólico recuperado.'},
+  {key:'station_3',name:'Maestro NOM',           img:BASE+'Insignias/Maestro NOM.png',            desc:'Auditoría · Ética · Calidad',  alerta:'⚖️ Expediente asegurado.'},
+  {key:'station_4',name:'Ojo Clínico',           img:BASE+'Insignias/Ojo Clinico.png',            desc:'Ver · Analizar · Diagnosticar', alerta:'🔬 Diagnóstico complejo resuelto.'},
+  {key:'station_5',name:'Líder Diabetimss',      img:BASE+'Insignias/Lider Diabetimss.png',       desc:'Liderazgo · Estrategia · Resultados',alerta:'📊 Indicadores institucionales mejorados.'},
+  {key:'station_6',name:'Escudo Renal',          img:BASE+'Insignias/Escudo renal.png',           desc:'Protección · Seguridad · Vida', alerta:'🛡️ Error farmacológico evitado.'},
 ];
 
-// ── AVATARES ───────────────────────────────────────────────────────────────────
-const AVATARS = [
-  { name:'La Reanimadora Vital',      img:BASE+'Avatars/La reanimadora vital.png' },
-  { name:'El Centinela de Urgencias', img:BASE+'Avatars/Centinela de urgencias.png' },
-  { name:'El Vanguardista Metabólico',img:BASE+'Avatars/El vanguardista metabolico.png' },
-  { name:'La Veedora de la Norma',    img:BASE+'Avatars/La veedora de la norma.png' },
-  { name:'La Detective Diagnóstico',  img:BASE+'Avatars/La detective diagnostico.png' },
-  { name:'El Estratega Poblacional',  img:BASE+'Avatars/El estratega poblacional.png' },
-  { name:'El Guardián de la Receta',  img:BASE+'Avatars/El guardian de la receta.png' },
-  { name:'El Escudo Antihipertensivo',img:BASE+'Avatars/El escudo antihipertensivo.png' },
+const AVATARS=[
+  {name:'La Reanimadora Vital',      img:BASE+'Avatars/La reanimadora vital.png'},
+  {name:'El Centinela de Urgencias', img:BASE+'Avatars/Centinela de urgencias.png'},
+  {name:'El Vanguardista Metabólico',img:BASE+'Avatars/El vanguardista metabolico.png'},
+  {name:'La Veedora de la Norma',    img:BASE+'Avatars/La veedora de la norma.png'},
+  {name:'La Detective Diagnóstico',  img:BASE+'Avatars/La detective diagnostico.png'},
+  {name:'El Estratega Poblacional',  img:BASE+'Avatars/El estratega poblacional.png'},
+  {name:'El Guardián de la Receta',  img:BASE+'Avatars/El guardian de la receta.png'},
+  {name:'El Escudo Antihipertensivo',img:BASE+'Avatars/El escudo antihipertensivo.png'},
 ];
 
-// ── MISIONES ───────────────────────────────────────────────────────────────────
-const MISSIONS = [
-  { num:'E1', name:'Código Azul en Sala de Espera',
-    alerta:'Una paciente colapsó en la sala de espera. El sistema de respuesta presenta retrasos críticos.',
-    mision:'Tu escuadrón debe iniciar soporte vital y recuperar estabilidad cardiaca antes del colapso del sistema.',
-    impacto:'Cada acción correcta restaura estabilidad institucional.',
-    color:'#E63946' },
-  { num:'E2', name:'Tormenta Hipertensiva',
-    alerta:'Crisis hipertensiva activa. Urgencias hospitalarias a 20 minutos.',
-    mision:'Identificar, estabilizar, decidir el traslado y comunicarlo antes de que la situación escale.',
-    impacto:'La contención evita el colapso del módulo de crónicos.',
-    color:'#BF360C' },
-  { num:'E3', name:'Operación DIABETIMSS',
-    alerta:'Módulo DIABETIMSS en alerta roja. Paciente fuera de todas las metas metabólicas.',
-    mision:'Evaluar, ajustar y educar antes de que el paciente salga sin un plan real.',
-    impacto:'Cada meta alcanzada recupera un punto de estabilidad institucional.',
-    color:'#1B5E20' },
-  { num:'E4', name:'Expediente Bajo Sospecha',
-    alerta:'Una nota deficiente está a punto de usarse como evidencia en un proceso CONAMED.',
-    mision:'Auditar, clasificar errores y proponer la corrección normativa antes de que salga de la unidad.',
-    impacto:'La documentación correcta protege a la institución y al paciente.',
-    color:'#4A148C' },
-  { num:'E5', name:'Alerta Diagnóstica',
-    alerta:'Panel de laboratorio con valores críticos sin interpretar. El médico anterior no supo leerlo.',
-    mision:'Descifrar el panel, establecer el diagnóstico y proponer el plan antes de que el paciente se vaya.',
-    impacto:'El diagnóstico correcto activa el protocolo de atención especializada.',
-    color:'#0D47A1' },
-  { num:'E6', name:'Crisis Institucional DIABETIMSS',
-    alerta:'Solo el 31% de la cohorte DM2 está en meta. 18 pacientes de alto riesgo sin revisión en 2 años.',
-    mision:'Analizar indicadores, identificar el subgrupo crítico y proponer intervenciones factibles.',
-    impacto:'El plan de recuperación evita el colapso del módulo de crónicos.',
-    color:'#1B5E20' },
-  { num:'E7', name:'Receta Letal',
-    alerta:'Receta con múltiples errores. Paciente con ERC estadio 3 y alergia a penicilina.',
-    mision:'Detectar errores, corregir la prescripción y educar antes de que la paciente abandone la unidad.',
-    impacto:'Cada error evitado protege al paciente y a la institución.',
-    color:'#7B1A1A' },
+const MISSIONS=[
+  {num:'E1',name:'Código Azul en Sala de Espera',
+   alerta:'Una paciente colapsó en la sala de espera. El sistema de respuesta presenta retrasos críticos.',
+   mision:'Tu escuadrón debe iniciar soporte vital y recuperar estabilidad cardiaca antes del colapso del sistema.',
+   impacto:'Cada acción correcta restaura estabilidad institucional.',color:'#E63946'},
+  {num:'E2',name:'Tormenta Hipertensiva',
+   alerta:'Crisis hipertensiva activa. Urgencias hospitalarias a 20 minutos.',
+   mision:'Identificar, estabilizar, decidir el traslado y comunicarlo antes de que la situación escale.',
+   impacto:'La contención evita el colapso del módulo de crónicos.',color:'#BF360C'},
+  {num:'E3',name:'Operación DIABETIMSS',
+   alerta:'Módulo DIABETIMSS en alerta roja. Paciente fuera de todas las metas metabólicas.',
+   mision:'Evaluar, ajustar y educar antes de que el paciente salga sin un plan real.',
+   impacto:'Cada meta alcanzada recupera un punto de estabilidad institucional.',color:'#1B5E20'},
+  {num:'E4',name:'Expediente Bajo Sospecha',
+   alerta:'Una nota deficiente está a punto de usarse como evidencia en un proceso CONAMED.',
+   mision:'Auditar, clasificar errores y proponer la corrección normativa antes de que salga de la unidad.',
+   impacto:'La documentación correcta protege a la institución y al paciente.',color:'#4A148C'},
+  {num:'E5',name:'Alerta Diagnóstica',
+   alerta:'Panel de laboratorio con valores críticos sin interpretar. El médico anterior no supo leerlo.',
+   mision:'Descifrar el panel, establecer el diagnóstico y proponer el plan antes de que el paciente se vaya.',
+   impacto:'El diagnóstico correcto activa el protocolo de atención especializada.',color:'#0D47A1'},
+  {num:'E6',name:'Crisis Institucional DIABETIMSS',
+   alerta:'Solo el 31% de la cohorte DM2 está en meta. 18 pacientes de alto riesgo sin revisión en 2 años.',
+   mision:'Analizar indicadores, identificar el subgrupo crítico y proponer intervenciones factibles.',
+   impacto:'El plan de recuperación evita el colapso del módulo de crónicos.',color:'#1B5E20'},
+  {num:'E7',name:'Receta Letal',
+   alerta:'Receta con múltiples errores. Paciente con ERC estadio 3 y alergia a penicilina.',
+   mision:'Detectar errores, corregir la prescripción y educar antes de que la paciente abandone la unidad.',
+   impacto:'Cada error evitado protege al paciente y a la institución.',color:'#7B1A1A'},
 ];
 
-// ── ESTACIONES / RÚBRICAS ─────────────────────────────────────────────────────
-const STATIONS = [
-  { name:'RCP Básico + DEA', tiempo:'7 min', max:100, criteria:[
-    {pts:15,text:'Verbaliza seguridad del escenario, llama a la víctima por voz Y sacude ambos hombros antes de cualquier otra acción.'},
-    {pts:10,text:'Grita pidiendo ayuda Y nombra/señala a una persona específica delegando la llamada al 911 en los primeros 30 segundos.'},
-    {pts:20,text:'Compresiones con los 5 criterios: 100-120/min, 5-6 cm, retroceso completo, manos entrelazadas en centro del tórax, codos extendidos.'},
-    {pts:20,text:'Relación 30:2 respetada. Apertura de vía aérea correcta. Sello completo. Elevación visible del tórax en ambas ventilaciones.'},
-    {pts:20,text:'DEA: enciende → parches correctos → "todos atrás" → evalúa ritmo → descarga → reanuda RCP inmediatamente.'},
-    {pts:10,text:'Ninguna interrupción supera 10 segundos. Reanuda compresiones en menos de 5 seg tras la descarga.'},
-    {pts:5,text:'Prioriza correctamente: seguridad → activar emergencias → compresiones → DEA. Justifica verbalmente si se le pregunta.'},
+// ── RÚBRICAS APROBADAS POR EXPERTOS (4 niveles D/C/B/A con puntajes específicos)
+// Máximo real por estación: 110 pts
+// Con error crítico → máx 59 pts | Con tardanza → -10 pts adicionales
+const STATIONS=[
+  {name:'RCP Básico + DEA',tiempo:'7 min',max:110,
+   killers:['Administrar la descarga del DEA mientras alguien tiene contacto físico con la víctima.','No activar la cadena de emergencias (no pedir ayuda ni delegar llamada al 911) en ningún momento.','Detener las compresiones más de 30 segundos sin justificación clínica.'],
+   criteria:[
+    {dim:'1. Seguridad y evaluación inicial de la víctima',levels:[
+      {pts:15,label:'D — Excelente',cls:'D',text:'Verbaliza seguridad del escenario, llama a la víctima por voz Y sacude firmemente ambos hombros antes de cualquier otra acción. Los tres pasos en secuencia correcta.'},
+      {pts:10,label:'C — Bueno',cls:'C',text:'Llama a la víctima y sacude hombros pero no verbaliza la seguridad del escenario; o verifica seguridad y llama pero omite sacudir los hombros.'},
+      {pts:6, label:'B — Suficiente',cls:'B',text:'Realiza solo uno de los tres pasos (llama O sacude O verifica seguridad) sin completar la secuencia mínima.'},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'No verifica seguridad, no llama ni estimula a la víctima; pasa directamente a compresiones sin ninguna evaluación inicial.'},
+    ]},
+    {dim:'2. Activación de la cadena de emergencias',levels:[
+      {pts:10,label:'D — Excelente',cls:'D',text:'Grita pidiendo ayuda en voz alta Y nombra o señala a una persona específica delegando la llamada al 911. Activa la cadena completa en los primeros 30 segundos.'},
+      {pts:7, label:'C — Bueno',cls:'C',text:"Solicita ayuda en voz alta pero no delega a nadie específico ('que alguien llame'); o delega la llamada sin indicar qué número marcar."},
+      {pts:4, label:'B — Suficiente',cls:'B',text:"Solo menciona verbalmente que 'habría que llamar a emergencias' sin hacerlo ni delegarlo; no activa la cadena de forma concreta."},
+      {pts:1, label:'A — Insuficiente',cls:'A',text:'No solicita ayuda ni activa ningún servicio de emergencia en ningún momento; trabaja en solitario sin alertar a nadie. ⛔ KILLER ITEM'},
+    ]},
+    {dim:'3. Calidad de las compresiones torácicas',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Los 5 criterios correctos: frecuencia 100-120/min, profundidad 5-6 cm, retroceso torácico completo, manos entrelazadas en centro del tórax, codos extendidos. Calidad sostenida durante toda la secuencia.'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Cumple 4 de 5 criterios. Deficiencia menor en uno: p.ej. frecuencia ligeramente fuera del rango pero los demás correctos.'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:'Cumple 2-3 criterios. Compresiones superficiales (<4 cm), frecuencia muy rápida o lenta, retroceso incompleto o manos mal posicionadas.'},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'Compresiones ausentes o técnica completamente incorrecta: una sola mano, presiona en zona equivocada, o detiene el RCP antes de 1 minuto sin justificación.'},
+    ]},
+    {dim:'4. Ventilaciones de rescate (relación 30:2)',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Relación 30:2 respetada. Apertura de vía aérea con frente-mentón o tracción mandibular correcta. Sello completo. Elevación visible del tórax en ambas ventilaciones.'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Relación 30:2 y apertura de vía aérea correctas, pero el tórax eleva en solo una de las dos ventilaciones; o sello no completamente hermético.'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:'Intenta relación 30:2 pero no la mantiene; o abre vía aérea pero las ventilaciones son tan cortas que no elevan el tórax.'},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'No realiza ventilaciones de rescate; o las realiza sin abrir vía aérea; o usa relación incorrecta sin ninguna justificación.'},
+    ]},
+    {dim:'5. Manejo correcto del DEA',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:"Enciende DEA → coloca parches correctamente (subclavio derecho/ápex izquierdo) → aleja a todos verbalizando 'todos atrás' → evalúa ritmo sin contacto → administra descarga → reanuda RCP inmediatamente."},
+      {pts:14,label:'C — Bueno',cls:'C',text:"Realiza todos los pasos pero omite verbalizar 'todos atrás'; o tarda >15 seg en colocar parches; o posición levemente incorrecta de los parches."},
+      {pts:8, label:'B — Suficiente',cls:'B',text:'Enciende DEA y coloca parches pero no sigue instrucciones de audio; o intenta descarga sin asegurar que nadie toca al paciente.'},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'No utiliza el DEA; o lo enciende pero no coloca parches; o administra descarga con alguien en contacto físico con el paciente. ⛔ KILLER ITEM'},
+    ]},
+    {dim:'6. Continuidad: mínimas interrupciones',levels:[
+      {pts:15,label:'D — Excelente',cls:'D',text:'Ninguna interrupción supera 10 segundos. Reanuda compresiones en menos de 5 seg tras la descarga del DEA, sin esperar instrucción adicional.'},
+      {pts:10,label:'C — Bueno',cls:'C',text:'Una pausa de 10-15 seg durante el cambio al DEA; o reanuda en 5-10 seg tras la descarga. Resto sin interrupciones mayores.'},
+      {pts:6, label:'B — Suficiente',cls:'B',text:'Dos pausas de 15-25 seg; o reanuda compresiones esperando resultado en el monitor del DEA antes de actuar.'},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'Interrupciones frecuentes o >25 seg ⛔ KILLER ITEM; o no reanuda tras la descarga; o detiene el RCP antes de indicación de fin de estación.'},
+    ]},
+    {dim:'7. Razonamiento clínico y priorización',levels:[
+      {pts:10,label:'D — Excelente',cls:'D',text:'Prioriza correctamente en todo momento: seguridad → activar emergencias → compresiones → DEA. Justifica verbalmente el orden de sus acciones si el evaluador pregunta.'},
+      {pts:7, label:'C — Bueno',cls:'C',text:'Prioriza correctamente las acciones principales pero con una inversión menor que no compromete el resultado clínico.'},
+      {pts:4, label:'B — Suficiente',cls:'B',text:'La secuencia tiene dos inversiones notorias que muestran falta de jerarquización clínica.'},
+      {pts:1, label:'A — Insuficiente',cls:'A',text:'Manejo desorganizado sin priorización: ejecuta acciones al azar; no puede justificar el orden de sus decisiones.'},
+    ]},
   ]},
-  { name:'Urgencia en Consultorio', tiempo:'10 min', max:100, criteria:[
-    {pts:15,text:'Nombra crisis hipertensiva (urgencia o emergencia) en los primeros 2 min, señalando los datos que lo sustentan.'},
-    {pts:15,text:'Evalúa los 5 componentes ABCDE en orden verbalizando hallazgos: Airway, Breathing, Circulation, Disability, Exposure.'},
-    {pts:20,text:'Solicita apoyo ANTES de administrar medicamento de rescate Y decide traslado especificando el servicio receptor.'},
-    {pts:20,text:'Prescribe captopril 25 mg VO como primera línea. Evita nifedipino SL. Indica monitoreo de TA a los 30 min.'},
-    {pts:15,text:'Explica diagnóstico en lenguaje accesible, informa plan de traslado con empatía, verifica comprensión al final.'},
-    {pts:10,text:'Verbaliza plan completo: servicio receptor, menciona nota de referencia, indica al familiar qué hacer durante el traslado.'},
-    {pts:5,text:'Prioriza correctamente: diagnóstico → activar apoyo → tratar → comunicar. Justifica el orden si se le pregunta.'},
+
+  {name:'Urgencia en Consultorio',tiempo:'10 min',max:110,
+   killers:['Dar el alta a la paciente para continuar manejo en casa sin gestionar el traslado urgente.','Prescribir nifedipino sublingual como primera opción (NO recomendado en GPC vigentes — riesgo de hipotensión brusca e isquemia).','No tomar ni solicitar la toma de tensión arterial en ningún momento de la estación.'],
+   criteria:[
+    {dim:'1. Identificación y diagnóstico de la urgencia',levels:[
+      {pts:15,label:'D — Excelente',cls:'D',text:'Nombra crisis hipertensiva (hipertensión severa asintomática o emergencia) en los primeros 2 min, señalando los datos que lo sustentan: TA 195/115 + cefalea 9/10 + visión borrosa. Diferencia hipertensión severa asintomática de emergencia hipertensiva.'},
+      {pts:10,label:'C — Bueno',cls:'C',text:'Identifica crisis hipertensiva entre 2-4 min, o la nombra sin señalar los criterios específicos que sustentan el diagnóstico.'},
+      {pts:6, label:'B — Suficiente',cls:'B',text:"Sospecha 'hipertensión alta' sin categorizar correctamente; o tarda >4 min; o diagnóstico impreciso."},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'No identifica la crisis hipertensiva o la confunde con otro diagnóstico; inicia el manejo sin establecer diagnóstico.'},
+    ]},
+    {dim:'2. Evaluación sistemática ABCDE',levels:[
+      {pts:15,label:'D — Excelente',cls:'D',text:'Evalúa los 5 componentes en orden verbalizando hallazgos: Airway (permeable), Breathing (FR 18, SpO2 96%), Circulation (TA, FC, pulso), Disability (neurológico, glucosa 148), Exposure (diaforesis, facies de angustia).'},
+      {pts:10,label:'C — Bueno',cls:'C',text:'Evalúa 4 de 5 componentes en orden; omite uno pero verbaliza lo que encuentra en los evaluados.'},
+      {pts:6, label:'B — Suficiente',cls:'B',text:'Evalúa solo 2-3 componentes de forma desordenada; va directamente a TA y FC sin seguir la secuencia ABCDE.'},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:"No aplica evaluación sistemática; solo pregunta '¿qué le duele?' y toma TA; omite el resto completamente."},
+    ]},
+    {dim:'3. Decisión de apoyo y traslado',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Solicita apoyo (enfermería o activa código) ANTES de administrar medicamento de rescate Y decide traslado especificando el servicio receptor y el motivo del traslado en términos claros.'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Solicita apoyo y decide traslado, pero lo hace después de administrar el medicamento; o no especifica a qué servicio refiere.'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:"Menciona que 'debe ir al hospital' sin gestionar activamente el traslado durante la estación ni solicitar apoyo concreto."},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'No solicita apoyo ni gestiona traslado; maneja la urgencia como consulta ordinaria y cita a la paciente para el día siguiente.'},
+    ]},
+    {dim:'4. Tratamiento inicial correcto (GPC 2023)',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Prescribe captopril 25 mg VO como primera línea (GPC vigentes). Evita nifedipino SL (contraindicado). Indica monitoreo de TA a los 30 min y criterios para escalar tratamiento.'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Prescribe captopril en dosis correcta pero sin indicar monitoreo posterior; o prescribe otro antihipertensivo oral aceptable de segunda línea con justificación.'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:'Prescribe antihipertensivo sin especificar dosis ni vía; o elige medicamento debatible sin justificarlo clínicamente.'},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'No prescribe tratamiento; o prescribe nifedipino SL como primera opción ⛔ KILLER ITEM; o indica medicamento contraindicado.'},
+    ]},
+    {dim:'5. Comunicación con paciente y familiar',levels:[
+      {pts:15,label:'D — Excelente',cls:'D',text:'Explica diagnóstico en lenguaje accesible sin tecnicismos, informa plan de traslado con calma y empatía, responde preguntas del familiar, verifica comprensión al final preguntando activamente.'},
+      {pts:10,label:'C — Bueno',cls:'C',text:'Informa sobre diagnóstico y traslado, pero usa 2-3 términos técnicos sin explicarlos, o no verifica comprensión al final.'},
+      {pts:6, label:'B — Suficiente',cls:'B',text:"Solo informa 'tiene la presión muy alta y la vamos a trasladar' sin explicar riesgo, plan ni responder dudas del familiar."},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'No informa al paciente ni al familiar; o la comunicación es brusca, confusa o genera angustia innecesaria.'},
+    ]},
+    {dim:'6. Plan de continuidad de la atención',levels:[
+      {pts:15,label:'D — Excelente',cls:'D',text:'Verbaliza plan completo: servicio receptor específico, menciona nota de referencia con diagnóstico y manejo dado, indica al familiar qué hacer durante el traslado.'},
+      {pts:10,label:'C — Bueno',cls:'C',text:'Indica servicio de referencia y da indicaciones generales al familiar, pero no menciona nota de referencia ni instrucciones específicas para el traslado.'},
+      {pts:6, label:'B — Suficiente',cls:'B',text:"Solo dice 'llévela al hospital de urgencias' sin especificar cuál, sin nota de referencia y sin indicaciones al familiar."},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'No establece ningún plan de continuidad; termina la consulta sin indicar qué sigue para el paciente.'},
+    ]},
+    {dim:'7. Razonamiento clínico y priorización',levels:[
+      {pts:10,label:'D — Excelente',cls:'D',text:'Prioriza correctamente: diagnóstico → activar apoyo → tratar → comunicar. Jerarquiza las acciones según riesgo para el paciente. Justifica el orden de sus decisiones si se le pregunta.'},
+      {pts:7, label:'C — Bueno',cls:'C',text:'Prioriza correctamente las acciones principales, pero con una inversión menor que no compromete el resultado clínico.'},
+      {pts:4, label:'B — Suficiente',cls:'B',text:'La secuencia tiene dos inversiones notorias; manejo reactivo sin jerarquización explícita del riesgo.'},
+      {pts:1, label:'A — Insuficiente',cls:'A',text:'Manejo desorganizado sin priorización; ejecuta acciones al azar; no puede justificar el orden de sus decisiones.'},
+    ]},
   ]},
-  { name:'Control Metabólico Integral', tiempo:'10 min', max:100, criteria:[
-    {pts:15,text:'Pregunta adherencia, síntomas de hiper/hipoglucemia, pies en casa, visión, alimentación Y actividad física de forma organizada.'},
-    {pts:15,text:'Toma TA, pesa, calcula IMC en voz alta, realiza exploración y evaluación neurológica básica del pie, refiere fondo de ojo.'},
-    {pts:20,text:'Identifica ≥4 metas no alcanzadas con valor y meta: HbA1c, LDL, TG, microalbuminuria, TA. Las jerarquiza por riesgo CV-renal.'},
-    {pts:20,text:'Propone iSGLT2 o arGLP-1, optimiza bloqueo SRAA a dosis nefroprotectora, agrega estatina de alta intensidad. Justifica cada cambio.'},
-    {pts:15,text:'Menciona ≥4 puntos en lenguaje accesible adaptado al obrero: adherencia, dieta, actividad, pies, señales de alarma.'},
-    {pts:10,text:'Establece fecha de seguimiento, laboratorios de control, refiere a oftalmología Y nefrología con justificación.'},
-    {pts:5,text:'Jerarquiza correctamente: prioriza riesgo renal y CV antes que el control glucémico. Justifica el orden.'},
+
+  {name:'Control Metabólico Integral',tiempo:'10 min',max:110,
+   killers:['No detectar la microalbuminuria positiva (45 mg/g) como señal de nefropatía incipiente.','Aumentar la glibenclamida como único ajuste sin considerar iSGLT2 o arGLP-1.','No establecer ningún plan de seguimiento ni referencia al terminar la consulta.'],
+   criteria:[
+    {dim:'1. Interrogatorio clínico enfocado',levels:[
+      {pts:15,label:'D — Excelente',cls:'D',text:'Pregunta adherencia, síntomas de hiper/hipoglucemia, inspección de pies en casa, visión, alimentación Y actividad física. Organiza la información lógicamente adaptada al contexto del obrero.'},
+      {pts:10,label:'C — Bueno',cls:'C',text:'Interrogatorio organizado sobre adherencia y síntomas pero omite explorar pie o visión; o indaga todos los temas de forma desordenada.'},
+      {pts:6, label:'B — Suficiente',cls:'B',text:'Solo pregunta síntomas generales sin profundizar en complicaciones, visión, pie ni adherencia real al esquema terapéutico.'},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'Pasa directamente a revisar laboratorios sin interrogar al paciente; o hace solo una pregunta general sin profundizar.'},
+    ]},
+    {dim:'2. Exploración física dirigida',levels:[
+      {pts:15,label:'D — Excelente',cls:'D',text:'Toma TA, pesa, calcula IMC en voz alta (88÷1.68²=31.1), realiza inspección y evaluación neurológica básica del pie (sensibilidad, pulsos pedios, integridad de piel), y refiere a fondo de ojo explicando el motivo.'},
+      {pts:10,label:'C — Bueno',cls:'C',text:'Toma TA, peso e IMC y menciona revisión del pie, pero solo inspecciona sin evaluar sensibilidad ni pulsos pedios.'},
+      {pts:6, label:'B — Suficiente',cls:'B',text:'Solo toma TA y peso sin calcular IMC; no explora pies ni menciona fondo de ojo.'},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'No realiza exploración física dirigida al control metabólico; solo pregunta sin explorar ni tomar signos vitales.'},
+    ]},
+    {dim:'3. Interpretación de laboratorios y metas',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Identifica ≥4 metas no alcanzadas con valor y meta: HbA1c 8.7% (meta <7.5%), LDL 142 (meta <100), TG 280 (meta <150), microalbuminuria 45 mg/g (meta <30), TA 148/92 (meta <130/80). Las jerarquiza por riesgo CV-renal.'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Identifica 3 metas no alcanzadas con valores de referencia incluyendo HbA1c; no detecta microalbuminuria o no jerarquiza por riesgo.'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:'Identifica solo HbA1c y TA fuera de meta; no analiza perfil lipídico completo ni detecta microalbuminuria como señal clave.'},
+      {pts:3, label:'A — Insuficiente',cls:'A',text:"Solo menciona que 'el azúcar está alta' sin identificar metas, valores ni perfil de riesgo completo."},
+    ]},
+    {dim:'4. Ajuste terapéutico fundamentado (ADA/EASD 2024)',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Propone iSGLT2 (empagliflozina) o arGLP-1 por beneficio CV-renal; optimiza bloqueo SRAA con IECA o ARA-II a dosis nefroprotectora (losartán YA es nefroprotector — no se obliga cambio, se optimiza la dosis); agrega estatina de alta intensidad por LDL elevado y riesgo CV. Justifica cada cambio.'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Propone iSGLT2 o arGLP-1 y optimiza SRAA, pero no menciona la estatina de alta intensidad pese al LDL elevado.'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:'Solo intensifica metformina o ajusta glibenclamida sin considerar iSGLT2 o arGLP-1; no optimiza SRAA pese a la microalbuminuria.'},
+      {pts:3, label:'A — Insuficiente',cls:'A',text:"No propone ajuste terapéutico; indica 'continuar igual' o propone cambios sin fundamento ni referencia a GPC vigentes."},
+    ]},
+    {dim:'5. Educación para la salud al paciente',levels:[
+      {pts:15,label:'D — Excelente',cls:'D',text:'Menciona ≥4 puntos en lenguaje accesible adaptado al obrero: adherencia al medicamento, modificación dietética específica, actividad física (30 min de caminata diaria), inspección diaria de pies, señales de alarma para acudir de urgencia.'},
+      {pts:10,label:'C — Bueno',cls:'C',text:'Menciona 3 puntos clave en lenguaje claro pero omite señales de alarma o inspección del pie.'},
+      {pts:6, label:'B — Suficiente',cls:'B',text:"Menciona solo 1-2 puntos de forma muy general ('cuídese', 'haga dieta') sin adaptarlos al contexto real del paciente."},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'No realiza educación para la salud; termina la consulta sin dar ninguna instrucción comprensible al paciente.'},
+    ]},
+    {dim:'6. Plan de seguimiento y referencia',levels:[
+      {pts:15,label:'D — Excelente',cls:'D',text:'Establece fecha en 4-6 semanas, indica laboratorios de control (HbA1c en 3 meses, microalbuminuria en 6 meses, perfil lipídico en 3 meses), refiere a oftalmología Y nefrología con justificación de cada referencia.'},
+      {pts:10,label:'C — Bueno',cls:'C',text:'Establece fecha y laboratorios pero refiere a solo uno de los dos especialistas indicados; omite el otro.'},
+      {pts:6, label:'B — Suficiente',cls:'B',text:"Solo indica 'regresar en un mes' sin especificar laboratorios ni referencia a especialidades."},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'No establece plan de seguimiento ni laboratorios; termina sin ningún plan de control posterior.'},
+    ]},
+    {dim:'7. Razonamiento clínico y priorización',levels:[
+      {pts:10,label:'D — Excelente',cls:'D',text:'Jerarquiza correctamente: prioriza riesgo renal (microalbuminuria) y CV antes que el control glucémico; justifica el orden de sus decisiones con base en fisiopatología y riesgo.'},
+      {pts:7, label:'C — Bueno',cls:'C',text:'Prioriza adecuadamente los problemas principales pero sin justificación completa del orden de intervención.'},
+      {pts:4, label:'B — Suficiente',cls:'B',text:'Identifica los problemas pero sin jerarquización; los aborda en el orden del reporte de laboratorio sin criterio clínico.'},
+      {pts:1, label:'A — Insuficiente',cls:'A',text:'Manejo sin priorización; aborda todos los problemas con la misma urgencia o se centra en uno solo ignorando los demás.'},
+    ]},
   ]},
-  { name:'Auditoría de Nota Clínica', tiempo:'8 min', max:100, criteria:[
-    {pts:10,text:'Detecta y nombra los 5 elementos de identificación faltantes: año en la fecha, apellido materno, expediente, edad y sexo.'},
-    {pts:20,text:'Detecta ausencia de peso, talla, IMC y exploración de pie diabético. Nombra ≥3 omisiones con artículo de NOM-004.'},
-    {pts:20,text:'Señala ausencia de CIE-10, plan sin medicamentos ni dosis, y falta de laboratorios de control. Propone contenido correcto.'},
-    {pts:20,text:'Detecta y nombra 6-7 de los 7 errores intencionales presentes en la nota clínica.'},
-    {pts:15,text:'Propone adenda o nota de corrección según NOM-004 Art. 10. Distingue cuándo aplica cada mecanismo.'},
-    {pts:10,text:'Clasifica hallazgos en omisión, error de contenido clínico y violación formal NOM. Señala impacto médico-legal.'},
-    {pts:5,text:'Jerarquiza errores por gravedad: riesgo legal inmediato (firma/cédula) y seguridad del paciente (plan sin dosis) primero.'},
+
+  {name:'Auditoría de Nota Clínica',tiempo:'8 min',max:110,
+   killers:['Proponer enmendar directamente la nota original borrando o sobreescribiendo contenido.','No detectar la ausencia de firma y cédula del médico (elemento de validez legal obligatorio según NOM-004).'],
+   criteria:[
+    {dim:'1. Identificación de datos de identificación faltantes',levels:[
+      {pts:10,label:'D — Excelente',cls:'D',text:'Detecta y nombra los 5 elementos faltantes: año en la fecha, apellido materno, número de expediente, edad y sexo; los clasifica como omisión obligatoria según NOM-004 Art. 7.'},
+      {pts:7, label:'C — Bueno',cls:'C',text:'Detecta 4 de 5 elementos de identificación faltantes y los relaciona con NOM-004; pierde uno (usualmente sexo o edad).'},
+      {pts:4, label:'B — Suficiente',cls:'B',text:'Detecta solo 2-3 elementos (generalmente fecha incompleta y expediente); no menciona ausencia de edad ni sexo como datos obligatorios.'},
+      {pts:1, label:'A — Insuficiente',cls:'A',text:'Detecta 0-1 elementos; acepta la nota como correctamente identificada con solo el apellido paterno y fecha sin año.'},
+    ]},
+    {dim:'2. Evaluación de interrogatorio y exploración física',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Detecta que el padecimiento no documenta síntomas específicos de DM2; identifica ausencia de peso, talla, IMC, exploración de pie diabético; nombra ≥3 omisiones con artículo específico de NOM-004 como soporte.'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Detecta omisiones de peso, talla, IMC y al menos una del interrogatorio; no identifica ausencia de exploración de pie ni cita el artículo normativo.'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:"Solo señala que 'falta más información' sin identificar cuáles elementos son requeridos por la NOM-004; detecta <2 omisiones específicas."},
+      {pts:3, label:'A — Insuficiente',cls:'A',text:"No evalúa completitud del interrogatorio ni exploración; acepta que 'TA y FC son suficientes' para una nota de DM2 de control."},
+    ]},
+    {dim:'3. Verificación de diagnóstico y plan terapéutico',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Señala ausencia de CIE-10 (E11.9), que el plan no especifica medicamentos, dosis ni duración, que no hay indicación de laboratorios de control; propone el contenido correcto de cada uno.'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Detecta ausencia de CIE-10 y vaguedad del plan, pero no señala falta de laboratorios de control ni propone cómo quedaría redactado correctamente.'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:"Solo menciona 'falta el código diagnóstico' sin analizar la calidad del plan; o señala plan incompleto sin mencionar el CIE-10."},
+      {pts:3, label:'A — Insuficiente',cls:'A',text:"No detecta ausencia de CIE-10 ni cuestiona la vaguedad del plan; acepta 'DM2 en control / continuar tratamiento' como suficiente."},
+    ]},
+    {dim:'4. Detección de errores intencionales (7 en total)',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Detecta y nombra 6-7 de los 7 errores: fecha sin año, nombre incompleto, sin expediente/edad/sexo, sin peso/talla/IMC, sin pie diabético, sin CIE-10, sin firma/cédula/registro.'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Detecta correctamente 4-5 errores incluyendo sin CIE-10 y plan sin especificaciones; pierde 2 errores de forma.'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:'Detecta solo 2-3 errores (generalmente los más visibles: fecha y expediente); no identifica errores de contenido clínico.'},
+      {pts:3, label:'A — Insuficiente',cls:'A',text:"Detecta solo 1 error o ninguno; considera que la nota solo necesita 'agregar más detalle' sin identificar violaciones a la NOM."},
+    ]},
+    {dim:'5. Propuesta de corrección normativa correcta',levels:[
+      {pts:15,label:'D — Excelente',cls:'D',text:'Propone redactar adenda (para agregar datos omitidos sin modificar el original) o nota de corrección (para errores de contenido), distinguiendo cuándo aplica cada una según NOM-004 Art. 10.'},
+      {pts:10,label:'C — Bueno',cls:'C',text:'Propone nota de corrección o adenda sin distinguir claramente cuándo aplica cada mecanismo; o propone el correcto sin mencionar que no debe enmendar el original.'},
+      {pts:6, label:'B — Suficiente',cls:'B',text:"Propone 'agregar la información que falta' sin nombrar el mecanismo normativo correcto (adenda vs. corrección directa)."},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'Propone enmendar directamente borrando o sobreescribiendo ⛔ KILLER ITEM; o no sabe cómo proceder sin alterar el original.'},
+    ]},
+    {dim:'6. Clasificación de hallazgos e implicación médico-legal',levels:[
+      {pts:15,label:'D — Excelente',cls:'D',text:'Clasifica hallazgos correctamente: omisión (datos requeridos ausentes), error de contenido clínico (exploración incompleta), violación formal a NOM (sin firma/cédula). Señala el impacto médico-legal: nota sin firma es inválida y representa riesgo institucional ante CONAMED.'},
+      {pts:10,label:'C — Bueno',cls:'C',text:'Clasifica correctamente la mayoría de hallazgos pero confunde error de contenido con violación formal en al menos uno; menciona implicación legal sin especificar riesgo institucional.'},
+      {pts:6, label:'B — Suficiente',cls:'B',text:"Solo usa 'omisión' como categoría para todos los hallazgos sin distinguir tipos; no menciona implicaciones médico-legales."},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:"No clasifica hallazgos; elabora solo una lista de 'lo que falta' sin categorización ni referencia a NOM-004."},
+    ]},
+    {dim:'7. Razonamiento clínico y priorización',levels:[
+      {pts:10,label:'D — Excelente',cls:'D',text:'Jerarquiza errores por gravedad: prioriza los de riesgo legal inmediato (firma/cédula) y los de seguridad del paciente (plan sin dosis) antes que los errores de forma. Justifica la priorización con fundamento normativo.'},
+      {pts:7, label:'C — Bueno',cls:'C',text:'Identifica errores de diferente gravedad pero no los jerarquiza explícitamente; los aborda en el orden en que aparecen en la nota.'},
+      {pts:4, label:'B — Suficiente',cls:'B',text:'Lista todos los errores con la misma importancia sin distinguir entre los de riesgo inmediato y los de formato.'},
+      {pts:1, label:'A — Insuficiente',cls:'A',text:'No jerarquiza; mezcla errores de forma con errores de contenido clínico como si tuvieran la misma relevancia.'},
+    ]},
   ]},
-  { name:'Interpretación de Laboratorios', tiempo:'7 min', max:100, criteria:[
-    {pts:15,text:'Identifica los 5 valores alterados y jerarquiza priorizando TSH elevada como el hallazgo más relevante con justificación.'},
-    {pts:20,text:'Correlaciona síntomas: fatiga/piel reseca → hipotiroidismo; palpitaciones + anemia macrocítica → déficit de B12.'},
-    {pts:20,text:'Establece hipotiroidismo primario autoinmune + anemia megaloblástica por B12 como síndrome poliglandular autoinmune.'},
-    {pts:20,text:'Solicita anti-TPO, anti-células parietales, B12 IM (por posible malabsorción) y seguimiento de TSH en 6-8 semanas.'},
-    {pts:15,text:'Prescribe levotiroxina ajustada al peso + B12 IM 1000 mcg por 7 días, luego semanal 1 mes, luego mensual.'},
-    {pts:5,text:'Concluye que NO hay urgencia inmediata (Hb 10.2 = anemia leve), establece criterios de urgencia y refiere a endocrinología.'},
-    {pts:5,text:'Integra todos los hallazgos en un diagnóstico unificador. Prioriza hipotiroidismo antes que la anemia con justificación.'},
+
+  {name:'Interpretación de Laboratorios',tiempo:'7 min',max:110,
+   killers:['Diagnosticar anemia ferropénica sin analizar el VCM elevado (112 fL) ni los niveles de B12 (148 pg/mL).','No detectar la TSH 12.4 mUI/L como el hallazgo más relevante y prioritario del panel.','Indicar hospitalización inmediata sin criterio clínico (Hb 10.2 = anemia leve-moderada, no urgencia vital).'],
+   criteria:[
+    {dim:'1. Identificación y jerarquización de valores alterados',levels:[
+      {pts:15,label:'D — Excelente',cls:'D',text:'Identifica los 5 valores alterados (Hb 10.2↓, VCM 112↑, TSH 12.4↑, T4L 0.6↓, B12 148↓) y jerarquiza priorizando TSH elevada como hallazgo más relevante con justificación clínica.'},
+      {pts:10,label:'C — Bueno',cls:'C',text:'Identifica todos los valores alterados pero jerarquiza incorrectamente (pone anemia antes que TSH); o no justifica el orden de prioridad.'},
+      {pts:6, label:'B — Suficiente',cls:'B',text:'Identifica 3-4 valores alterados; omite B12 baja o VCM elevado; no jerarquiza por relevancia clínica.'},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'Identifica solo Hb y TSH sin analizar el panel completo; no hace ningún intento de jerarquizar los hallazgos.'},
+    ]},
+    {dim:'2. Correlación clínico-laboratorial',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Correlaciona todos los síntomas: fatiga y piel reseca → hipotiroidismo (TSH↑, T4L↓); palpitaciones + anemia macrocítica → déficit de B12; pérdida de peso → coherente con enfermedad autoinmune crónica que altera el metabolismo basal.'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Correlaciona fatiga con hipotiroidismo y palpitaciones con anemia, pero no integra la pérdida de peso en el cuadro clínico.'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:'Correlaciona la fatiga con la anemia o el hipotiroidismo como diagnósticos separados sin integrar el cuadro global.'},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:"No correlaciona síntomas con laboratorios; interpreta valores de forma aislada ('la hemoglobina está baja, necesita hierro')."},
+    ]},
+    {dim:'3. Diagnósticos diferenciales fundamentados',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Establece hipotiroidismo primario autoinmune + anemia megaloblástica por déficit de B12 como diagnósticos principales; los integra como síndrome poliglandular autoinmune y fundamenta con los hallazgos del panel.'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Establece ambos diagnósticos con fundamento pero sin integrarlos como síndrome poliglandular; no considera la etiología autoinmune común.'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:'Establece hipotiroidismo pero diagnostica anemia ferropénica en lugar de megaloblástica (no analiza VCM ni B12); diagnóstico único. ⛔ KILLER ITEM si no detecta VCM ni B12.'},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:"Diagnóstico incorrecto o ausente; concluye solo 'anemia' sin clasificarla; o propone diagnósticos que no corresponden a los hallazgos."},
+    ]},
+    {dim:'4. Estudios complementarios pertinentes',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Solicita y justifica: anti-TPO (etiología autoinmune del hipotiroidismo), anti-células parietales (malabsorción de B12 por gastritis atrófica), esquema IM de vitamina B12 (malabsorción implica que VO no funciona), seguimiento de TSH en 6-8 semanas.'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Solicita anti-TPO y B12 IM con justificación, pero no incluye anti-células parietales para investigar la causa del déficit de B12.'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:'Solo solicita anti-TPO y control de TSH; no investiga la causa del déficit de B12; prescribe B12 oral sin reconocer la posible malabsorción.'},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'No solicita estudios pertinentes; o solicita estudios sin justificación (p.ej. endoscopía urgente sin razonamiento).'},
+    ]},
+    {dim:'5. Plan terapéutico inicial correcto',levels:[
+      {pts:15,label:'D — Excelente',cls:'D',text:'Prescribe levotiroxina (1.6 mcg/kg/día, iniciar con 25-50 mcg y escalar) + B12 IM 1000 mcg/día por 7 días, luego semanal 1 mes, luego mensual. Indica seguimiento de TSH y B12 en 6-8 semanas con justificación.'},
+      {pts:10,label:'C — Bueno',cls:'C',text:'Prescribe levotiroxina y B12 IM, pero sin ajustar la dosis al peso ni especificar la duración del esquema IM.'},
+      {pts:6, label:'B — Suficiente',cls:'B',text:'Prescribe levotiroxina a dosis fija; menciona B12 oral sin reconocer que la posible malabsorción requiere vía IM.'},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'No propone tratamiento; o solo trata la anemia con hierro (diagnóstico incorrecto); o prescribe sin mencionar el déficit de B12.'},
+    ]},
+    {dim:'6. Criterios de urgencia y referencia',levels:[
+      {pts:10,label:'D — Excelente',cls:'D',text:'Concluye correctamente que NO hay urgencia inmediata (Hb 10.2 = anemia leve-moderada, sin descompensación), establece criterios de urgencia (Hb <7, síntomas de mixedema) y refiere a endocrinología en 2-4 semanas con justificación.'},
+      {pts:7, label:'C — Bueno',cls:'C',text:'Concluye que no es urgencia y refiere a endocrinología, pero no establece los criterios que sí requerirían atención urgente.'},
+      {pts:4, label:'B — Suficiente',cls:'B',text:'Considera el caso como urgente sin justificación clínica; o no evalúa si requiere referencia ni indica a qué especialista.'},
+      {pts:1, label:'A — Insuficiente',cls:'A',text:'Indica hospitalización inmediata sin justificación ⛔ KILLER ITEM; o da alta sin ningún seguimiento ni referencia.'},
+    ]},
+    {dim:'7. Razonamiento clínico y priorización',levels:[
+      {pts:10,label:'D — Excelente',cls:'D',text:'Integra todos los hallazgos en un diagnóstico unificador (síndrome poliglandular autoinmune); jerarquiza el tratamiento priorizando hipotiroidismo (repercusión sistémica mayor) antes que la anemia; justifica con fisiopatología.'},
+      {pts:7, label:'C — Bueno',cls:'C',text:'Prioriza correctamente el hipotiroidismo pero sin integrar el cuadro como síndrome unificador; trata ambos diagnósticos como entidades independientes.'},
+      {pts:4, label:'B — Suficiente',cls:'B',text:'Prioriza la anemia sobre el hipotiroidismo sin justificación fisiopatológica; trata los diagnósticos en el orden en que aparecen en el panel.'},
+      {pts:1, label:'A — Insuficiente',cls:'A',text:'No integra los hallazgos; trata un solo diagnóstico ignorando el otro o sin ninguna jerarquización clínica.'},
+    ]},
   ]},
-  { name:'Crisis Institucional DIABETIMSS', tiempo:'8 min', max:100, criteria:[
-    {pts:20,text:'Calcula la brecha cuantitativa de cada indicador (p.ej. microalbuminuria: 28% vs. meta ≥70% = brecha 42 pp).'},
-    {pts:20,text:'Jerarquiza microalbuminuria (brecha 42 pp, riesgo de nefropatía) y pie (brecha 38 pp, riesgo de amputación) como prioritarios.'},
-    {pts:20,text:'Identifica los 18 pacientes de alto riesgo y justifica los 3 criterios: DM2 >10 años, HbA1c >9%, sin revisión de pie 2 años.'},
-    {pts:20,text:'Propone ≥2 intervenciones con evidencia y factibles en UMF: grupo educativo, protocolo de pie en cada consulta, llamadas.'},
-    {pts:15,text:'Presenta en formato: Situación → Brecha → Propuesta → Indicador de éxito con tiempo definido.'},
-    {pts:5,text:'Integra visión poblacional con clínica individual. Prioriza subgrupo de alto riesgo para intervención inmediata.'},
+
+  {name:'Crisis Institucional DIABETIMSS',tiempo:'8 min',max:110,
+   killers:['No identificar el subgrupo de 18 pacientes de alto riesgo como prioritario.','Proponer intervenciones fuera del alcance del primer nivel (p.ej. hospitalizar pacientes descontrolados o adquirir equipos costosos).'],
+   criteria:[
+    {dim:'1. Cálculo correcto de brechas',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Calcula la brecha cuantitativa de cada indicador (p.ej. HbA1c: 31% en meta vs. meta ≥60% = brecha 29 pp; microalbuminuria: 28% vs. meta ≥70% = brecha 42 pp) y prioriza los de mayor brecha y mayor impacto.'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Calcula correctamente la brecha de 4-5 indicadores incluyendo HbA1c y revisión de pie, pero no calcula la de microalbuminuria o fondo de ojo.'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:"Identifica que los indicadores están por debajo de la meta pero no calcula brechas cuantitativas; solo describe que 'están muy bajos'."},
+      {pts:3, label:'A — Insuficiente',cls:'A',text:'Lee los datos en voz alta sin comparar con metas ni calcular ninguna brecha; no realiza ningún análisis comparativo.'},
+    ]},
+    {dim:'2. Jerarquización por impacto clínico',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Jerarquiza 7 indicadores priorizando microalbuminuria (brecha 42 pp, riesgo de nefropatía irreversible) y revisión de pie (brecha 38 pp, riesgo de amputación) antes que los metabólicos; justifica con impacto en complicaciones.'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Jerarquiza correctamente al menos 4 indicadores dando prioridad a microalbuminuria o pie, pero sin justificar el orden con impacto en morbimortalidad.'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:'Solo prioriza la HbA1c sin considerar que microalbuminuria y pie tienen mayor impacto en complicaciones irreversibles a corto plazo.'},
+      {pts:3, label:'A — Insuficiente',cls:'A',text:'No jerarquiza; aborda todos con la misma importancia o lista solo 2 indicadores ignorando los de proceso.'},
+    ]},
+    {dim:'3. Identificación y justificación del subgrupo de riesgo',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Identifica los 18 pacientes de alto riesgo y justifica los 3 criterios: DM2 >10 años (acumulación de daño en órgano blanco), HbA1c >9% (descontrol severo con riesgo de complicaciones agudas), sin revisión de pie en 2 años (riesgo de úlcera o amputación no detectado).'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Identifica el subgrupo y justifica 2 de 3 criterios con fundamento; omite uno o no conecta los 3 factores como sinergia de riesgo.'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:"Menciona el subgrupo pero lo justifica con solo un criterio ('tienen la HbA1c muy alta') sin integrar los otros dos factores."},
+      {pts:3, label:'A — Insuficiente',cls:'A',text:'No identifica el subgrupo o lo menciona sin ninguna justificación; lo trata igual que el resto de la cohorte. ⛔ KILLER ITEM'},
+    ]},
+    {dim:'4. Intervenciones basadas en evidencia y factibles',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Propone ≥2 intervenciones con evidencia y factibles en UMF: grupo educación estructurada en DM (evidencia A), protocolo de revisión de pie en cada consulta, llamadas de seguimiento al subgrupo de riesgo, ajuste terapéutico protocolizado. Considera factibilidad y costo-impacto.'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Propone 2 intervenciones con evidencia pero una no es factible en primer nivel; o no especifica la población objetivo de cada intervención.'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:"Propone intervenciones genéricas sin evidencia ('mejorar la atención') o una sola intervención concreta sin el segundo componente."},
+      {pts:3, label:'A — Insuficiente',cls:'A',text:'No propone intervenciones; o propone acciones fuera del alcance del primer nivel sin ninguna adaptación a recursos disponibles. ⛔ KILLER ITEM'},
+    ]},
+    {dim:'5. Presentación estructurada de resultados',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:"Presenta en formato completo: Situación ('el 31% está en meta') → Brecha ('brecha de 29 pp vs. meta ≥60%') → Propuesta ('grupo educativo mensual') → Indicador de éxito ('alcanzar 50% en meta en 6 meses')."},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Usa 3 de 4 elementos del formato (situación, brecha, propuesta); omite el indicador de éxito con tiempo definido.'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:'Presenta hallazgos y propuestas mezclados sin estructura definida; no distingue análisis de situación de propuestas de mejora.'},
+      {pts:3, label:'A — Insuficiente',cls:'A',text:'Solo lee datos en voz alta sin análisis ni propuesta; o presentación tan desordenada que no transmite ningún hallazgo claro.'},
+    ]},
+    {dim:'6. Razonamiento clínico y priorización',levels:[
+      {pts:10,label:'D — Excelente',cls:'D',text:'Integra visión poblacional con la clínica individual: prioriza el subgrupo de alto riesgo para intervención inmediata y al resto para intervención programada; justifica la asignación de recursos según impacto esperado.'},
+      {pts:7, label:'C — Bueno',cls:'C',text:'Distingue entre el subgrupo de alto riesgo y el resto, pero no logra integrar el razonamiento poblacional con la asignación de recursos.'},
+      {pts:4, label:'B — Suficiente',cls:'B',text:'Aborda la cohorte como grupo homogéneo sin distinguir subgrupos; propone intervenciones iguales para todos.'},
+      {pts:1, label:'A — Insuficiente',cls:'A',text:'No distingue niveles de riesgo; propone intervenciones universales sin ninguna priorización por riesgo o factibilidad.'},
+    ]},
   ]},
-  { name:'Prescripción Segura', tiempo:'7 min', max:100, criteria:[
-    {pts:20,text:'Detecta los 6 errores: amoxicilina en alérgica, metformina con TFG 38 (reevaluar), ibuprofeno en ERC, captopril sin ajuste, sin fecha, sin cédula/DCI.'},
-    {pts:20,text:'Receta con 7 elementos COFEPRIS: fecha, nombre y cédula del médico, paciente, nombre genérico, dosis, vía, frecuencia y duración.'},
-    {pts:20,text:'Verifica: alergia → nitrofurantoína; ibuprofeno → paracetamol; metformina con TFG 38 → ajuste y vigilancia; captopril → 12.5 mg c/12h.'},
-    {pts:20,text:'Explica en lenguaje accesible: por qué cambia el antibiótico, cómo tomar nitrofurantoína, metformina con vigilancia renal, señales de alarma.'},
-    {pts:15,text:'Prescribe por nombre genérico (DCI), justifica nitrofurantoína para IVU no complicada, menciona fosfomicina como alternativa.'},
-    {pts:5,text:'Prioriza correctamente: seguridad (alergia y nefrotoxicidad) antes que eficacia y luego elementos formales.'},
+
+  {name:'Prescripción Segura',tiempo:'7 min',max:110,
+   killers:['Mantener amoxicilina pese a alergia documentada a penicilina (riesgo de anafilaxia — error crítico de seguridad del paciente).','Prescribir ibuprofeno u otro AINE a paciente con ERC estadio 3 (nefrotóxico — puede acelerar la pérdida de función renal).'],
+   criteria:[
+    {dim:'1. Detección de errores de prescripción',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Detecta y nombra los 6 errores: (1) amoxicilina en alérgica a penicilina, (2) metformina con TFG 38 requiere reevaluación y ajuste, no suspensión automática (suspender si TFG <30), (3) ibuprofeno nefrotóxico en ERC, (4) captopril sin ajuste de dosis renal, (5) receta sin fecha, (6) sin cédula y sin nombre genérico.'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Detecta 4-5 errores incluyendo obligatoriamente la alergia a penicilina y el ibuprofeno en ERC; pierde el error de captopril o un elemento formal.'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:'Detecta 2-3 errores: identifica la alergia e ibuprofeno, pero no detecta el problema con captopril ni el matiz de la metformina en TFG 38.'},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'Detecta solo 1 error (usualmente la alergia); acepta metformina, ibuprofeno y captopril ⛔ KILLER ITEM como seguros para esta paciente con ERC estadio 3.'},
+    ]},
+    {dim:'2. Redacción de receta correcta (elementos COFEPRIS)',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Receta con los 7 elementos obligatorios: fecha, nombre y cédula del médico, nombre completo de la paciente, nombre genérico del medicamento (nitrofurantoína o fosfomicina), dosis correcta, vía, frecuencia y duración (5-7 días para IVU no complicada).'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Incluye 6 de 7 elementos y elige el antibiótico correcto; omite un elemento formal (p.ej. número de cédula o duración del tratamiento).'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:'Escribe receta con el antibiótico correcto pero con 3-4 elementos faltantes; o incluye todos los elementos pero elige un antibiótico inadecuado.'},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'Receta con ≤3 elementos obligatorios; o el antibiótico sigue siendo contraindicado; o no redacta la receta y solo describe verbalmente los cambios.'},
+    ]},
+    {dim:'3. Verificación de contraindicaciones (KDIGO 2022)',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Verifica: (1) alergia → contraindica amoxicilina, elige nitrofurantoína; (2) ibuprofeno → cambia a paracetamol (nefrotóxico en ERC); (3) metformina con TFG 38 → puede continuarse con ajuste y vigilancia renal cada 3 meses; suspender solo si TFG baja a <30; (4) captopril → ajusta a 12.5 mg c/12h por TFG disminuida.'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Verifica alergia, AINE en ERC y ajusta captopril, pero trata la metformina como contraindicación absoluta sin reconocer el matiz actual (KDIGO 2022: TFG 38 = zona de reevaluación con ajuste, no suspensión automática).'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:'Verifica la alergia y cambia el antibiótico, pero no identifica el riesgo del ibuprofeno en ERC ni ajusta el captopril a la función renal actual.'},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'Solo verifica la alergia; acepta ibuprofeno en ERC ⛔ KILLER ITEM y captopril sin ajuste; maneja la metformina sin ninguna consideración por la función renal.'},
+    ]},
+    {dim:'4. Comunicación del esquema al paciente',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Explica en lenguaje accesible: por qué se cambia el antibiótico (alergia), cómo tomar nitrofurantoína (con alimentos para reducir náusea), manejo de la metformina (continuar con vigilancia renal), paracetamol para el dolor, y señales de alarma (fiebre, dolor de espalda → urgencias).'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Explica los cambios principales en lenguaje accesible pero no menciona las señales de alarma ni cómo tomar la nitrofurantoína respecto a las comidas.'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:'Solo informa qué medicamentos va a tomar sin explicar por qué se hacen los cambios ni qué debe vigilar; usa términos técnicos sin traducirlos.'},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'No explica los cambios al paciente; solo entrega la receta; o la explicación es tan técnica que la paciente no comprende el esquema nuevo.'},
+    ]},
+    {dim:'5. Prescripción por nombre genérico y uso racional',levels:[
+      {pts:20,label:'D — Excelente',cls:'D',text:'Prescribe todos los medicamentos por nombre genérico, justifica la elección de nitrofurantoína para IVU no complicada, indica duración correcta (5-7 días), y menciona fosfomicina como alternativa de dosis única válida.'},
+      {pts:14,label:'C — Bueno',cls:'C',text:'Prescribe por nombre genérico y elige nitrofurantoína con justificación, pero no justifica la duración ni menciona fosfomicina como alternativa.'},
+      {pts:8, label:'B — Suficiente',cls:'B',text:'Prescribe por nombre genérico pero elige un antibiótico que no es primera línea para IVU no complicada en esta paciente (p.ej. ciprofloxacino sin justificación).'},
+      {pts:2, label:'A — Insuficiente',cls:'A',text:'No prescribe por nombre genérico (usa marcas comerciales); o la prescripción sigue conteniendo el betalactámico contraindicado.'},
+    ]},
+    {dim:'6. Razonamiento clínico y priorización',levels:[
+      {pts:10,label:'D — Excelente',cls:'D',text:'Prioriza correctamente: primero seguridad (alergia y nefrotoxicidad), luego eficacia (antibiótico correcto para IVU), luego cumplimiento (educación al paciente). Jerarquiza errores por riesgo vital antes que por riesgo legal.'},
+      {pts:7, label:'C — Bueno',cls:'C',text:'Prioriza correctamente los errores de seguridad pero se centra en los elementos formales (fecha, cédula) antes de resolver la alergia o el AINE nefrotóxico.'},
+      {pts:4, label:'B — Suficiente',cls:'B',text:'Aborda todos los errores con la misma prioridad sin distinguir entre riesgo vital inmediato y riesgo legal diferido.'},
+      {pts:1, label:'A — Insuficiente',cls:'A',text:'No jerarquiza; resuelve primero los errores de forma (fecha, cédula) antes de atender la alergia a penicilina o el AINE nefrotóxico.'},
+    ]},
   ]},
 ];
 
-// ── JEOPARDY ───────────────────────────────────────────────────────────────────
-const JEOPARDY_QS = [
+const JEOPARDY_QS=[
   {cat:'Familia y Sociedad',pts:10,q:'¿Cuáles son las 4 funciones básicas de la familia según la clasificación IMSS-Bienestar?'},
   {cat:'Familia y Sociedad',pts:20,q:'¿Qué tipo de crisis familiar ocurre cuando un hijo abandona el hogar para casarse?'},
   {cat:'Familia y Sociedad',pts:30,q:'Describe el genograma familiar: ¿qué símbolos se usan para hombre, mujer y relación conflictiva?'},
@@ -513,39 +765,35 @@ const JEOPARDY_QS = [
   {cat:'Comodín MF',pts:50,q:'Explica el modelo biopsicosocial de Engel aplicado a paciente con DM2 mal controlada y disfunción familiar moderada.'},
 ];
 
-// ── STATE ──────────────────────────────────────────────────────────────────────
-const { createClient } = supabase;
-const db = createClient(SUPABASE_URL, SUPABASE_KEY);
-let currentRole = null;
-let selectedRoleBtn = null;
-let appState = { rallyName:'', teams:[], avatars:{} };
-let localChecks = {};
-let realtimeSub = null;
-let currentJeopIdx = null;
-let selectedJeopTeam = null;
+// ── STATE
+const{createClient}=supabase;
+const db=createClient(SUPABASE_URL,SUPABASE_KEY);
+let currentRole=null,selectedRoleBtn=null;
+let appState={rallyName:'',teams:[],avatars:{}};
+let levelSelections={};  // {team: {stIdx: {dimIdx: levelIdx}}}
+let killerActive={};     // {team: {stIdx: bool}}
+let lateActive={};       // {team: {stIdx: bool}}
+let realtimeSub=null;
+let currentJeopIdx=null,selectedJeopTeam=null;
 
-// ── LOGIN ──────────────────────────────────────────────────────────────────────
+// ── LOGIN
 function selectRole(role){
-  selectedRoleBtn = role;
-  if(role==='publico'){ enterApp('publico'); return; }
+  selectedRoleBtn=role;
+  if(role==='publico'){enterApp('publico');return;}
   document.getElementById('role-select').style.display='none';
   document.getElementById('pin-section').style.display='block';
-  document.getElementById('pin-label-text').textContent = role==='profesor'?'PIN del Evaluador de Misión':'PIN del Coordinador';
+  document.getElementById('pin-label-text').textContent=role==='profesor'?'PIN del Evaluador de Misión':'PIN del Coordinador';
   document.getElementById('pin-input').value='';
   document.getElementById('pin-error').style.display='none';
   document.getElementById('pin-input').focus();
 }
-function backToRoles(){
-  document.getElementById('role-select').style.display='block';
-  document.getElementById('pin-section').style.display='none';
-}
-function checkPinLen(){ if(document.getElementById('pin-input').value.length===4) submitPin(); }
+function backToRoles(){document.getElementById('role-select').style.display='block';document.getElementById('pin-section').style.display='none';}
+function checkPinLen(){if(document.getElementById('pin-input').value.length===4)submitPin();}
 function submitPin(){
   const pin=document.getElementById('pin-input').value;
-  const errEl=document.getElementById('pin-error');
   if(selectedRoleBtn==='profesor'&&pin===PIN_PROFESOR){enterApp('profesor');return;}
   if(selectedRoleBtn==='coordinador'&&pin===PIN_COORD){enterApp('coordinador');return;}
-  errEl.style.display='block';
+  document.getElementById('pin-error').style.display='block';
   document.getElementById('pin-input').value='';
 }
 function enterApp(role){
@@ -554,7 +802,7 @@ function enterApp(role){
   document.getElementById('app-shell').style.display='flex';
   const chips={publico:'👥 Escuadrón',profesor:'⚕️ Evaluador',coordinador:'🎖️ Coordinador'};
   document.getElementById('role-chip').textContent=chips[role];
-  if(role==='profesor') document.getElementById('tab-eval').classList.remove('hidden');
+  if(role==='profesor')document.getElementById('tab-eval').classList.remove('hidden');
   if(role==='coordinador'){
     document.getElementById('tab-eval').classList.remove('hidden');
     document.getElementById('tab-jeopardy').classList.remove('hidden');
@@ -563,54 +811,45 @@ function enterApp(role){
   initApp();
 }
 
-// ── APP INIT ───────────────────────────────────────────────────────────────────
+// ── INIT
 async function initApp(){
   await loadAppState();
   renderScoreboard();
-  if(currentRole==='profesor'||currentRole==='coordinador') populateTeamSelect();
+  if(currentRole!=='publico')populateTeamSelect();
   subscribeRealtime();
 }
 async function loadAppState(){
   const{data}=await db.from('rally_state').select('*').order('created_at',{ascending:false}).limit(1).maybeSingle();
-  if(data){ appState.rallyName=data.rally_name||'Operación UMF'; appState.teams=data.teams||[]; appState.avatars=data.avatars||{}; }
+  if(data){appState.rallyName=data.rally_name||'Operación UMF';appState.teams=data.teams||[];appState.avatars=data.avatars||{};}
 }
 function subscribeRealtime(){
-  if(realtimeSub) db.removeChannel(realtimeSub);
+  if(realtimeSub)db.removeChannel(realtimeSub);
   realtimeSub=db.channel('rally-changes')
     .on('postgres_changes',{event:'*',schema:'public',table:'rally_scores'},()=>{renderScoreboard();if(currentRole==='coordinador')renderJeopardy();})
-    .on('postgres_changes',{event:'*',schema:'public',table:'rally_state'},()=>{loadAppState().then(()=>{renderScoreboard();populateTeamSelect();})})
+    .on('postgres_changes',{event:'*',schema:'public',table:'rally_state'},()=>{loadAppState().then(()=>{renderScoreboard();populateTeamSelect();});})
     .subscribe();
 }
 
-// ── NAVIGATION ─────────────────────────────────────────────────────────────────
+// ── NAV
 function showScreen(id){
-  if(id==='eval'&&currentRole!=='profesor'&&currentRole!=='coordinador') return;
-  if(id==='jeopardy'&&currentRole!=='coordinador') return;
-  if(id==='setup'&&currentRole!=='coordinador') return;
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('screen-'+id).classList.add('active');
   const tabMap={scoreboard:'tab-scoreboard',eval:'tab-eval',jeopardy:'tab-jeopardy',setup:'tab-setup'};
-  if(tabMap[id]) document.getElementById(tabMap[id])?.classList.add('active');
-  if(id==='scoreboard') renderScoreboard();
+  if(tabMap[id])document.getElementById(tabMap[id])?.classList.add('active');
+  if(id==='scoreboard')renderScoreboard();
   if(id==='eval'){populateTeamSelect();renderRubric();}
-  if(id==='jeopardy') renderJeopardy();
-  if(id==='setup') renderSetup();
+  if(id==='jeopardy')renderJeopardy();
+  if(id==='setup')renderSetup();
 }
 
-// ── SCOREBOARD ─────────────────────────────────────────────────────────────────
-function calcUMFpct(stationScores){
-  const done=Object.keys(stationScores).filter(k=>k.startsWith('station_')).length;
-  return Math.round((done/7)*100);
-}
-
+// ── SCOREBOARD
 async function renderScoreboard(){
   const list=document.getElementById('scoreboard-list');
   document.getElementById('sb-rallyname').textContent=appState.rallyName||'Operación UMF: Código Médico Familiar';
-  if(!appState.teams.length){ list.innerHTML='<div class="warning-box">El coordinador aún no ha configurado la misión.</div>'; return; }
+  if(!appState.teams.length){list.innerHTML='<div class="warning-box">El coordinador aún no ha configurado la misión.</div>';return;}
   const{data:scores}=await db.from('rally_scores').select('*');
-  const teamScores={};
-  const stationBreakdown={};
+  const teamScores={},stationBreakdown={};
   appState.teams.forEach(t=>{teamScores[t]=0;stationBreakdown[t]={};});
   (scores||[]).forEach(s=>{
     if(teamScores[s.team_name]!==undefined){
@@ -618,58 +857,38 @@ async function renderScoreboard(){
       stationBreakdown[s.team_name][s.station_key]=s.score;
     }
   });
-
-  // Calc global UMF stability
-  let totalDone=0, totalPossible=appState.teams.length*7;
-  appState.teams.forEach(t=>{ totalDone+=Object.keys(stationBreakdown[t]).filter(k=>k.startsWith('station_')).length; });
+  let totalDone=0,totalPossible=appState.teams.length*7;
+  appState.teams.forEach(t=>{totalDone+=Object.keys(stationBreakdown[t]).filter(k=>k.startsWith('station_')).length;});
   const globalUMF=totalPossible>0?Math.round((totalDone/totalPossible)*100):0;
   document.getElementById('umf-pct-header').textContent=globalUMF+'%';
   document.getElementById('umf-bar-fill').style.width=globalUMF+'%';
-
   const sorted=[...appState.teams].sort((a,b)=>(teamScores[b]||0)-(teamScores[a]||0));
-  const rankClass=['first','second','third'];
-  const rankBadge=['🥇','🥈','🥉'];
-
+  const rankClass=['first','second','third'],rankBadge=['🥇','🥈','🥉'];
   list.innerHTML=sorted.map((t,idx)=>{
-    const pts=teamScores[t]||0;
-    const sb=stationBreakdown[t];
-    const umfPct=calcUMFpct(sb);
+    const pts=teamScores[t]||0,sb=stationBreakdown[t];
+    const done=Object.keys(sb).filter(k=>k.startsWith('station_')).length;
+    const umfPct=Math.round((done/7)*100);
     const av=appState.avatars[t];
-    const avImg=av?.img||'';
-    const avName=av?.name||'Escuadrón';
-    const rc=idx<3?rankClass[idx]:'';
-    const rb=idx<3?rankBadge[idx]:(idx+1);
+    const rc=idx<3?rankClass[idx]:'',rb=idx<3?rankBadge[idx]:(idx+1);
     const rbClass=idx===0?'rank-1':idx===1?'rank-2':idx===2?'rank-3':'rank-n';
-
     const mDots=STATIONS.map((s,si)=>{
-      const done=sb[`station_${si}`]!==undefined;
-      return `<div class="mdot ${done?'mdot-done':'mdot-pending'}" title="E${si+1}">${si+1}</div>`;
-    }).join('')+(sb['jeopardy']!==undefined?`<div class="mdot mdot-done" style="background:var(--gold);">J</div>`:`<div class="mdot mdot-pending">J</div>`);
-
+      const d=sb[`station_${si}`]!==undefined;
+      return `<div class="mdot ${d?'mdot-done':'mdot-pending'}">${si+1}</div>`;
+    }).join('')+(sb['jeopardy']!==undefined?'<div class="mdot mdot-done" style="background:var(--gold);">J</div>':'<div class="mdot mdot-pending">J</div>');
     const stDetails=STATIONS.map((s,si)=>{
       const sPts=sb[`station_${si}`];
-      const badge=BADGES[si];
-      return `<div class="detail-row">
-        <span style="font-size:12px;color:var(--muted);">E${si+1} · ${s.name}</span>
-        <span class="detail-pts ${sPts!==undefined?'pts-done':'pts-pend'}">${sPts!==undefined?sPts+' pts':'—'}</span>
-      </div>`;
+      return `<div class="detail-row"><span style="font-size:12px;color:var(--muted);">E${si+1} · ${s.name}</span><span class="detail-pts ${sPts!==undefined?'pts-done':'pts-pend'}">${sPts!==undefined?sPts+' pts':'—'}</span></div>`;
     }).join('');
     const jPts=sb['jeopardy'];
-    const jRow=`<div class="detail-row"><span style="font-size:12px;color:var(--gold);font-weight:800;">🎯 Jeopardy Final</span><span class="detail-pts pts-done">${jPts!==undefined?jPts+' pts':'—'}</span></div>`;
-
-    // Badges grid
+    const jRow=`<div class="detail-row"><span style="font-size:12px;color:var(--gold);font-weight:800;">🎯 Jeopardy</span><span class="detail-pts pts-done">${jPts!==undefined?jPts+' pts':'—'}</span></div>`;
     const badgesGrid=BADGES.map(badge=>{
       const unlocked=sb[badge.key]!==undefined;
-      return `<div class="badge-item">
-        <img class="badge-img ${unlocked?'unlocked':''}" src="${badge.img}" alt="${badge.name}" onerror="this.style.display='none'">
-        <span class="badge-name ${unlocked?'unlocked':''}">${badge.name}</span>
-      </div>`;
+      return `<div class="badge-item"><img class="badge-img ${unlocked?'unlocked':''}" src="${badge.img}" alt="${badge.name}" onerror="this.style.display='none'"><span class="badge-name ${unlocked?'unlocked':''}">${badge.name}</span></div>`;
     }).join('');
-
     return `<div class="team-card ${rc}" onclick="toggleTeamDetail(${idx})">
       <div class="team-top">
         <div class="rank-badge ${rbClass}">${rb}</div>
-        ${avImg?`<img class="team-avatar-img" src="${avImg}" alt="${avName}" onerror="this.style.display='none'">`:``}
+        ${av?.img?`<img class="team-avatar-img" src="${av.img}" alt="${av.name}" onerror="this.style.display='none'">`:``}
         <div class="team-info">
           <div class="team-name">${t}</div>
           <div class="mission-dots">${mDots}</div>
@@ -689,41 +908,42 @@ async function renderScoreboard(){
     </div>`;
   }).join('');
 }
-
 function toggleTeamDetail(idx){
-  const panel=document.getElementById('detail-'+idx);
-  if(!panel) return;
-  const isOpen=panel.classList.contains('open');
-  document.querySelectorAll('.badges-panel').forEach(p=>p.classList.remove('open'));
-  if(!isOpen) panel.classList.add('open');
+  const p=document.getElementById('detail-'+idx);
+  if(!p)return;
+  const open=p.classList.contains('open');
+  document.querySelectorAll('.badges-panel').forEach(x=>x.classList.remove('open'));
+  if(!open)p.classList.add('open');
 }
 
-// ── EVAL ───────────────────────────────────────────────────────────────────────
+// ── EVAL
 function populateTeamSelect(){
   const sel=document.getElementById('select-team-eval');
-  if(!sel) return;
+  if(!sel)return;
   const prev=sel.value;
   sel.innerHTML='<option value="">— Selecciona el escuadrón —</option>';
-  appState.teams.forEach(t=>{ sel.innerHTML+=`<option value="${t}" ${t===prev?'selected':''}>${t}</option>`; });
+  appState.teams.forEach(t=>{sel.innerHTML+=`<option value="${t}" ${t===prev?'selected':''}>${t}</option>`;});
 }
 
 async function renderRubric(){
   const stIdx=document.getElementById('select-station')?.value;
   const team=document.getElementById('select-team-eval')?.value;
   const area=document.getElementById('rubric-area');
-  if(!area) return;
-  if(!stIdx||!team){ area.innerHTML=''; return; }
+  if(!area)return;
+  if(!stIdx||!team){area.innerHTML='';return;}
   const st=STATIONS[parseInt(stIdx)];
   const mission=MISSIONS[parseInt(stIdx)];
   const badge=BADGES[parseInt(stIdx)];
   const key=`station_${stIdx}`;
   const{data:existing}=await db.from('rally_scores').select('*').eq('team_name',team).eq('station_key',key).maybeSingle();
   const prevScore=existing?existing.score:null;
-  const prevChecksDb=existing?(existing.checks||{}):{}; 
-  if(!localChecks[team]) localChecks[team]={};
-  if(!localChecks[team][stIdx]) localChecks[team][stIdx]={...prevChecksDb};
-  const checks=localChecks[team][stIdx];
 
+  if(!levelSelections[team])levelSelections[team]={};
+  if(!levelSelections[team][stIdx])levelSelections[team][stIdx]={};
+  if(!killerActive[team])killerActive[team]={};
+  if(!lateActive[team])lateActive[team]={};
+
+  // Render mission card
   area.innerHTML=`
     <div class="mission-card">
       <div class="mission-alerta">⚠️ ALERTA CLÍNICA</div>
@@ -733,27 +953,65 @@ async function renderRubric(){
       <div class="mission-impact">⚡ Impacto UMF: ${mission.impacto}</div>
       <div class="mission-reward">
         <img class="mission-badge-img" src="${badge.img}" alt="${badge.name}" onerror="this.style.display='none'">
-        <div>
-          <div class="mission-badge-label">🔓 Insignia: ${badge.name}</div>
-          <div style="font-size:10px;color:var(--muted);">${badge.desc}</div>
-        </div>
+        <div><div class="mission-badge-label">🔓 Insignia: ${badge.name}</div><div style="font-size:10px;color:var(--muted);">${badge.desc}</div></div>
       </div>
     </div>
-    ${prevScore!==null?`<div class="success-box">✅ Misión ya evaluada: ${prevScore} pts. Puedes modificar y reenviar.</div>`:''}
+
+    <div class="killer-box">
+      <div class="killer-title">⛔ Errores Críticos — Si ocurre cualquiera → puntaje máximo = 59 pts</div>
+      ${st.killers.map(k=>`<div class="killer-item">⛔ ${k}</div>`).join('')}
+    </div>
+
+    ${prevScore!==null?`<div class="success-box">✅ Ya evaluada: ${prevScore} pts. Puedes modificar y reenviar.</div>`:''}
+
     <div class="rubric-card">
       <div class="rubric-title">${st.name}</div>
       <div class="rubric-meta">⏱ ${st.tiempo} · Máx. ${st.max} pts · Escuadrón: ${team}</div>
       ${st.criteria.map((c,ci)=>`
-        <div class="criterion ${checks[ci]?'checked':''}" id="crit-${stIdx}-${ci}" onclick="toggleCrit('${stIdx}','${team}',${ci})">
-          <div class="crit-header">
-            <div class="crit-check"><span class="check-mark">✓</span></div>
-            <div class="crit-text">${c.text}</div>
-            <div class="crit-pts">${c.pts}</div>
+        <div class="dim-block">
+          <div class="dim-header">${c.dim}</div>
+          <div class="level-options">
+            ${c.levels.map((lv,li)=>`
+              <div class="level-opt ${levelSelections[team]?.[stIdx]?.[ci]===li?'selected-'+lv.cls:''}"
+                   id="lvl-${stIdx}-${ci}-${li}"
+                   onclick="selectLevel('${stIdx}','${team}',${ci},${li})">
+                <div class="level-label l${lv.cls}">${lv.label}</div>
+                <div class="level-text">${lv.text}</div>
+                <div class="level-pts p${lv.cls}">● ${lv.pts} pts</div>
+              </div>`).join('')}
           </div>
         </div>`).join('')}
+
+      <div class="modifiers-card">
+        <div class="mod-title">Modificadores de puntaje</div>
+        <div class="mod-toggle">
+          <div>
+            <div class="mod-label">⛔ Error crítico cometido</div>
+            <div class="mod-sub">Limita el puntaje máximo a 59 pts</div>
+          </div>
+          <button class="toggle-btn ${killerActive[team]?.[stIdx]?'active-killer':''}"
+                  id="killer-btn-${stIdx}"
+                  onclick="toggleKiller('${stIdx}','${team}')">
+            ${killerActive[team]?.[stIdx]?'ACTIVO':'Inactivo'}
+          </button>
+        </div>
+        <div class="mod-toggle">
+          <div>
+            <div class="mod-label">⏰ Llegó tarde a la estación</div>
+            <div class="mod-sub">Penalización: -10 pts al puntaje final</div>
+          </div>
+          <button class="toggle-btn ${lateActive[team]?.[stIdx]?'active-late':''}"
+                  id="late-btn-${stIdx}"
+                  onclick="toggleLate('${stIdx}','${team}')">
+            ${lateActive[team]?.[stIdx]?'ACTIVO':'Inactivo'}
+          </button>
+        </div>
+      </div>
+
       <div class="score-tally">
-        <div class="tally-label">Estabilidad recuperada</div>
+        <div class="tally-label">Puntaje de misión</div>
         <div><span class="tally-num" id="tally-${stIdx}">0</span><span class="tally-max">/${st.max}</span></div>
+        <div class="tally-mods" id="tally-mods-${stIdx}"></div>
         <div class="tally-bar"><div class="tally-fill" id="tfill-${stIdx}" style="width:0%"></div></div>
       </div>
       <button class="btn-submit" onclick="submitEval('${stIdx}','${team}')">⚡ Enviar — Restaurar Estabilidad UMF</button>
@@ -761,38 +1019,76 @@ async function renderRubric(){
   updateTally(stIdx,team);
 }
 
-function toggleCrit(stIdx,team,ci){
-  if(!localChecks[team]) localChecks[team]={};
-  if(!localChecks[team][stIdx]) localChecks[team][stIdx]={};
-  localChecks[team][stIdx][ci]=!localChecks[team][stIdx][ci];
-  document.getElementById(`crit-${stIdx}-${ci}`)?.classList.toggle('checked',localChecks[team][stIdx][ci]);
+function selectLevel(stIdx,team,ci,li){
+  if(!levelSelections[team])levelSelections[team]={};
+  if(!levelSelections[team][stIdx])levelSelections[team][stIdx]={};
+  levelSelections[team][stIdx][ci]=li;
+  // Update UI for this dim
+  const st=STATIONS[parseInt(stIdx)];
+  const c=st.criteria[ci];
+  c.levels.forEach((_,i)=>{
+    const el=document.getElementById(`lvl-${stIdx}-${ci}-${i}`);
+    if(el){el.className='level-opt'+(i===li?' selected-'+c.levels[li].cls:'');}
+  });
   updateTally(stIdx,team);
 }
+
+function toggleKiller(stIdx,team){
+  if(!killerActive[team])killerActive[team]={};
+  killerActive[team][stIdx]=!killerActive[team][stIdx];
+  const btn=document.getElementById('killer-btn-'+stIdx);
+  if(btn){btn.textContent=killerActive[team][stIdx]?'ACTIVO':'Inactivo';btn.className='toggle-btn'+(killerActive[team][stIdx]?' active-killer':'');}
+  updateTally(stIdx,team);
+}
+function toggleLate(stIdx,team){
+  if(!lateActive[team])lateActive[team]={};
+  lateActive[team][stIdx]=!lateActive[team][stIdx];
+  const btn=document.getElementById('late-btn-'+stIdx);
+  if(btn){btn.textContent=lateActive[team][stIdx]?'ACTIVO':'Inactivo';btn.className='toggle-btn'+(lateActive[team][stIdx]?' active-late':'');}
+  updateTally(stIdx,team);
+}
+
+function calcScore(stIdx,team){
+  const st=STATIONS[parseInt(stIdx)];
+  let raw=0;
+  st.criteria.forEach((c,ci)=>{
+    const li=levelSelections[team]?.[stIdx]?.[ci];
+    if(li!==undefined)raw+=c.levels[li].pts;
+  });
+  const isKiller=killerActive[team]?.[stIdx]||false;
+  const isLate=lateActive[team]?.[stIdx]||false;
+  let final=isKiller?Math.min(raw,59):raw;
+  if(isLate)final=Math.max(0,final-10);
+  return{raw,final,isKiller,isLate};
+}
+
 function updateTally(stIdx,team){
   const st=STATIONS[parseInt(stIdx)];
-  let total=0;
-  st.criteria.forEach((c,ci)=>{ if(localChecks[team]?.[stIdx]?.[ci]) total+=c.pts; });
+  const{raw,final,isKiller,isLate}=calcScore(stIdx,team);
   const numEl=document.getElementById('tally-'+stIdx);
   const fillEl=document.getElementById('tfill-'+stIdx);
-  if(numEl) numEl.textContent=total;
-  if(fillEl) fillEl.style.width=Math.round((total/st.max)*100)+'%';
+  const modEl=document.getElementById('tally-mods-'+stIdx);
+  if(numEl)numEl.textContent=final;
+  if(fillEl)fillEl.style.width=Math.round((final/st.max)*100)+'%';
+  if(modEl){
+    let mods=[];
+    if(isKiller)mods.push('⛔ Error crítico → máx. 59 pts');
+    if(isLate)mods.push('⏰ Llegó tarde → -10 pts');
+    modEl.textContent=mods.join('  |  ');
+  }
 }
+
 async function submitEval(stIdx,team){
-  const st=STATIONS[parseInt(stIdx)];
   const badge=BADGES[parseInt(stIdx)];
-  let total=0;
-  st.criteria.forEach((c,ci)=>{ if(localChecks[team]?.[stIdx]?.[ci]) total+=c.pts; });
+  const{final}=calcScore(stIdx,team);
   const key=`station_${stIdx}`;
-  const checks=localChecks[team]?.[stIdx]||{};
-  const{error}=await db.from('rally_scores').upsert({team_name:team,station_key:key,score:total,checks},{onConflict:'team_name,station_key'});
-  if(error){ showToast('❌ Error al guardar. Verifica tu conexión.'); return; }
-  // Show mission complete overlay
-  showMissionComplete(badge,total,team);
+  const{error}=await db.from('rally_scores').upsert({team_name:team,station_key:key,score:final},{onConflict:'team_name,station_key'});
+  if(error){showToast('❌ Error al guardar. Verifica tu conexión.');return;}
+  showMissionComplete(badge,final,team);
   renderScoreboard();
 }
 
 function showMissionComplete(badge,pts,team){
-  const{data:scores}=db.from('rally_scores').select('*'); // fire and forget
   document.getElementById('mc-badge-img').src=badge.img;
   document.getElementById('mc-badge-name').textContent=badge.name;
   document.getElementById('mc-pts-val').textContent=pts+' pts';
@@ -806,30 +1102,29 @@ function closeMissionComplete(){
   showToast('🔓 Insignia desbloqueada: '+document.getElementById('mc-badge-name').textContent);
 }
 
-// ── JEOPARDY ───────────────────────────────────────────────────────────────────
+// ── JEOPARDY
 async function renderJeopardy(){
   const grid=document.getElementById('jeop-grid');
   const scoresDiv=document.getElementById('jeop-scores');
-  if(!appState.teams.length){ grid.innerHTML='<div class="warning-box" style="grid-column:1/-1">Configura la misión primero.</div>'; return; }
+  if(!appState.teams.length){grid.innerHTML='<div class="warning-box" style="grid-column:1/-1">Configura la misión primero.</div>';return;}
   const{data:jScores}=await db.from('rally_scores').select('*').eq('station_key','jeopardy');
   const teamJPts={};
-  (jScores||[]).forEach(s=>{ teamJPts[s.team_name]=(teamJPts[s.team_name]||0)+(s.score||0); });
+  (jScores||[]).forEach(s=>{teamJPts[s.team_name]=(teamJPts[s.team_name]||0)+(s.score||0);});
   scoresDiv.innerHTML=appState.teams.map(t=>{
     const av=appState.avatars[t];
     return `<div class="jeop-chip">${av?.img?`<img src="${av.img}" alt="">`:''}<span>${t}: <b>${teamJPts[t]||0} pts</b></span></div>`;
   }).join('');
   const{data:answered}=await db.from('rally_jeopardy').select('*');
   const answeredMap={};
-  (answered||[]).forEach(a=>{ answeredMap[a.question_idx]=a; });
+  (answered||[]).forEach(a=>{answeredMap[a.question_idx]=a;});
   grid.innerHTML=JEOPARDY_QS.map((q,qi)=>{
     const ans=answeredMap[qi];
     const cls=ans?(ans.correct?'correct':'wrong'):'';
     const icon=ans?(ans.correct?'✓':'✗'):'';
-    const tName=ans?` ${ans.team_name}`:'';
     return `<div class="jeop-card ${cls}" onclick="openJeop(${qi})">
       <div class="jeop-cat">${q.cat}</div>
       <div class="jeop-pts-big">${q.pts}</div>
-      <div class="jeop-by">${icon}${tName}</div>
+      <div class="jeop-by">${icon}${ans?(' '+ans.team_name):''}</div>
     </div>`;
   }).join('');
 }
@@ -870,12 +1165,12 @@ async function resolveJeop(correct){
     const prevScore=existing?existing.score:0;
     await db.from('rally_scores').upsert({team_name:selectedJeopTeam,station_key:'jeopardy',score:(prevScore||0)+q.pts},{onConflict:'team_name,station_key'});
     showToast(`🎉 ${selectedJeopTeam}: +${q.pts} pts!`);
-  } else { showToast('❌ Sin puntos esta vez'); }
+  }else{showToast('❌ Sin puntos esta vez');}
   closeModal();renderJeopardy();renderScoreboard();
 }
-function closeModal(){ document.getElementById('modal').style.display='none'; }
+function closeModal(){document.getElementById('modal').style.display='none';}
 
-// ── SETUP ──────────────────────────────────────────────────────────────────────
+// ── SETUP
 let setupSelectedAvatars={};
 async function renderSetup(){
   const c=document.getElementById('setup-content');
@@ -905,8 +1200,7 @@ async function renderSetup(){
       <div id="avatar-section"></div>
     </div>
     <button class="btn btn-gold" onclick="saveSetup()" style="margin-top:4px;">🚀 Activar Misión</button>
-    <button class="btn btn-outline" onclick="confirmReset()" style="margin-top:8px;">🔄 Reiniciar (nuevo evento)</button>
-  `;
+    <button class="btn btn-outline" onclick="confirmReset()" style="margin-top:8px;">🔄 Reiniciar (nuevo evento)</button>`;
   buildTeamNameInputs(currentTeams.length||4,currentTeams);
   buildAvatarSelectors(currentTeams.length||4,currentTeams,currentAvatars);
 }
@@ -914,21 +1208,19 @@ function updateSetupTeams(val){
   document.getElementById('tc-display').textContent=val;
   const n=parseInt(val);
   const names=[];
-  for(let i=0;i<n;i++) names.push(document.getElementById('tn-'+i)?.value||'');
+  for(let i=0;i<n;i++)names.push(document.getElementById('tn-'+i)?.value||'');
   buildTeamNameInputs(n,names);
   buildAvatarSelectors(n,names,setupSelectedAvatars);
 }
 function buildTeamNameInputs(n,names=[]){
   const c=document.getElementById('team-names-container');
-  if(!c) return;
+  if(!c)return;
   c.innerHTML='';
-  for(let i=0;i<n;i++){
-    c.innerHTML+=`<div class="team-input-row"><div class="team-num">${i+1}</div><input class="form-input" id="tn-${i}" type="text" placeholder="Escuadrón ${i+1}" value="${names[i]||''}"></div>`;
-  }
+  for(let i=0;i<n;i++)c.innerHTML+=`<div class="team-input-row"><div class="team-num">${i+1}</div><input class="form-input" id="tn-${i}" type="text" placeholder="Escuadrón ${i+1}" value="${names[i]||''}"></div>`;
 }
 function buildAvatarSelectors(n,names=[],avatars={}){
   const sec=document.getElementById('avatar-section');
-  if(!sec) return;
+  if(!sec)return;
   sec.innerHTML='';
   for(let i=0;i<n;i++){
     const tname=names[i]||`Escuadrón ${i+1}`;
@@ -938,7 +1230,7 @@ function buildAvatarSelectors(n,names=[],avatars={}){
     AVATARS.forEach((av,ai)=>{
       const isSel=selAv?.name===av.name;
       grid.innerHTML+=`<div class="avatar-opt ${isSel?'selected':''}" onclick="pickAvatar(${i},${ai},'${tname}')" id="avo-${i}-${ai}">
-        <img src="${av.img}" alt="${av.name}" onerror="this.style.fontSize='28px';this.outerHTML='<span style=font-size:28px>🩺</span>'">
+        <img src="${av.img}" alt="${av.name}" onerror="this.style.opacity='0.3'">
         <span class="avatar-name">${av.name}</span>
       </div>`;
     });
@@ -952,8 +1244,7 @@ function pickAvatar(ti,ai,teamName){
 async function saveSetup(){
   const name=document.getElementById('rally-name-inp').value.trim()||'Operación UMF';
   const n=parseInt(document.getElementById('tc-slider').value);
-  const teams=[];
-  const avatars={};
+  const teams=[],avatars={};
   for(let i=0;i<n;i++){
     const t=document.getElementById('tn-'+i)?.value.trim()||`Escuadrón ${i+1}`;
     teams.push(t);
@@ -967,25 +1258,24 @@ async function saveSetup(){
   showScreen('scoreboard');
 }
 async function confirmReset(){
-  if(!confirm('¿Seguro? Se borrarán TODOS los puntajes y la configuración actual.')) return;
+  if(!confirm('¿Seguro? Se borrarán TODOS los puntajes y la configuración actual.'))return;
   await db.from('rally_scores').delete().neq('id',0);
   await db.from('rally_jeopardy').delete().neq('id',0);
   await db.from('rally_state').delete().neq('id',0);
   appState={rallyName:'',teams:[],avatars:{}};
+  levelSelections={};killerActive={};lateActive={};
   showToast('🔄 Misión reiniciada');
   renderSetup();renderScoreboard();
 }
 
-// ── UTILS ──────────────────────────────────────────────────────────────────────
 function showToast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),3000);
 }
 document.addEventListener('keydown',e=>{
-  if(e.key==='Enter'&&document.getElementById('pin-input')===document.activeElement) submitPin();
+  if(e.key==='Enter'&&document.getElementById('pin-input')===document.activeElement)submitPin();
 });
 </script>
 </body>
 </html>
-
