@@ -752,17 +752,72 @@ const STATIONS=[
 ];
 
 const JEOPARDY_QS=[
-  {cat:'Familia y Sociedad',pts:10,q:'¿Cuáles son las 4 funciones básicas de la familia según la clasificación IMSS-Bienestar?'},
-  {cat:'Familia y Sociedad',pts:20,q:'¿Qué tipo de crisis familiar ocurre cuando un hijo abandona el hogar para casarse?'},
-  {cat:'Familia y Sociedad',pts:30,q:'Describe el genograma familiar: ¿qué símbolos se usan para hombre, mujer y relación conflictiva?'},
-  {cat:'Prevención',pts:10,q:'¿A qué edad inicia el tamizaje de cáncer de mama con mastografía en mujer asintomática según PREVENIMSS?'},
-  {cat:'Prevención',pts:20,q:'¿Cuál es la periodicidad del Papanicolaou en mujer de 25 años con resultado previo normal?'},
-  {cat:'Prevención',pts:30,q:'¿Qué vacunas del esquema adulto IMSS se aplican a paciente de 60 años sin antecedentes de vacunación?'},
-  {cat:'Clínica MF',pts:15,q:'Paciente 52 años, TA 158/96 en 2 ocasiones. ¿Diagnóstico según JNC-8 y primer escalón terapéutico?'},
-  {cat:'Clínica MF',pts:25,q:'¿Cuáles son los 3 criterios diagnósticos de síndrome metabólico según IDF en paciente masculino hispano?'},
-  {cat:'Clínica MF',pts:35,q:'Paciente con HbA1c 8.2% en metformina 850mg c/8h. ¿Qué ajuste propones según GPC vigente?'},
-  {cat:'Comodín MF',pts:50,q:'¿Cuál es la diferencia entre nota de referencia y contrarreferencia según NOM-004? Menciona 3 elementos de cada una.'},
-  {cat:'Comodín MF',pts:50,q:'Explica el modelo biopsicosocial de Engel aplicado a paciente con DM2 mal controlada y disfunción familiar moderada.'},
+  // CONCEPTOS DE FAMILIA
+  {cat:'Conceptos de Familia',pts:100,q:'¿Cómo se define a la familia desde el enfoque sistémico?',r:'Sistema social abierto formado por personas unidas por vínculos biológicos, legales o afectivos.'},
+  {cat:'Conceptos de Familia',pts:200,q:'¿Cuál es la principal diferencia entre familia nuclear y extensa?',r:'La nuclear incluye padres e hijos; la extensa incorpora otros familiares como abuelos, tíos o primos.'},
+  {cat:'Conceptos de Familia',pts:300,q:'¿Qué función familiar se relaciona con transmitir normas y valores?',r:'Socialización.'},
+  {cat:'Conceptos de Familia',pts:400,q:'¿Qué tipo de familia está integrada por un solo progenitor e hijos?',r:'Familia monoparental.'},
+  {cat:'Conceptos de Familia',pts:500,q:'¿Qué característica distingue a una familia funcional?',r:'Comunicación adecuada, adaptación y cumplimiento de funciones familiares.'},
+  // CICLO VITAL Y CRISIS
+  {cat:'Ciclo Vital y Crisis',pts:100,q:'¿Cuál es la primera etapa del ciclo de vida familiar?',r:'Formación de pareja.'},
+  {cat:'Ciclo Vital y Crisis',pts:200,q:'¿Cómo se llaman las crisis esperadas relacionadas con etapas del desarrollo familiar?',r:'Crisis normativas.'},
+  {cat:'Ciclo Vital y Crisis',pts:300,q:'Menciona un ejemplo de crisis paranormativa.',r:'Enfermedad, desempleo, divorcio o muerte inesperada.'},
+  {cat:'Ciclo Vital y Crisis',pts:400,q:'¿Qué etapa del ciclo vital ocurre cuando los hijos abandonan el hogar?',r:'Dispersión o independencia de los hijos.'},
+  {cat:'Ciclo Vital y Crisis',pts:500,q:'¿Qué puede provocar una mala adaptación familiar ante una crisis?',r:'Desorganización, conflictos y disfunción familiar.'},
+  // DINÁMICA Y ROLES
+  {cat:'Dinámica y Roles',pts:100,q:'¿Qué elemento de la dinámica familiar permite transmitir emociones e información?',r:'La comunicación.'},
+  {cat:'Dinámica y Roles',pts:200,q:'¿Qué son los roles familiares?',r:'Funciones o comportamientos asumidos por cada integrante de la familia.'},
+  {cat:'Dinámica y Roles',pts:300,q:'¿Qué ocurre cuando un hijo asume responsabilidades de adulto dentro del hogar?',r:'Inversión de roles.'},
+  {cat:'Dinámica y Roles',pts:400,q:'¿Cómo se denomina la organización del poder y autoridad en la familia?',r:'Jerarquización familiar.'},
+  {cat:'Dinámica y Roles',pts:500,q:'Según la teoría sistémica, ¿qué significa homeostasis familiar?',r:'Tendencia de la familia a mantener equilibrio y estabilidad.'},
+  // ENFERMEDAD Y FAMILIA
+  {cat:'Enfermedad y Familia',pts:100,q:'¿Qué tipo de enfermedad produce generalmente desorganización temporal?',r:'La enfermedad aguda.'},
+  {cat:'Enfermedad y Familia',pts:200,q:'¿Qué impacto frecuente tiene la enfermedad crónica en la familia?',r:'Sobrecarga emocional y reorganización familiar.'},
+  {cat:'Enfermedad y Familia',pts:300,q:'¿Qué reacción emocional aparece frecuentemente ante enfermedad terminal?',r:'Negación, miedo o duelo anticipado.'},
+  {cat:'Enfermedad y Familia',pts:400,q:'¿Qué integrante suele presentar mayor sobrecarga en enfermedades terminales?',r:'El cuidador primario.'},
+  {cat:'Enfermedad y Familia',pts:500,q:'¿Qué consecuencias puede generar la enfermedad en la economía familiar?',r:'Gastos elevados, pérdida laboral y disminución de ingresos.'},
+  // INTERVENCIÓN FAMILIAR
+  {cat:'Intervención Familiar',pts:100,q:'¿Qué intervención básica consiste en escuchar y orientar emocionalmente?',r:'Consejería.'},
+  {cat:'Intervención Familiar',pts:200,q:'¿Qué modelo clasifica los niveles de intervención familiar?',r:'El modelo de Doherty y Baird.'},
+  {cat:'Intervención Familiar',pts:300,q:'¿En qué nivel de intervención se realiza terapia familiar especializada?',r:'Nivel 5.'},
+  {cat:'Intervención Familiar',pts:400,q:'¿Cuál es el principal objetivo de la intervención en crisis?',r:'Restablecer el equilibrio emocional y funcional.'},
+  {cat:'Intervención Familiar',pts:500,q:'Menciona una indicación de referencia especializada.',r:'Violencia familiar, riesgo suicida o trastorno psiquiátrico severo.'},
+  // DUELO Y CUIDADOS PALIATIVOS
+  {cat:'Duelo y Cuidados Paliativos',pts:100,q:'¿Quién describió las cinco etapas del duelo?',r:'Elisabeth Kübler-Ross.'},
+  {cat:'Duelo y Cuidados Paliativos',pts:200,q:'¿Cuál es la primera etapa del duelo según Kübler-Ross?',r:'Negación.'},
+  {cat:'Duelo y Cuidados Paliativos',pts:300,q:'¿Qué es la conspiración del silencio?',r:'Ocultar información diagnóstica o pronóstica al paciente.'},
+  {cat:'Duelo y Cuidados Paliativos',pts:400,q:'¿Cuál es el objetivo principal de los cuidados paliativos?',r:'Mejorar la calidad de vida del paciente y su familia.'},
+  {cat:'Duelo y Cuidados Paliativos',pts:500,q:'¿Qué disciplina estudia el proceso de muerte y duelo?',r:'La tanatología.'},
+  // HERRAMIENTAS EN MF
+  {cat:'Herramientas en MF',pts:100,q:'¿Qué herramienta gráfica representa relaciones y estructura familiar?',r:'El genograma.'},
+  {cat:'Herramientas en MF',pts:200,q:'¿Qué figura representa a un hombre en el genograma?',r:'Un cuadrado.'},
+  {cat:'Herramientas en MF',pts:300,q:'¿Qué evalúa el estudio de salud familiar?',r:'Aspectos biopsicosociales y funcionamiento familiar.'},
+  {cat:'Herramientas en MF',pts:400,q:'¿Qué son las redes de apoyo?',r:'Recursos familiares, sociales o institucionales que ayudan al afrontamiento.'},
+  {cat:'Herramientas en MF',pts:500,q:'¿Qué teoría considera que todos los integrantes de la familia influyen entre sí?',r:'La teoría general de sistemas.'},
+  // CASOS: CICLO VITAL
+  {cat:'Casos: Ciclo Vital',pts:100,q:'Pareja recién casada acude a orientación para adaptación a la convivencia. ¿En qué etapa del ciclo vital familiar se encuentran?',r:'Formación de pareja.'},
+  {cat:'Casos: Ciclo Vital',pts:200,q:'Padres consultan porque su hijo de 19 años se mudará a otra ciudad y sienten tristeza y ansiedad. ¿Qué etapa del ciclo familiar están viviendo?',r:'Dispersión o independencia de los hijos.'},
+  {cat:'Casos: Ciclo Vital',pts:300,q:'Abuelos viven solos tras la independencia de sus hijos y comienzan problemas de salud. ¿Qué etapa del ciclo familiar corresponde?',r:'Retiro y envejecimiento.'},
+  {cat:'Casos: Ciclo Vital',pts:400,q:'Familia con primer hijo recién nacido presenta cansancio, conflictos de pareja y cambios en horarios. ¿Qué tipo de crisis enfrentan?',r:'Crisis normativa.'},
+  {cat:'Casos: Ciclo Vital',pts:500,q:'Una familia pierde su vivienda tras una inundación y debe mudarse temporalmente con otros familiares. ¿Qué tipo de crisis es?',r:'Crisis paranormativa.'},
+  // CASOS: INTERVENCIÓN
+  {cat:'Casos: Intervención',pts:100,q:'Médico familiar explica medidas dietéticas y tratamiento a una familia con paciente hipertenso. ¿Qué tipo de intervención realiza?',r:'Educación para la salud.'},
+  {cat:'Casos: Intervención',pts:200,q:'Paciente con ansiedad tras diagnóstico reciente recibe escucha activa y orientación emocional. ¿Qué intervención básica se está utilizando?',r:'Consejería.'},
+  {cat:'Casos: Intervención',pts:300,q:'Familia entra en crisis tras accidente automovilístico y el médico ayuda a identificar soluciones inmediatas. ¿Qué intervención está aplicando?',r:'Intervención en crisis.'},
+  {cat:'Casos: Intervención',pts:400,q:'Paciente presenta violencia intrafamiliar y síntomas depresivos severos. ¿Qué debe hacer el médico familiar?',r:'Referencia especializada.'},
+  {cat:'Casos: Intervención',pts:500,q:'Médico familiar realiza sesiones estructuradas para modificar patrones disfuncionales familiares. ¿Qué nivel de intervención de Doherty y Baird corresponde?',r:'Nivel 4: intervención sistémica breve.'},
+  // CASOS: DUELO Y PALIATIVOS
+  {cat:'Casos: Duelo',pts:100,q:'Paciente recién diagnosticado con cáncer afirma repetidamente: "Los estudios están equivocados". ¿Qué etapa del duelo presenta?',r:'Negación.'},
+  {cat:'Casos: Duelo',pts:200,q:'Hija cuidadora refiere agotamiento físico, insomnio y tristeza constante. ¿Qué condición presenta probablemente?',r:'Sobrecarga del cuidador.'},
+  {cat:'Casos: Duelo',pts:300,q:'Paciente terminal evita convivir con amistades y deja de participar en actividades sociales. ¿Qué fenómeno está ocurriendo?',r:'Aislamiento social.'},
+  {cat:'Casos: Duelo',pts:400,q:'Paciente oncológico recibe opioides, apoyo psicológico y acompañamiento espiritual. ¿Qué tipo de atención está recibiendo?',r:'Cuidados paliativos integrales.'},
+  {cat:'Casos: Duelo',pts:500,q:'Familia experimenta tristeza intensa antes del fallecimiento del paciente terminal. ¿Cómo se denomina este proceso?',r:'Duelo anticipado.'},
+  // CASOS: FAMILIAS ESPECIALES
+  {cat:'Familias Especiales',pts:100,q:'Niño con parálisis cerebral requiere apoyo permanente para actividades básicas. ¿Qué tipo de familia en situación especial representa?',r:'Familia con integrante con discapacidad.'},
+  {cat:'Familias Especiales',pts:200,q:'Adulto mayor vive solo y refiere sentirse abandonado y sin apoyo social. ¿Qué problema psicosocial predomina?',r:'Aislamiento social.'},
+  {cat:'Familias Especiales',pts:300,q:'Familia cambia de país por motivos laborales y presenta dificultades de adaptación cultural. ¿Qué tipo de familia es?',r:'Familia migrante.'},
+  {cat:'Familias Especiales',pts:400,q:'Familia pierde su comunidad de origen por violencia y carece de recursos económicos. ¿Qué condición familiar presenta?',r:'Familia desplazada.'},
+  {cat:'Familias Especiales',pts:500,q:'Madre cuidadora de hijo con discapacidad abandona empleo y presenta ansiedad y agotamiento. ¿Qué riesgo familiar importante existe?',r:'Sobrecarga física y emocional del cuidador primario.'},
 ];
 
 // ── STATE
@@ -1140,9 +1195,12 @@ function openJeop(qi){
       ${av?.img?`<img src="${av.img}" alt="">`:''}<span>${t}</span>
     </button>`;
   }).join('');
-  box.innerHTML=`<div class="modal-cat">${q.cat}</div>
+  box.innerHTML=`<div class="modal-cat">${q.cat} · ${q.pts} pts</div>
     <div class="modal-q">"${q.q}"</div>
-    <div class="modal-pts">Vale: ${q.pts} puntos — Robo permitido</div>
+    <div style="background:rgba(29,158,117,0.1);border:1px solid var(--teal);border-radius:10px;padding:10px 12px;margin-bottom:14px;">
+      <div style="font-size:10px;font-weight:800;color:var(--teal);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">✅ Respuesta correcta</div>
+      <div style="font-size:13px;color:#fff;font-weight:700;">${q.r}</div>
+    </div>
     <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">¿Qué escuadrón responde?</div>
     <div class="team-selector">${teamBtns}</div>
     <div class="modal-actions">
