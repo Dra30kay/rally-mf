@@ -1242,11 +1242,11 @@ async function resolveJeop(tipo){
   const q=JEOPARDY_QS[currentJeopIdx];
   const fast = tipo==='fast';
   const robo = tipo==='robo';
-  const correct = tipo==='correct'||fast||robo;
   const pts = fast||robo ? q.pts+5 : q.pts;
-  await db.from('rally_jeopardy').upsert(
-    {question_idx:currentJeopIdx,team_name:selectedJeopTeam,correct:true,fast,robo,pts},
-    {onConflict:'question_idx'}
+  // Borrar cualquier registro previo de esta pregunta y reinsertar
+  await db.from('rally_jeopardy').delete().eq('question_idx', currentJeopIdx);
+  await db.from('rally_jeopardy').insert(
+    {question_idx:currentJeopIdx, team_name:selectedJeopTeam, correct:true, fast, robo, pts}
   );
   const{data:existing}=await db.from('rally_scores').select('*').eq('team_name',selectedJeopTeam).eq('station_key','jeopardy').maybeSingle();
   const prevScore=existing?existing.score:0;
