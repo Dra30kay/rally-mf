@@ -1178,16 +1178,22 @@ async function renderJeopardy(){
   (answered||[]).forEach(a=>{answeredMap[a.question_idx]=a;});
   grid.innerHTML=JEOPARDY_QS.map((q,qi)=>{
     const ans=answeredMap[qi];
-    // bloqueada si ya fue respondida
     const bloqueada=!!ans;
-    const cls=ans?(ans.robo?'robo':ans.correct?'correct':'correct'):'';
+    const cls=ans?(ans.robo?'robo':'correct'):'';
     const icon=ans?(ans.robo?'🔄':ans.fast?'⚡':'✓'):'';
-    const click=bloqueada?'':` onclick="openJeop(${qi})"`;
-    const cursor=bloqueada?'cursor:not-allowed;opacity:0.7;':'';
-    return `<div class="jeop-card ${cls}" style="${cursor}"${click}>
+    const ptsShow=bloqueada?(ans.pts||0)+'✓':q.pts;
+    const teamShow=ans?(' '+ans.team_name):'';
+    if(bloqueada){
+      return `<div class="jeop-card ${cls}" style="cursor:not-allowed;opacity:0.75;">
+        <div class="jeop-cat">${q.cat}</div>
+        <div class="jeop-pts-big">${ptsShow}</div>
+        <div class="jeop-by">${icon}${teamShow}</div>
+      </div>`;
+    }
+    return `<div class="jeop-card" onclick="openJeop(${qi})">
       <div class="jeop-cat">${q.cat}</div>
-      <div class="jeop-pts-big">${bloqueada?(ans.pts||0)+'✓':q.pts}</div>
-      <div class="jeop-by">${icon}${ans?(' '+ans.team_name):''}</div>
+      <div class="jeop-pts-big">${q.pts}</div>
+      <div class="jeop-by"></div>
     </div>`;
   }).join('');
 }
