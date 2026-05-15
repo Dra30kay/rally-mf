@@ -1175,7 +1175,7 @@ async function renderJeopardy(){
   }).join('');
   const{data:answered}=await db.from('rally_jeopardy').select('*');
   const answeredMap={};
-  (answered||[]).forEach(a=>{answeredMap[a.question_idx]=a;});
+  (answered||[]).forEach(a=>{answeredMap[Number(a.question_idx)]=a;});
   grid.innerHTML=JEOPARDY_QS.map((q,qi)=>{
     const ans=answeredMap[qi];
     const bloqueada=!!ans;
