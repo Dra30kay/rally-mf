@@ -880,7 +880,7 @@ async function loadAppState(){
 function subscribeRealtime(){
   if(realtimeSub)db.removeChannel(realtimeSub);
   realtimeSub=db.channel('rally-changes')
-    .on('postgres_changes',{event:'*',schema:'public',table:'rally_scores'},()=>{renderScoreboard();if(currentRole==='coordinador')renderJeopardy();})
+    .on('postgres_changes',{event:'*',schema:'public',table:'rally_scores'},()=>{renderScoreboard();})
     .on('postgres_changes',{event:'*',schema:'public',table:'rally_state'},()=>{loadAppState().then(()=>{renderScoreboard();populateTeamSelect();});})
     .subscribe();
 }
@@ -1161,7 +1161,9 @@ function closeMissionComplete(){
   showToast('🔓 Insignia desbloqueada: '+document.getElementById('mc-badge-name').textContent);
 }
 
-// ── JEOPARDY
+// ── JEOPARDY — mapa local de respondidas (respaldo inmediato)
+const localAnswered = {};
+
 async function renderJeopardy(){
   const grid=document.getElementById('jeop-grid');
   const scoresDiv=document.getElementById('jeop-scores');
@@ -1173,14 +1175,34 @@ async function renderJeopardy(){
     const av=appState.avatars[t];
     return `<div class="jeop-chip">${av?.img?`<img src="${av.img}" alt="">`:''}<span>${t}: <b>${teamJPts[t]||0} pts</b></span></div>`;
   }).join('');
+  // Cargar respondidas de DB y combinar con mapa local
   const{data:answered}=await db.from('rally_jeopardy').select('*');
-  const answeredMap={};
-  (answered||[]).forEach(a=>{answeredMap[Number(a.question_idx)]=a;});
+  const answeredMap={...localAnswered};
+  (answered||[]).forEach(a=>{
+    const idx=Number(a.question_idx);
+    if(!answeredMap[idx]) answeredMap[idx]=a;
+  });
   grid.innerHTML=JEOPARDY_QS.map((q,qi)=>{
     const ans=answeredMap[qi];
     const bloqueada=!!ans;
     const cls=ans?(ans.robo?'robo':'correct'):'';
     const icon=ans?(ans.robo?'🔄':ans.fast?'⚡':'✓'):'';
+    const ptsShow=bloqueada?(ans.pts||0)+'✓':q.pts;
+    const teamShow=ans?(' '+ans.team_name):'';
+    if(bloqueada){
+      return `<div class="jeop-card ${cls}" style="cursor:not-allowed;opacity:0.8;">
+        <div class="jeop-cat">${q.cat}</div>
+        <div class="jeop-pts-big">${ptsShow}</div>
+        <div class="jeop-by">${icon}${teamShow}</div>
+      </div>`;
+    }
+    return `<div class="jeop-card" onclick="openJeop(${qi})">
+      <div class="jeop-cat">${q.cat}</div>
+      <div class="jeop-pts-big">${q.pts}</div>
+      <div class="jeop-by"></div>
+    </div>`;
+  }).join('');
+}
     const ptsShow=bloqueada?(ans.pts||0)+'✓':q.pts;
     const teamShow=ans?(' '+ans.team_name):'';
     if(bloqueada){
@@ -1243,7 +1265,11 @@ async function resolveJeop(tipo){
   const fast = tipo==='fast';
   const robo = tipo==='robo';
   const pts = fast||robo ? q.pts+5 : q.pts;
-  // Borrar cualquier registro previo de esta pregunta y reinsertar
+  // Bloquear inmediatamente en memoria local
+  localAnswered[currentJeopIdx]={question_idx:currentJeopIdx,team_name:selectedJeopTeam,correct:true,fast,robo,pts};
+  closeModal();
+  renderJeopardy();
+  // Guardar en DB (en segundo plano)
   await db.from('rally_jeopardy').delete().eq('question_idx', currentJeopIdx);
   await db.from('rally_jeopardy').insert(
     {question_idx:currentJeopIdx, team_name:selectedJeopTeam, correct:true, fast, robo, pts}
@@ -1253,7 +1279,7 @@ async function resolveJeop(tipo){
   await db.from('rally_scores').upsert({team_name:selectedJeopTeam,station_key:'jeopardy',score:(prevScore||0)+pts},{onConflict:'team_name,station_key'});
   const emoji=robo?'🔄 Robo':fast?'⚡ Rápido':'🎉 Correcto';
   showToast(`${emoji} — ${selectedJeopTeam}: +${pts} pts`);
-  closeModal();renderJeopardy();renderScoreboard();
+  renderScoreboard();
 }
 function closeModal(){document.getElementById('modal').style.display='none';}
 
