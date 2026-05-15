@@ -1179,8 +1179,8 @@ async function renderJeopardy(){
   grid.innerHTML=JEOPARDY_QS.map((q,qi)=>{
     const ans=answeredMap[qi];
     const bloqueada=!!ans;
-    const cls=ans?(ans.robo?'robo':'correct'):'';
-    const icon=ans?(ans.robo?'🔄':ans.fast?'⚡':'✓'):'';
+    const cls=ans?'correct':'';
+    const icon=ans?'✓':'';
     const ptsShow=bloqueada?(ans.pts||0)+'✓':q.pts;
     const teamShow=ans?(' '+ans.team_name):'';
     if(bloqueada){
@@ -1248,15 +1248,13 @@ async function resolveJeop(tipo){
   const{data:existing}=await db.from('rally_jeopardy').select('*').eq('question_idx',currentJeopIdx).maybeSingle();
   let saveError;
   if(existing){
-    // Ya existe — actualizar
     const{error}=await db.from('rally_jeopardy').update(
-      {team_name:selectedJeopTeam,correct:true,fast,robo,pts}
+      {team_name:selectedJeopTeam,correct:true,pts}
     ).eq('id',existing.id);
     saveError=error;
   } else {
-    // No existe — insertar
     const{error}=await db.from('rally_jeopardy').insert(
-      {question_idx:currentJeopIdx,team_name:selectedJeopTeam,correct:true,fast,robo,pts}
+      {question_idx:currentJeopIdx,team_name:selectedJeopTeam,correct:true,pts}
     );
     saveError=error;
   }
