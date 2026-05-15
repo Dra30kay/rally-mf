@@ -953,9 +953,10 @@ async function renderScoreboard(){
           <div class="progress-wrap"><div class="progress-fill" style="width:${umfPct}%"></div></div>
         </div>
         <div class="team-scores">
-          <div class="umf-pct">${umfPct}%</div>
+          <div class="rally-pts" style="font-family:'Rajdhani',sans-serif;font-size:26px;font-weight:700;color:var(--gold);">⭐ ${pts}</div>
+          <div style="font-size:10px;color:var(--muted);font-weight:700;">pts rally</div>
+          <div class="umf-pct" style="font-size:16px;margin-top:4px;">${umfPct}%</div>
           <div class="umf-pct-label">Estabilidad UMF</div>
-          <div class="rally-pts">⭐ ${pts} pts rally</div>
         </div>
       </div>
       <div class="badges-panel" id="detail-${idx}">
