@@ -1161,9 +1161,7 @@ function closeMissionComplete(){
   showToast('🔓 Insignia desbloqueada: '+document.getElementById('mc-badge-name').textContent);
 }
 
-// ── JEOPARDY — mapa local de respondidas (respaldo inmediato)
-const localAnswered = {};
-
+// ── JEOPARDY
 async function renderJeopardy(){
   const grid=document.getElementById('jeop-grid');
   const scoresDiv=document.getElementById('jeop-scores');
@@ -1175,13 +1173,9 @@ async function renderJeopardy(){
     const av=appState.avatars[t];
     return `<div class="jeop-chip">${av?.img?`<img src="${av.img}" alt="">`:''}<span>${t}: <b>${teamJPts[t]||0} pts</b></span></div>`;
   }).join('');
-  // Cargar respondidas de DB y combinar con mapa local
   const{data:answered}=await db.from('rally_jeopardy').select('*');
-  const answeredMap={...localAnswered};
-  (answered||[]).forEach(a=>{
-    const idx=Number(a.question_idx);
-    if(!answeredMap[idx]) answeredMap[idx]=a;
-  });
+  const answeredMap={};
+  (answered||[]).forEach(a=>{answeredMap[Number(a.question_idx)]=a;});
   grid.innerHTML=JEOPARDY_QS.map((q,qi)=>{
     const ans=answeredMap[qi];
     const bloqueada=!!ans;
@@ -1246,23 +1240,24 @@ function selectJeopTeam(t){
 async function resolveJeop(tipo){
   if(!selectedJeopTeam){showToast('⚠️ Selecciona un escuadrón primero');return;}
   const q=JEOPARDY_QS[currentJeopIdx];
-  const fast = tipo==='fast';
-  const robo = tipo==='robo';
-  const pts = fast||robo ? q.pts+5 : q.pts;
-  // Bloquear inmediatamente en memoria local
-  localAnswered[currentJeopIdx]={question_idx:currentJeopIdx,team_name:selectedJeopTeam,correct:true,fast,robo,pts};
+  const fast=tipo==='fast';
+  const robo=tipo==='robo';
+  const pts=fast||robo?q.pts+5:q.pts;
   closeModal();
-  renderJeopardy();
-  // Guardar en DB (en segundo plano)
-  await db.from('rally_jeopardy').delete().eq('question_idx', currentJeopIdx);
-  await db.from('rally_jeopardy').insert(
-    {question_idx:currentJeopIdx, team_name:selectedJeopTeam, correct:true, fast, robo, pts}
+  // Guardar en DB — delete primero para evitar duplicados, luego insert
+  await db.from('rally_jeopardy').delete().eq('question_idx',String(currentJeopIdx));
+  await db.from('rally_jeopardy').delete().eq('question_idx',currentJeopIdx);
+  const{error}=await db.from('rally_jeopardy').insert(
+    {question_idx:currentJeopIdx,team_name:selectedJeopTeam,correct:true,fast,robo,pts}
   );
+  if(error){showToast('❌ Error al guardar. Intenta de nuevo.');renderJeopardy();return;}
+  // Sumar puntos al equipo
   const{data:existing}=await db.from('rally_scores').select('*').eq('team_name',selectedJeopTeam).eq('station_key','jeopardy').maybeSingle();
   const prevScore=existing?existing.score:0;
   await db.from('rally_scores').upsert({team_name:selectedJeopTeam,station_key:'jeopardy',score:(prevScore||0)+pts},{onConflict:'team_name,station_key'});
   const emoji=robo?'🔄 Robo':fast?'⚡ Rápido':'🎉 Correcto';
   showToast(`${emoji} — ${selectedJeopTeam}: +${pts} pts`);
+  renderJeopardy();
   renderScoreboard();
 }
 function closeModal(){document.getElementById('modal').style.display='none';}
